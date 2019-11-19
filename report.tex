@@ -1,0 +1,260 @@
+\documentclass[a4paper,10pt,openright]{memoir}
+
+\setlength{\parindent}{0mm}
+
+% Style of front page, title page, and stuff page
+\usepackage{dikuReport}
+
+% Not resetting figure counter on chapter
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\renewcommand\thefigure{\arabic{figure}} 
+
+
+
+% Packages
+\usepackage{listings}
+\usepackage{minted}      % Syntax highlighting
+\usepackage[all]{xy}
+\usepackage{eucal}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{mathptmx}
+\usepackage{tabularx,colortbl}
+\usepackage[normalem]{ulem}
+\usepackage{soul}
+\usepackage{eso-pic} % \AddToShipoutPicture
+\usepackage{fancyhdr}
+\usepackage{moreverb}
+\usepackage{lscape}
+\usepackage[stable]{footmisc}
+\usepackage[latin1, utf8]{inputenc}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage{cite}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\usepackage{fix-cm}
+\usepackage{xcolor,calc}
+\usepackage{graphicx}
+\usepackage{amsbsy}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{alltt}
+\usepackage{float}
+\usepackage{color}
+\usepackage{relsize}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage{caption}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{xparse} % newDocumentCommand
+\usepackage{enumitem}
+\usepackage{csquotes}
+
+%%%%% Make abbreviations emphasized.
+\newcommand{\ie}{\emph{i.e.}\xspace}
+\newcommand{\eg}{\emph{e.g.}\xspace}
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\vs}{\emph{vs.}\xspace}
+\newcommand{\cf}{\emph{cf.}\xspace}
+\newcommand{\viz}{\emph{viz.}\xspace}
+\newcommand{\etal}{\emph{et~al.}\xspace}
+
+%%% theorem commands
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+
+% Include some layout setup.
+\input{layout.tex}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\captionsetup{labelfont=bf}
+
+% Custom listing environment
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstdefinelanguage{Hermes}{
+  keywords={call, uncall, printf, scanf, u32, u16, u8, true, false, if, for, \%u32},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{codegreen}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstdefinelanguage{ccustom}
+{
+morekeywords={of, and, fun, andalso, not, orelse, then, else, raise, let, in, end},
+emph={SOME, NONE},
+emphstyle={\color{teal}},
+deletekeywords ={const, for},
+sensitive=false,
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/},
+morecomment=[s]{(*}{*)},
+morestring=[b]",
+}
+
+\lstset{style=mystyle, aboveskip=20pt,belowskip=20pt, xleftmargin=0.25cm, xrightmargin=0.25cm}
+
+% Sets page numbering layout to normal
+%\normalPN
+
+% Where graphic files are located
+\graphicspath{{Graphics/}}
+
+% Alters the margins of the pages such that text are _not_ centered. This makes better room for the glue bindings.
+\addtolength{\foremargin}{-35pt}
+\addtolength{\spinemargin}{15pt}
+\checkandfixthelayout
+
+\setcounter{secnumdepth}{2}
+
+% Basic information
+\thesistype{Masters Thesis}
+\thesiscomment{} % You can leave this blank
+\title{Compiling a reversible lightweight cryptography language (Hermes) to assembly language ARM64 with focus on mitigating side-channel vulnerabilities}
+\author{Hjalte Abelskov qdp218}
+\supervisor{Michael Kirkedal Thomsen }
+\date{February 28, 2019} % Hand-in date
+\subject{Mitigating side channel vulnerabilities} % Short abstract not needed.
+\begin{document}
+\maketitle
+\pagenumbering{roman}
+\setcounter{page}{3}
+
+% English Abstract
+\cleardoublepage
+\pagestyle{plain}
+\begin{abstract}
+\input{Sections/Abstract/English.tex}
+\end{abstract}
+
+% Danish abstract
+\clearpage
+\begin{resume}
+\input{Sections/Abstract/Danish.tex}
+\end{resume}
+
+% Table of contents
+\setcounter{tocdepth}{2} %Includes section, subsection and subsubsections in TOC
+\cleardoublepage
+\chapterstyle{combined}
+\tableofcontents*
+
+% Starting the real text.
+\cleardoublepage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter{Introduction}
+% Huffman, D.A.: Canonical forms for information-lossless finite-state logical machines.IRE Transactions on Information Theory5(5), 41–59 (1959)  First reversible computing guy
+\input{Sections/Introduction/Motivation.tex}
+\input{Sections/Introduction/Related_Works.tex}
+\input{Sections/Introduction/Outline.tex}
+
+% Baggrund om reversible computing og twofish algoritmen (referer til michaels artikel om reversibel symmetrisk krypto)
+\chapter{The Concept of Reversible Computing}
+\label{chapt - Concept of reversible computing}
+\input{Sections/Reversible_Computing/Introduction.tex}
+\input{Sections/Reversible_Computing/Motivation.tex}
+\input{Sections/Reversible_Computing/Theory.tex}
+%\input{Sections/Reversible_Computing/reversible_turing_machine.tex}
+
+% Baggrund om side channel vulnerabilities og ARM
+\chapter{Side-channel Vulnerabilities}
+\label{chapt - Side-channel}
+\input{Sections/Side-channel_Attacks/Side-channel.tex}
+
+\chapter{Hermes to ARM}
+\input{Sections/Hermes_To_ARM/Hermes_To_RSSA.tex}
+\input{Sections/Hermes_To_ARM/RSSA_To_ARM.tex}
+
+%\input{Sections/Hermes/grammar.tex}
+%\input{Sections/Hermes/Type_system.tex}
+%\input{Sections/Hermes/Implementation.tex}
+%\input{Sections/Hermes/Unittest_typesystemsystem.tex}
+%\input{Sections/Hermes/reversibility_sidechannel.tex}
+%\input{Sections/Hermes/Compilation_fixes.tex}
+
+% Afsnit om min twofish implementation med referencer til twofish bogen
+\chapter{Lightweight Cryptography/Hermes implementation of Twofish}
+\label{chapt - Hermes implementation}
+\input{Sections/MyTwofish/Implementation.tex}
+%\input{Sections/Lightweight_Cryptography/Reversible_TEA_implementation.tex}
+%\input{Sections/Lightweight_Cryptography/Reversible_RC5_implementation.tex}
+%\input{Sections/Lightweight_Cryptography/Testing_implementations.tex}
+
+% Kør min implementation af twofish 50 gange imod deres 50 gange
+\chapter{Benchmarks}
+\label{chapt - Benchmarks}
+\input{Sections/Benchmarks/Benchmarks.tex}
+
+\chapter{Conclusions}
+\label{chapt - Conclusion}
+\input{Sections/Conclusions/Contributions.tex}
+% Man kunne helt gak skrive noget om kvantecomputere her - nej det går ikke
+% Kunne måske også nævne noget om Rust oversættelse
+\input{Sections/Conclusions/Future_work.tex}
+
+% Til diskussionen kan man nævne Iodine: verifying constant-time execution of hardware artiklen?
+
+
+
+
+% Referencer
+\newpage
+\renewcommand\bibname{References}
+\bibliographystyle{plainurl}
+\bibliography{references}
+SSA afsnit i Modern compiler implementation in ML af Andrew w. Appel
+
+% Appendices
+\clearpage
+\newpage
+\begin{appendices}
+\renewcommand*{\lstlistingname}{Appendix}
+\chapter{Appendices}
+\section{TEA Hermes Implementation}
+\label{code:TEA_Full_Imp}
+\lstinputlisting[label=app:TEA hermes,caption=TEA in hermes, language=Hermes,frame=single] {"Listings/tinyCrypt.hms"}
+\newpage
+\section{RC5 Hermes Implementation}
+\label{code:RC5_Full_Imp}
+\lstinputlisting[label=app:encryption hms, caption=RC5 encryption, language=Hermes,frame=single] {"Listings/rc5.hms"}
+
+\end{appendices}
+
+\end{document}

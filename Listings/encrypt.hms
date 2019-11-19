@@ -1,0 +1,58 @@
+encrypt(u32 P0, u32 P1, u32 P2, u32 P3, u32 K[40], u32 S[2])
+{
+  u32 R0, R1, R2, R3;
+  u8 r;
+
+  P0 <-> R0; P1 <-> R1;
+  P2 <-> R2; P3 <-> R3;
+
+  // Input whitening
+  R0 ^= K[0];
+  R1 ^= K[1];
+  R2 ^= K[2];
+  R3 ^= K[3];
+  
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S); r += 1;
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S); r += 1;
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S); r += 1;
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S); r += 1;
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S); r += 1;
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S); r += 1;
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S); r += 1;
+  call enc_round(R0, R1, R2, R3, r, K, S); r += 1;
+  call enc_round(R2, R3, R0, R1, r, K, S);
+  
+  R2 <-> R0;
+  R3 <-> R1;
+
+  // Output whitening
+  R0 ^= K[4]; 
+  R1 ^= K[5];
+  R2 ^= K[6];
+  R3 ^= K[7];
+
+  // Reset variables
+  r -= 15;
+  P0 <-> R0; P1 <-> R1;
+  P2 <-> R2; P3 <-> R3;
+}
+
+// Encrypts one round
+enc_round(u32 R0, u32 R1, u32 R2, u32 R3, u8 r, u32 K[40], u32 S[2])
+{
+  u32 Z; // Placeholder for old R0 after it gets updated in F
+  u32 W; // Placeholder for old R1 after it gets updated in F
+  call F(R0, R1, r, K, S, Z, W);   // Inplace update on R0, R1
+  R3 <<= 1;                  // ROL(R3, 1) before XOR'ing
+  R3 ^= R1;
+  R2 ^= R0;
+  R2 >>= 1;                  // ROR(C2, 1) after XOR'ing
+  uncall F(R0, R1, r, K, S, Z, W); // Get back the original R0 and R1
+}

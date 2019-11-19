@@ -1,0 +1,6 @@
+Dette speciale omhandler det reversible programmeringssprog Hermes, der er udviklet på DiKU som et domæne-specifikt sprog med henblik på implementatering af symmetriske krypteringsalgoritmer på små enheder.
+Reversibiliteten i Hermes gør os i stand til at give nogle garantier for sikkerheden, idet visse side-kanal angreb såsom data-lækage bliver umuliggjort. Jeg beskriver disse side-kanaler samt reversibilitet og forklarer om intentionen om at sikre små enheder.
+TODO: Jeg udvikler en ny ?backend? til Hermes, som skal forkorte antallet af trin i oversættelsen til ARM64 og dermed give mere kontrol.
+?Backenden? oversætter først Hermes til et reversibelt statisk mellemliggende sprog med én tildeling af hver variabel, der derfra kan oversættes til diverse mål - i dette tilfælde ARM64. 
+Jeg implementerer Twofish og viser derved at Hermes er brugbart som et domæne-specifikt sprog til implementering af symmetriske krypteringsalgoritmer.
+TODO: Til slut viser jeg korrektheden ved Twofish implementationen idet jeg anvender et eksisterende bibliotek til property based testing. 

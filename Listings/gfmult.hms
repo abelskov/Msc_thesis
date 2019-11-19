@@ -1,0 +1,41 @@
+// Inplace update on a
+// Assumes a and b are 8bit integers that have been extended i.e. 24 zeros on the left
+polyMult(u32 a, u32 b)
+{
+  u32 tmp;
+  for (i=0; 8) {
+    if((a & 1) > 0) tmp ^= b;
+    if((tmp ^ b) < tmp) a-=1;
+    b <<= 1;
+    a >>= 1;
+    i++;
+  }
+  b >>=8;
+  a <-> tmp;
+}
+
+// gfMult is a combination of polyMult and then gfMod
+// Inplace updates a i.e. a = (a*b) mod modulus 
+// Assumes flags are all 0
+gfMult(u32 a, u32 b, u8 flags[8])
+{
+  u32 modulus;
+  u32 tt;
+  u32 qq;
+  modulus += 0x14D;
+  call polyMult(a, b); // Inplace update on a
+  modulus <<= 8;
+  for (i=0; 8) {
+    modulus >>= 1;
+    tt += a ^ modulus;
+    if (tt < a) flags[i] += 1;
+
+    if (flags[i]) tt -= a ^ modulus;
+    if (flags[i]) a ^= modulus;
+
+    if (~flags[i]) tt -= a ^ modulus; // Reset tt
+
+    i++;
+  }
+  modulus -= 0x14D;
+}
