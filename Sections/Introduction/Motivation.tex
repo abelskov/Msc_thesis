@@ -7,30 +7,23 @@ This introduces some challenges such as how to reduce the amount of costly opera
 Lightweight cryptography applications can be implemented in many programming languages, most of which still leave the devices open to more sophisticated hacking methods such as timing attacks. These side-channel vulnerabilities are, at least in theory, avoidable if we choose our language of implementation carefully.
 
 \section{Reversible Programming}
-Reversible computing is an interesting paradigm with regards to security. In reversible computing one writes programs in reversible programming languages such as Janus [3].
-Reversible programs can be run both forwards and backwards deterministically, calculating output from input as well as input from output [4].
-What this means is that all functions are bidirectional, i.e. given some resulting output of a function, we can run the inverse of that function with the output and find the initial input.
-This is especially useful for algorithms, such as encryption or encoding, where an inverse process is most often needed.
-If implemented without too much overhead, this will result in smaller programs, as the encoding/encryption function is bidirectional and can be used for decoding/decryption as well.
+% NAND gates are irreversible.
+% Landaurs principle is that heat must be generated when doing any "logically irreversible manipulation of information".
 
-Being bidirectional imposes some constraints on the programmer: variables local to a function must be initialized to zero and reset to zero after use.
-All variable updates must be lossless, therefore not allowing modulo updates such as "x = x mod y" as there is no inverse to this operation.
-Bit-shift operations must also be lossless, i.e. when bits are rotated off the right end they are inserted into the vacated bit positions on the left and vice-versa. While imposing some restrictions on the programmer, reversible programming languages has a lot to offer in terms of security: they ensure no loss of information, as all variables are cleared after use. Thus the memory will not contain any data that can be used for side-channel attacks such as information leakage.
-
-Another motivation for researching reversible computing is heat dissipation; current transistor-based computing devices dissipate energy as heat and cooling of computational devices has become the main focus for the semiconductor industry [CITE: https://spectrum.ieee.org/view-from-the-valley/semiconductors/design/power-problems-might-drive-chip-specialization]. In 1961 R. Landaur suggested reversible computing could be a way to minimize energy dissipation from a system [CITE: Irreversibility paper]. Similar to how kinetic and potential energy work, computing a result would put the machine in a state with some energy that would enable it to invert the operation.
+Reversible programming is a programming paradigm from dating back to the early 1960s. Back then, R. Landaur saw that Moore's law about the number of transistors in a computer doubling approximately every two years and   were ultimately going to come to an end because of overheating problems.
+He argued that any irreversible operation must result in some kind of heat dissipation and that theoretically, with reversible operations, if operation A pushes the machine from an original state into some new state, then operation A$^{-1}$ could use the already existing energy in the system to push it back to the original state.
+Such a machine has not yet been invented, but reversible programming has other interesting properties.
+As discussed in section \ref{chapt - Concept of reversible computing}, it can serve as protection against side-channel attacks and is also an interesting field to study to better understand quantum computing.
 
 \section{Basis for the work}
-This goal of this thesis is to further extend Hermes: a reversible programming language developed at DIKU.
+This goal of this thesis is to further extend Hermes, which is a reversible programming language developed at DIKU.
 Hermes is based on the reversible programming language Janus and designed specifically for writing encryption algorithms [5].
-By virtue of some carefully thought-out design choices, Hermes secures its programs against side-channel attacks.
+By virtue of some carefully thought-out design choices, Hermes offers a built-in protection against some side-channel attacks.
 
 In the current implementation, Hermes programs are translated to C by the program \emph{hc} and then to assembly code with the GNU Compiler Collection (gcc). The gcc compiler does not prevent side-channel attacks per default, but one can use zerostack [1] to zero out the stack and registers of sensitive functions.
 There is also the problem of timing attacks introduced by gcc [2].
 This compilation from Hermes to assembly is a two-step process with a required extra check by zerostack. But with embedded systems being the focus of these reversible lightweight cryptography algorithms, it seems appropriate with a compiler that translates Hermes directly to ARM assembly code.
 
-
-%In this thesis I will investigate if it is possible to make a direct compilation to ARM assembly, while still ensuring that the compiled code is efficient and resilient against side-channel attacks. I will first extend the Hermes language with the ability to specify ancilla arguments to a function, i.e. arguments whose value will not change during execution of that function. I will then write a compiler so that Hermes programs can be translated directly into ARM assembly code in one step with the same level of protection against side-channel attacks as the C compiler with zerostack. Already implemented is the first step of compilation, which is the parser parsing the Hermes code and creating an abstract syntax tree. I will translate the abstract syntax tree into an intermediate language and then into ARM. Maintaining semantics and preserving information will be my main focus.
-%Furthermore, I will implement another lightweight cryptography algorithm in Hermes and analyze optimizations during compilation that affect running time and side-channel attacks. Benchmarks with regards to time will be comparing the C compiler with zerostack, the C compiler without zerostack and my solution. With regards to side-channel vulnerabilities, I will compare the differences of the compilers and make my argument based on the assembly code.
 
 %[1] \href{https://github.com/lmrs2/zerostack}{zerostack: Zeroing stack and registers of sensitive functions. Github project by lmrs2} \\
 %

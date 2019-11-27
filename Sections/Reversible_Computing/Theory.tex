@@ -1,2 +1,39 @@
-2-3 sider om RIL og hvordan Torben bruger det.
-Husk flowcharts til at forklare reversibilitet.
+% Landaur embedding is embedding functions inside a larger function that we can then uncall
+% Allows for irreversibility but makes the computer more of a lookup table than an actual computer
+% We get around this by only allowing logically reversible computations
+
+% Bennet embedding is what we want to use?
+
+\section{Embeddings and heat dissipation}
+Logic reversibility implies that information is conserved and most languages are not backwards deterministic because some of their operations are logically irreversible and throw away information about the computers history, making it ambiguous to find the predecessor state.
+Embeddings are a way to make an irreversible computer reversible.
+% We could just wrap our irreversible programs into a reversible function - this is called landaur embedding.
+\subsection{Landaur embedding}
+What Landaur saw was that any logically irreversible program could be transformed into a reversible one by wrapping it in a larger program with extra parameters that could hold any information needed for reversability. For example the computer might have an extra tape where it saves all of its computation history. This is called Landaur Embedding and is not very efficient, since it merely postpones the inevitable erasure of information when the tape needs to be cleared before the next computation.
+Landaur demonstrated that whenever a computer throws away information about its previous state it results in a heat dissipation of $kT ln 2$ for each bit of information lost. 
+\subsection{Bennett embedding}
+In 1973 C.H. Bennett came up with a new embedding that would turn out to be much more useful[CITE: Bennet\_Reversibility].
+The idea is that the machine can use the inverse of its transition function to carry out the entire computation backwards, completely resetting the history tape to its original blank state. One only needs to copy over the output once it has been calculated before starting the cleanup.
+It uses three tapes: one for the forwards/backwards calculation, one for computation history and a third for copying over the output. 
+(TODO: forstå det her) This reduces the energy dissipated by roughly a factor ten.
+
+\section{Reversibility in Hermes}
+% We do not overwrite data in Hermes until we have set it back to 0 at the end of the function?
+Hermes is a reversible programming language designed for encryption algorithms. It offers forwards determinism as well as backwards determinism in its calculations, meaning that nomatter if it executes forwards or backwards, it is deterministic in that there is only one possible state that the machine can transition to for every state it could currently be in. The same goes for backwards execution resulting in a one-to-one relationship between input and output states.
+
+% Hermes is logically reversible, meaning reversible updates, swaps etc  (4.5 in simons thesis)
+
+
+% Show Hermes grammar?
+\subsection{Grammar}
+The grammar of Hermes is as follows 
+
+% Hermes uses pass-by-reference, so no global variables.
+\subsection{Pass by reference}
+
+% Show control flows?
+\subsection{Control flows}
+
+
+% Hermes has const arrays now
+\subsection{const arrays}
