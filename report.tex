@@ -15,10 +15,13 @@
 % Packages
 \usepackage{listings}
 \usepackage{minted}      % Syntax highlighting
+%\usepackage{syntax}      % Used for writing grammars
 \usepackage[all]{xy}
 \usepackage{eucal}
 \usepackage{enumerate}
 \usepackage{hyperref}
+\usepackage{wrapfig} % side captions on figures
+\usepackage[justification=centering]{caption}
 \usepackage{url}
 \usepackage{mathptmx}
 \usepackage{tabularx,colortbl}
@@ -189,33 +192,32 @@ morestring=[b]",
 \chapter{The Concept of Reversible Computing}
 \label{chapt - Concept of reversible computing}
 \input{Sections/Reversible_Computing/Introduction.tex}
-\input{Sections/Reversible_Computing/Motivation.tex}
 \input{Sections/Reversible_Computing/Theory.tex}
-%\input{Sections/Reversible_Computing/reversible_turing_machine.tex}
+\input{Sections/Reversible_Computing/Twofish_intro.tex}
 
-% Baggrund om side channel vulnerabilities og ARM
+
+% Baggrund om side channel vulnerabilities og ARM64
 \chapter{Side-channel Vulnerabilities}
 \label{chapt - Side-channel}
 \input{Sections/Side-channel_Attacks/Side-channel.tex}
+\input{Sections/Side-channel_Attacks/Examples.tex}
+\input{Sections/Side-channel_Attacks/Classifying_attacks.tex}
 
-\chapter{Hermes to ARM}
-\input{Sections/Hermes_To_ARM/Hermes_To_RSSA.tex}
-\input{Sections/Hermes_To_ARM/RSSA_To_ARM.tex}
+\chapter{RSSA}
+\input{Sections/Hermes_To_RSSA/intro.tex}
+\input{Sections/Hermes_To_RSSA/grammar.tex}
+\input{Sections/Hermes_To_RSSA/RSSAcompiler.tex}
 
-%\input{Sections/Hermes/grammar.tex}
-%\input{Sections/Hermes/Type_system.tex}
-%\input{Sections/Hermes/Implementation.tex}
-%\input{Sections/Hermes/Unittest_typesystemsystem.tex}
-%\input{Sections/Hermes/reversibility_sidechannel.tex}
-%\input{Sections/Hermes/Compilation_fixes.tex}
+\chapter{ARM64}
+\input{Sections/RSSA_To_ARM/ARM.tex}
+\input{Sections/RSSA_To_ARM/grammar.tex}
+\input{Sections/RSSA_To_ARM/RSSA_To_ARM.tex}
+\input{Sections/RSSA_To_ARM/ARMcompiler.tex}
 
 % Afsnit om min twofish implementation med referencer til twofish bogen
-\chapter{Lightweight Cryptography/Hermes implementation of Twofish}
+\chapter{Hermes implementation of Twofish}
 \label{chapt - Hermes implementation}
 \input{Sections/MyTwofish/Implementation.tex}
-%\input{Sections/Lightweight_Cryptography/Reversible_TEA_implementation.tex}
-%\input{Sections/Lightweight_Cryptography/Reversible_RC5_implementation.tex}
-%\input{Sections/Lightweight_Cryptography/Testing_implementations.tex}
 
 % Kør min implementation af twofish 50 gange imod deres 50 gange
 \chapter{Benchmarks}
