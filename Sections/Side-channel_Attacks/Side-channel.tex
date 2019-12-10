@@ -1,4 +1,5 @@
-Executing a computation on an electronic device consumes time and power, radiates an electromagnetic field, dissipates heat and even makes some noise [CITE: Leaky Noise: New Side-channel attack vectors]. 
+\section{Side-channel Vulnerabilities}
+Executing a computation on an electronic device consumes time and power, radiates an electromagnetic field, dissipates heat and even makes some noise\cite{Gnad_Krautter_Tahoori_2019}. 
 Side-channel attacks aim to take advantage of these leakages, by measuring these physically observable phenomenons; instead of perceiving the cryptographic primitive as a software black box (some transformation that, given some secret parameter, turns some input into output), these new types of attacks target the \emph{environment} such as the process, the processor, the RAM etc. instead of the actual algorithm.
 
 If an adversary is able to extract bits of knowledge about the environment through analysis of running time, power consumption, electromagnetic radiation etc., she may be able to recover the secret parameters involved in the computation.

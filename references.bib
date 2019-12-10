@@ -5,11 +5,18 @@
     pages = {1--4}
 }
 
+@misc{semiconductors_valley,
+  title = {Power problems might drive chip specialization},
+  author = {Tekla S. Perry},
+  note = {\url{https://spectrum.ieee.org/view-from-the-valley/semiconductors/design/power-problems-might-drive-chip-specialization}, last accessed on 11/10/19}
+}
+
 @article{TwofishPaper,
-    title = {{}}},
-    author = {},
-    keywords = {},
-    url = {https://www.schneier.com/academic/paperfiles/paper-twofish-paper.pdf}
+author = {Kelsey, Bruce and Whiting, Doug and Wagner, David and Hall, Chris and Ferguson, Niels},
+year = {1998},
+month = {01},
+pages = {},
+title = {Twofish: A 128Bit Block Cipher}
 }
 
 @article{Dominika,
@@ -18,7 +25,7 @@
     keywords = {encryption, information leakage, reversible computation, reversible programming, security, side-channel attacks}
 }
 
-@article{RLandauer1961,
+@article{Irreversibility_paper,
     title = {{Irreversibility and Heat Generation in the Computing Process}},
     year = {1961},
     journal = {IBM Journal of Research and Development},
@@ -26,88 +33,6 @@
     number = {July},
     pages = {191, 183},
     volume = {5}
-}
-
-@inproceedings{Yokoyama2008a,
-    title = {{Principles of a reversible programming language}},
-    year = {2008},
-    booktitle = {Proceedings of the 2008 conference on Computing frontiers  - CF '08},
-    author = {Yokoyama, Tetsuo and Axelsen, Holger Bock and Gl{\"{u}}ck, Robert}
-}
-
-@inproceedings{Yokoyama2008,
-    title = {{Principles of a reversible programming language}},
-    year = {2008},
-    booktitle = {Proceedings of the 2008 conference on Computing frontiers  - CF '08},
-    author = {Yokoyama, Tetsuo and Axelsen, Holger Bock and Gl{\"{u}}ck, Robert},
-    pages = {43}
-}
-
-@article{Fink1997,
-    title = {{Property-Based Testing ; A New Approach to Testing for Assurance}},
-    year = {1997},
-    journal = {Software Engineering Notes},
-    author = {Fink, George and Bishop, Matt},
-    number = {4},
-    pages = {74--80},
-    volume = {22},
-    url = {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.93.5559&rep=rep1&type=pdf}
-}
-
-@article{Yokoyama2009,
-    title = {{Reversible Computation and Reversible Programming Languages}},
-    year = {2009},
-    journal = {Electronic Notes in Theoretical Computer Science},
-    author = {Yokoyama, Tetsuo},
-    number = {6},
-    pages = {71--81},
-    volume = {253},
-    publisher = {Elsevier B.V.},
-    url = {http://dx.doi.org/10.1016/j.entcs.2010.02.007},
-    doi = {10.1016/j.entcs.2010.02.007},
-    issn = {15710661},
-    keywords = {Reversible computing, Reversible programming languages}
-}
-
-@article{Ambrose2007,
-    title = {{RIJID: Random code injection to mask power analysis based side channel attacks}},
-    year = {2007},
-    journal = {Proceedings - Design Automation Conference},
-    author = {Ambrose, Jude Angelo and Ragel, Roshan G. and Parameswaran, Sri},
-    pages = {489--492},
-    isbn = {1595936270},
-    doi = {10.1109/DAC.2007.375214},
-    issn = {0738100X},
-    keywords = {Cross correlation, Pattern matching, Power analysis, Random instruction injection, Side channel attack}
-}
-
-@article{Witteman2013a,
-    title = {{Secure Application Programming in the Presence of Side Channel Attacks}},
-    year = {2013},
-    author = {Witteman, Marc},
-    pages = {1--21}
-}
-
-@article{Veyrat-Charvillon2012,
-    title = {{Shuffling against side-channel attacks: A comprehensive study with cautionary note}},
-    year = {2012},
-    journal = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
-    author = {Veyrat-Charvillon, Nicolas and Medwed, Marcel and Kerckhof, Stéphanie and Standaert, François Xavier},
-    pages = {740--757},
-    volume = {7658 LNCS},
-    isbn = {9783642349607},
-    doi = {10.1007/978-3-642-34961-4{\_}44},
-    issn = {03029743}
-}
-
-@article{Bond2017,
-    title = {{Vale: Verifying High-Performance Cryptographic Assembly Code}},
-    year = {2017},
-    journal = {Proceedings of the 26th USENIX Security Symposium},
-    author = {Bond, Barry and Hawblitzel, Chris and Kapritsos, Manos and Leino, K. Rustan M. and Lorch, Jacob R. and Parno, Bryan and Rane, Ashay and Setty, Srinath and Thompson, Laure},
-    pages = {917--934},
-    url = {https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/bond},
-    isbn = {9781931971409}
 }
 
 @article{Simon2018,
@@ -121,15 +46,9 @@
     keywords = {C, C abstract machine, Clang, LLVM, compiler optimizations, compilers, constant-time, cryptography, erasing, side channels, side effects, stack, zeroing}
 }
 
-@article{Almeida2017AEvaluation,
-    title = {{A Fast and Verified Software Stack for Secure Function Evaluation To cite this version : HAL Id : hal-01649104 A Fast and Verified Software Stack for Secure Function Evaluation}},
-    year = {2017},
-    author = {Almeida, José and Barbosa, Manuel and Barthe, Gilles and Dupressoir, Francois and Laporte, Vincent and Pereira, Vitor and Almeida, José and Barbosa, Manuel and Barthe, Gilles and Dupressoir, Francois and Gr{\'{e}}goire, Benjamin and Fast, A and Almeida, José Bacelar and Barbosa, Manuel and Barthe, Gilles and Sophia-antipolis, Inria and Laporte, Vincent}
-}
-
-@misc{Github.2019.,
-    title = {{Github. theft: property-based testing for C. Accessed May 2019.}},
-    url = {https://github.com/silentbicycle/theft}
+@misc{Github.zerostack,
+    title = {{Github. zerostack: Zeroing stack and registers of sensitive functions.}},
+    url = {https://github.com/lmrs2/zerostack}
 }
 
 @article{Sestoft1994GrammarsML,
@@ -146,33 +65,117 @@
     author = {Mogensen, Torben Ægidius}
 }
 
-@article{Koomey2011ImplicationsElectrical,
-    title = {{Implications of Historical Trends in the Electrical}},
-    year = {2011},
-    journal = {History},
-    author = {Koomey, Jonathan and Berard, Stephen and Sanchez, Marla and Wong, Henry},
-    number = {3},
-    pages = {2--10},
-    volume = {33}
-}
-
-@incollection{Standaert2010IntroductionAttacks,
-    title = {{Introduction to Side-Channel Attacks}},
-    year = {2010},
-    booktitle = {Secure Integrated Circuits and Systems},
-    author = {Standaert, François-Xavier},
-    chapter = {2},
-    pages = {27--42},
-    isbn = {9780387718293}
-}
-
-@article{Halderman2008LestKeys.pdf,
+@article{Halderman2008LestKeys,
     title = {{Lest We Remember Cold Boot Attacks on Encryption Keys.pdf}},
     year = {2008},
     author = {Halderman, J Alex and Schoen, Seth D and Heninger, Nadia and Clarkson, William and Paul, William and Calandrino, Joseph A and Feldman, Ariel J and Appelbaum, Jacob and Felten, Edward W}
 }
 
-@article{Bennett2003NotesDemon,
+@article{KR96,
+  title={How to Protect DES Against Exhaustive Key Search},
+  author={J. Kilian and P. Rogaway},
+  journal={Advances in Cryptology — CRYPTO ’96 Proceedings},
+  pages={252-267},
+  year={1996}
+}
+
+@article{NBS77,
+  title={Data Encryption Standard},
+  author={National Bureau of Standards, NBS FIPS, U.S. Department of Commerce},
+  year={1977},
+  month={1}
+}
+
+@article {NIST97a,
+  title={Announcing Development of a Federal Information Standard for Advanced Encryption Standard},
+  author={National Institute of Standards and Technology},
+  year={1997},
+  month={1},
+  pages={93-94}
+}
+
+@article {NIST97b,
+  title={Announcing Request for Candidate Algorithm Nominations for the Advanced Encryption Standard (AES)},
+  author={National Institute of Standards and Technology},
+  year={1997},
+  month={9},
+  pages={48051-48058}
+}
+@misc {wiki_sbox,
+  title={S-box - Wikipedia},
+  url={https://en.wikipedia.org/wiki/S-box}
+}
+
+@misc {ARM_sales,
+  title={Enabling mass IoT connectivity as Arm partners ship 100 billion chips},
+  author={Simon Segars},
+  year={2017},
+  month={2},
+  url={https://community.arm.com/iot/b/internet-of-things/posts/enabling-mass-iot-connectivity-as-arm-partners-ship-100-billion-chips}
+}
+
+@misc {ARM_cpus_2020,
+  title={Intel Confirms Apple Macs Will Switch to Arm CPUs by 2020, Says Report},
+  author={Lucian Armasu},
+  year={2019},
+  month={2},
+  url={https://www.tomshardware.com/news/apple-mac-arm-cpus-2020-intel,38668.html}
+}
+
+@misc {GIT2F,
+  title={A highly optimized C version and a nonoptimized python implementation of Bruce Schneier's Twofish encryption algorithm},
+  url={https://github.com/drewcsillag/twofish}
+}
+
+@Article{Kocher2011,
+author="Kocher, Paul
+and Jaffe, Joshua
+and Jun, Benjamin
+and Rohatgi, Pankaj",
+title="Introduction to differential power analysis",
+journal="Journal of Cryptographic Engineering",
+year="2011",
+month="Apr",
+day="01",
+volume="1",
+number="1",
+pages="5--27",
+abstract="The power consumed by a circuit varies according to the activity of its individual transistors and other components. As a result, measurements of the power used by actual computers or microchips contain information about the operations being performed and the data being processed. Cryptographic designs have traditionally assumed that secrets are manipulated in environments that expose no information beyond the specified inputs and outputs. This paper examines how information leaked through power consumption and other side channels can be analyzed to extract secret keys from a wide range of devices. The attacks are practical, non-invasive, and highly effective---even against complex and noisy systems where cryptographic computations account for only a small fraction of the overall power consumption. We also introduce approaches for preventing DPA attacks and for building cryptosystems that remain secure even when implemented in hardware that leaks.",
+issn="2190-8516",
+doi="10.1007/s13389-011-0006-y",
+url="https://doi.org/10.1007/s13389-011-0006-y"
+}
+
+@inbook{FX2010,
+author = {Standaert, François-Xavier},
+year = {2010},
+month = {12},
+pages = {27-42},
+title = {Introduction to Side-Channel Attacks},
+doi = {10.1007/978-0-387-71829-3_2}
+}
+
+@InProceedings{10.1007/978-3-319-41579-6_16,
+author="Mogensen, Torben {\AE}gidius",
+editor="Mazzara, Manuel
+and Voronkov, Andrei",
+title="RSSA: A Reversible SSA Form",
+booktitle="Perspectives of System Informatics",
+year="2016",
+publisher="Springer International Publishing",
+address="Cham",
+pages="203--217",
+abstract="The SSA form (Static Single Assignment form) is used in compilers as an intermediate language as an alternative to traditional three-address code because code in SSA form is easier to analyse and optimize using data-flow analysis such as common-subexpression elimination, value numbering, register allocation and so on.",
+isbn="978-3-319-41579-6"
+}
+
+@inproceedings{Bennett1973LogicalRO,
+  title={Logical reversibility of computation},
+  author={Charles H. Bennett},
+  year={1973}
+}
+
+%@article{Bennett2003NotesDemon,
     title = {{Notes on Landauer's principle, reversible computation, and Maxwell's Demon}},
     year = {2003},
     journal = {Studies in History and Philosophy of Science Part B - Studies in History and Philosophy of Modern Physics},
@@ -202,49 +205,6 @@
     isbn = {9781450304856}
 }
 
-@article{Wheeler1995TEAEncryption,
-    title = {{TEA, a tiny encryption algorithm BT - Fast Software Encryption}},
-    year = {1995},
-    journal = {Lecture Notes in Computer Science,},
-    author = {Wheeler, David J and Needham, Roger M},
-    pages = {363--366},
-    isbn = {978-3-540-47809-6},
-    keywords = {TEA, cryptographic algorithms}
-}
-
-@article{Weiser1991TheCentury,
-    title = {{The Computer for the 21st Century}},
-    year = {1991},
-    journal = {SCIENTIFIC AMERICAN},
-    author = {Weiser, Mark},
-    number = {3},
-    pages = {94--104},
-    volume = {265}
-}
-
-@incollection{Rivest2012TheAlgorithm,
-    title = {{The RC5 encryption algorithm}},
-    year = {2012},
-    author = {Rivest, Ronald Linn},
-    month = {2},
-    pages = {86--96},
-    doi = {10.1007/3-540-60590-8{\_}7}
-}
-
-@inproceedings{Rivest1994TheAlgorithm,
-    title = {{The RC5 encryption algorithm}},
-    year = {1994},
-    booktitle = {Proceedings of the Second International Workshop on Fast Software Encryption (FSE)},
-    author = {Rivest, Ronald Linn},
-    pages = {86--96}
-}
-
-@article{Rivest1997TheRevised,
-    title = {{The RC5 encryption algorithm (Revised)}},
-    year = {1997},
-    author = {Rivest, Ronald Linn}
-}
-
 @inproceedings{Kocher1996TimingSystems,
     title = {{Timing Attacks on Implementations of Diffie-Hellman, RSA, DSS, and other Systems}},
     year = {1996},
@@ -254,7 +214,33 @@
     keywords = {cryptanalysis, di e-hellman, dss, rsa, timing attack}
 }
 
-@misc{Wikipedia.2019.,
-    title = {{Wikipedia. Tiny Encryption Algorithm. Accessed June 2019.}},
-    url = {https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm}
+@inproceedings{tatar_throwhammer:_2018,
+	title = {Throwhammer: {Rowhammer} {Attacks} over the {Network} and {Defenses}},
+	url = {Paper=https://download.vusec.net/papers/throwhammer_atc18.pdf Web=https://www.vusec.net/projects/throwhammer Code=https://github.com/vusec/alis},
+	booktitle = {{USENIX} {ATC}},
+	author = {Tatar, Andrei and Konoth, Radhesh Krishnan and Athanasopoulos, Elias and Giuffrida, Cristiano and Bos, Herbert and Razavi, Kaveh},
+	month = jul,
+	year = {2018},
+	note = {Pwnie Award Nomination for Most Innovative Research},
+	keywords = {class\_rowhammer, type\_ast, type\_award, type\_conf, type\_press, type\_top}
 }
+
+@inproceedings{kwong2020rambleed,
+    author = {Kwong, Andrew and Genkin, Daniel and Gruss, Daniel and Yarom, Yuval},
+    title = {RAMBleed: Reading Bits in Memory Without Accessing Them},
+    booktitle = {41st {IEEE} Symposium on Security and Privacy (S\&P)},
+    year = {2020},
+}
+
+@inproceedings{kurth_netcat:_2020,
+	title = {{NetCAT}: {Practical} {Cache} {Attacks} from the {Network}},
+	url = {Paper=https://download.vusec.net/papers/netcat_sp20.pdf Web=https://www.vusec.net/projects/netcat},
+	booktitle = {S\&{P}},
+	author = {Kurth, Michael and Gras, Ben and Andriesse, Dennis and Giuffrida, Cristiano and Bos, Herbert and Razavi, Kaveh},
+	month = may,
+	year = {2020},
+	note = {Intel Bounty Reward},
+	keywords = {class\_sidechannels, proj\_panta, proj\_react, proj\_unicore, type\_ast, type\_conf, type\_mscthesis, type\_press, type\_tier1, type\_top}
+}
+
+@article{Gnad_Krautter_Tahoori_2019, title={Leaky Noise: New Side-Channel Attack Vectors in Mixed-Signal IoT Devices}, volume={2019}, url={https://tches.iacr.org/index.php/TCHES/article/view/8297}, DOI={10.13154/tches.v2019.i3.305-339}, abstractNote={&lt;p&gt;Microcontrollers and SoC devices have widely been used in &lt;em&gt;Internet of Things&lt;/em&gt; applications. This also brings the question whether they lead to new security threats unseen in traditional computing systems. In fact, almost all modern SoC chips, particularly in the IoT domain, contain both analog and digital components, for various sensing and transmission tasks. Traditional remote-accessible online systems do not have this property, which can potentially become a security vulnerability. In this paper we demonstrate that such mixed-signal components, namely ADCs, expose a new security threat that allows attackers with ADC access to deduce the activity of a CPU in the system. To prove the leakage, we perform leakage assessment on three individual microcontrollers from two different vendors with various ADC settings. After showing a correlation of CPU activity with ADC noise, we continue with a leakage assessment of modular exponentiation and AES. It is shown that for all of these devices, leakage occurs for at least one algorithm and configuration of the ADC. Finally, we show a full key recovery attack on AES that works despite of the limited ADC sampling rate. These results imply that even remotely accessible microcontroller systems should be equipped with proper countermeasures against power analysis attacks, or restrict access to ADC data.&lt;/p&#38;gt;}, number={3}, journal={IACR Transactions on Cryptographic Hardware and Embedded Systems}, author={Gnad, Dennis R. E. and Krautter, Jonas and Tahoori, Mehdi B.}, year={2019}, month={May}, pages={305-339} }

@@ -1,5 +1,5 @@
-\section{Examples of attacks}
-\subsection{Row hammer attack}
+\subsection{Examples}
+\subsubsection{Row hammer attack}
 \begin{wrapfigure}{r}{0.4\textwidth}
   \begin{center}
     \includegraphics[width=0.3\textwidth]{rowhammer_vis.png}
@@ -21,14 +21,15 @@ A rowhammer attack bypasses memory protection, as one process can affect others,
 %  \label{fig:rowhammer_x86}
 %\end{wrapfigure}
 
-Attacks like Rowhammer, such as Throwhammer, RAMBleed and NetCAT, that perform read/write on memory have since been shown to cause all kinds of havoc from privilege escalation to keylogging to breaking cryptographic keys [CITE: THROWHAMMER + RAMBLEED + NETCAT].
+Attacks from the Rowhammer-family, such as Throwhammer, RAMBleed and NetCAT, that perform read/write on memory have since been shown to cause all kinds of havoc from privilege escalation to keylogging to breaking cryptographic keys\cite{tatar_throwhammer:_2018}\cite{kwong2020rambleed}\cite{kurth_netcat:_2020}.
 It is worth mentioning, however, that side-channel attacks are highly implementation-specific and thus much harder to generalize than if you were to break the algorithm.
 
-\subsection{Cold boot attacks}
-lorem ipsum ...
-% something something
+\subsubsection{Cold boot attacks}
+In 2008, a research paper on cold boot attacks\cite{Halderman2008LestKeys} was published from Princeton University. By physically freezing the memory, attackers were able to read data from the DRAM up to several minutes after cutting power to the victim machine. Cutting power to the victim computer leaves it with no chance to erase its sensitive data from memory. From there an attacker can either restore power and launch a custom kernel leaving a small memory footprint, or transplant the DRAM modules to another computer keeping the DRAM completely intact.
 
-\subsection{Simple Power Analysis}
+In theory, Hermes is vulnerable to cold boot attacks. In practice, however, it would be near impossible simply because Hermes clears memory after it has run so the power would have to be cut at the exact time where the sensitive data is used. Another property Hermes has, that makes it really difficult to do cold boot attacks is the fact that Hermes uses pass-by-reference. Values are easily corrupted and inline updates are frequent.
+
+\subsubsection{Simple Power Analysis}
 Simple Power Analysis (SPA), which is one of two main power consumption analysis methods, focuses on the \emph{operations} that have taken place can tell an attacker a lot about what encryption algorithm is being used.
 For example, 10 similar operations in a row can indicate that the algorihtm is AES due to its ten rounds of encryption. 16 rounds could indicate it may be Twofish etc.
 
@@ -39,8 +40,11 @@ The following figure shows how SPA has been used to cryptanalyze an RSA algorith
   \begin{center}
     \includegraphics[scale=0.5]{SPA_leaks_from_RSA_implementation.png} \\
   \end{center}
-  \caption[caption]{SPA leaks from an RSA implementation. \hspace{\textwidth} From Introduction to Differential Power Analysis [CITE: KOCHER2011\_Intro\_to\_diff\_power\_analysis]}
+  \caption[caption]{SPA leaks from an RSA implementation. \hspace{\textwidth} From Introduction to Differential Power Analysis \cite{KOCHER2011}}
 \end{figure}
+
+\clearpage
+\newpage
 
 %Differential Power Analysis (DPA) takes multiple traces of two sets of data, then computes the difference of the averages. Given enough traces, even tiny correlations can be seen, regardless of how much noise is in the system, since it will effectively cancel out during the averaging.
 

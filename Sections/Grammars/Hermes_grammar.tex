@@ -1,0 +1,42 @@
+\begin{figure}[H]
+\centering
+\begin{tabular}{>{$}l<{$}>{$}r<{$}>{$}l<{$}}
+    Program   & \rightarrow & Procedure^+ \\[7pt]
+    Procedure & \rightarrow & \textbf{id} \; ( \; Decls2^? \; ) \; Stmt \\[7pt]
+    Stmt      & \rightarrow &; \\
+              & |           & Lval \; \textbf{update} \; Exp \;; \\
+              & |           & Lval\text{++} \;; \\
+              & |           & Lval\text{- -} \;; \\
+              & |           & \texttt{if} \; ( \; Exp \; ) \; Lval \; \textbf{update} \; Exp \;; \\
+              & |           & Lval \; \text{<->} \; Lval \;; \\
+              & |           & \texttt{if} \; ( \; Exp \; ) \; Lval \; \text{<->} \; Exp \;; \\
+              & |           & \texttt{for} \; ( \; \textbf{id} = Exp \; ; \; Exp \; ) \; Stmt  \;; \\
+              & |           & \texttt{assert} \; ( \; Exp \; ) \;; \\
+              & |           & \texttt{call} \; \textbf{id} \; ( \; Lvals \; ) \;; \\
+              & |           & \texttt{uncall} \; \textbf{id} \; ( \; Lvals \; ) \;; \\
+              & |           & \texttt{printf} \; ( \; \textbf{stringConst} \; , \; Lvals \; ) \;; \\
+              & |           & \texttt{scanf} \; ( \; \textbf{stringConst} \; , \; Lvals \; ) \;; \\
+              & |           & \{ \; Decls1 \; Stmt^* \; \} \\[7pt]
+    Exp       & \rightarrow & Lval \\
+              & |           & \textbf{numConst} \; \\
+              & |           & Exp \; \textbf{binOp} \; Exp \\
+              & |           & \textbf{unOp} \; Exp \\
+              & |           & ( \; Exp \; ) \; \\[7pt]
+    Lval      & \rightarrow & \textbf{id}\\
+              & |           & \textbf{id} \; [ \; Exp \; ] \\[7pt]
+    Lvals     & \rightarrow & Lval \\
+              & |           & Lval \; , \; Lvals \\[7pt]
+    VarSpec   & \rightarrow & \textbf{id}\\
+              & |           & \textbf{id} \; [ \; \textbf{numConst} \; ] \\[7pt]
+    VarSpecs  & \rightarrow & VarSpec \\
+              & |           & VarSpec \; , \; VarSpecs \\[7pt]
+    Decls1    & \rightarrow & \\
+              & |           & \textbf{type} \; Varspecs \; ; \; Decls1\\
+              & |           & \texttt{const}\;\textbf{type}\;\textbf{id}\;=\textbf{numConst}\;;\;Decls1\;\\[7pt]
+    Decls2    & \rightarrow & \textbf{type} \; VarSpec \\
+              & |           &  \textbf{type} \; VarSpec \; , \; Decls2
+
+\end{tabular}
+\caption{Grammar of Hermes.}
+\label{fig: grammar}
+\end{figure}

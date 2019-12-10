@@ -11,11 +11,9 @@
 \renewcommand\thefigure{\arabic{figure}} 
 
 
-
 % Packages
 \usepackage{listings}
 \usepackage{minted}      % Syntax highlighting
-%\usepackage{syntax}      % Used for writing grammars
 \usepackage[all]{xy}
 \usepackage{eucal}
 \usepackage{enumerate}
@@ -60,6 +58,9 @@
 \usepackage{xparse} % newDocumentCommand
 \usepackage{enumitem}
 \usepackage{csquotes}
+
+\renewcommand{\sc}{\textsc}
+\renewcommand{\bf}{\textbf}
 
 %%%%% Make abbreviations emphasized.
 \newcommand{\ie}{\emph{i.e.}\xspace}
@@ -117,19 +118,6 @@
   morestring=[b]"
 }
 
-\lstdefinelanguage{ccustom}
-{
-morekeywords={of, and, fun, andalso, not, orelse, then, else, raise, let, in, end},
-emph={SOME, NONE},
-emphstyle={\color{teal}},
-deletekeywords ={const, for},
-sensitive=false,
-morecomment=[l]{//},
-morecomment=[s]{/*}{*/},
-morecomment=[s]{(*}{*)},
-morestring=[b]",
-}
-
 \lstset{style=mystyle, aboveskip=20pt,belowskip=20pt, xleftmargin=0.25cm, xrightmargin=0.25cm}
 
 % Sets page numbering layout to normal
@@ -152,7 +140,7 @@ morestring=[b]",
 \author{Hjalte Abelskov qdp218}
 \supervisor{Michael Kirkedal Thomsen }
 \date{February 28, 2019} % Hand-in date
-\subject{Mitigating side channel vulnerabilities} % Short abstract not needed.
+%\subject{Mitigating side channel vulnerabilities} % Short abstract not needed.
 \begin{document}
 \maketitle
 \pagenumbering{roman}
@@ -189,34 +177,34 @@ morestring=[b]",
 \input{Sections/Introduction/Outline.tex}
 
 % Baggrund om reversible computing og twofish algoritmen (referer til michaels artikel om reversibel symmetrisk krypto)
-\chapter{The Concept of Reversible Computing}
-\label{chapt - Concept of reversible computing}
+\chapter{Background}
+\label{chapt - Reversible-computing}
 \input{Sections/Reversible_Computing/Introduction.tex}
 \input{Sections/Reversible_Computing/Theory.tex}
-\input{Sections/Reversible_Computing/Twofish_intro.tex}
-
-
 % Baggrund om side channel vulnerabilities og ARM64
-\chapter{Side-channel Vulnerabilities}
 \label{chapt - Side-channel}
 \input{Sections/Side-channel_Attacks/Side-channel.tex}
 \input{Sections/Side-channel_Attacks/Examples.tex}
 \input{Sections/Side-channel_Attacks/Classifying_attacks.tex}
-
-\chapter{RSSA}
-\input{Sections/Hermes_To_RSSA/intro.tex}
-\input{Sections/Hermes_To_RSSA/grammar.tex}
-\input{Sections/Hermes_To_RSSA/RSSAcompiler.tex}
-
-\chapter{ARM64}
 \input{Sections/RSSA_To_ARM/ARM.tex}
-\input{Sections/RSSA_To_ARM/grammar.tex}
+\input{Sections/Hermes_To_RSSA/RSSA_intro.tex}
+
+\chapter{Problem analysis}
+\input{Sections/Problem-analysis/part1.tex}
+
+
+\chapter{Implementation}
+
+%\input{Sections/Grammars/RSSA_grammar.tex}
+\input{Sections/Hermes_To_RSSA/RSSAcompiler.tex}
+%\input{Sections/Grammars/ARM_grammar.tex}
 \input{Sections/RSSA_To_ARM/RSSA_To_ARM.tex}
 \input{Sections/RSSA_To_ARM/ARMcompiler.tex}
 
 % Afsnit om min twofish implementation med referencer til twofish bogen
-\chapter{Hermes implementation of Twofish}
-\label{chapt - Hermes implementation}
+\chapter{Twofish}
+\label{chapt - Twofish}
+\input{Sections/Reversible_Computing/Twofish_intro.tex}
 \input{Sections/MyTwofish/Implementation.tex}
 
 % Kør min implementation af twofish 50 gange imod deres 50 gange
@@ -238,10 +226,12 @@ morestring=[b]",
 
 % Referencer
 \newpage
+\bibliographystyle{plain}
 \renewcommand\bibname{References}
-\bibliographystyle{plainurl}
 \bibliography{references}
-SSA afsnit i Modern compiler implementation in ML af Andrew w. Appel
+
+%SSA afsnit i Modern compiler implementation in ML af Andrew w. Appel
+
 
 % Appendices
 \clearpage

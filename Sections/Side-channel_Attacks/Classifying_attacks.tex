@@ -1,5 +1,5 @@
-\section{Classifying attacks}
-Attacks are often classified along two axes falling into one of four categories: [CITE: introduction to side channels]
+\subsection{Classifying attacks}
+Attacks are often classified along two axes falling into one of four categories: \cite{FX2010}.
 
 \begin{itemize}
   \item \textbf{Hardware tampering}
@@ -9,7 +9,7 @@ Attacks are often classified along two axes falling into one of four categories:
     \end{itemize}
   \item \textbf{System tampering}
     \begin{itemize}
-      \item[3.] Active - Attacks that tries to change the behaviour of some function on the device, such as introducing a fault in the computation to cause a leak of information, or cold-booting the device to perform memory dumps [CITE: Lest we forget cold boot attacks].
+      \item[3.] Active - Attacks that tries to change the behaviour of some function on the device, such as introducing a fault in the computation to cause a leak of information, or cold-booting the device to perform memory dumps \cite{Halderman2008LestKeys}.
       \item[4.] Passive - Attacks that only observes a devices behaviour, without affecting it. No signs of compromise or failure.
     \end{itemize}
 \end{itemize}
@@ -17,10 +17,10 @@ Attacks are often classified along two axes falling into one of four categories:
 Figure \ref{fig:sca_classification} visualizes these classifications with hardware tampering along the x axis and system tampering along the y axis.
 The safety that Hermes intends to provide is against timing attacks and information leakage which includes cold boot attacks.
 Timing attacks are non-invasive and passive as the attacker only observes the running time of the process.
-Cold boot attacks are active attacks as they perform memory dumps, but can be either invasive or non-invasive exemplified in [CITE: Lest we remember cold boot attacks] where, in one attack, researchers freeze the chip thereby tampering with the hardware.
+Cold boot attacks are active attacks as they perform memory dumps, but can be either invasive or non-invasive exemplified in \cite{Halderman2008LestKeys} where, in one attack, researchers freeze the chip thereby tampering with the hardware.
 
 \begin{figure}[h!]
-  \resizebox{\columnwidth}{!}{%
+  \resizebox{0.9\columnwidth}{!}{%
       \begin{tikzpicture}
         \draw [thick] (0,5) node (yaxis) [above] {Active}
           |- (0,-5) node (yaxis) [below] {Passive}
@@ -42,5 +42,8 @@ Cold boot attacks are active attacks as they perform memory dumps, but can be ei
   \caption{Some side-channel attacks and their classifications} 
   \label{fig:sca_classification}
 \end{figure}
+
+\clearpage
+\newpage
 
 Side-channels attacks have been gaining a lot of attention recently by device manufactorers. Especially the non-invasive, passive attacks which are hard to spot and can generally be performed using relatively cheap equipment.

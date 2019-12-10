@@ -1,0 +1,178 @@
+% 2-3 sider
+\section{RIL, SSA and RSSA}
+\label{section - RIL}
+\subsection{RIL}
+RIL stands for reversible intermediate language.
+Intermediate languages have been commonly used by compilers since the 1970s.
+An intermediate language serves as a common parent-language that, through further compilation, compiles to multiple languages. It is so to say an \emph{intermediate} result that is never meant to be run, but has some nice features which could allow for optimizations of various kinds. It often reduces number of lines of code as well as making it easier to extend, since the first half of the compilation is given, implementing a new end target language requires only half the work.
+So instead of writing a compiler from A to B,C,D,E we write a compiler for A to intermediate language I and then we use this common ancestor to compile to B, C, D and E.
+\subsubsection{Entry/Exit points}
+A RIL program consists of an unordered set of basic blocks, each defined by an entry point followed by either updates and exchanges or a single subroutine call and is terminated by an exit point\cite{10.1007/978-3-319-41579-6_16}. \\
+An entry point has one of the forms:
+\begin{verbatim}
+l <-        where l is a label,
+l1;l2 <- c  where c is a condition and l1 and l2 are labels, or
+begin l     where l is a label.
+\end{verbatim}
+An exit point has one of the forms:
+\begin{verbatim}
+-> exit     where l is a label,
+c -> l1;l2  where c is a condition and l1 and l2 are labels, or
+end l       where l is a label.
+\end{verbatim}
+
+Each label is unique to the program, i.e. it should occur exactly once in an entry point and once in an exit point.
+Furthermore, any label that occurs in an entry point, must also be present in an exit point.
+Conditions consists of a left-value, an operator and a right-value.
+A left-value can either be a variable such as \emph{x} or a memory location M[x].
+A right-value is either a left-value or a signed constant, and the operator is either \textbf{==, <,>, !=, <=, >=} or \textbf{\&}.
+
+\subsubsection{Updates and exchanges}
+Updates and exchanges happen inside of the basic blocks that are the RIL program. Updates consists of a left-value, an update operator, two right-values and an infix arithmetic operation. \\
+Left- and right-values have already been introduced. Update operators are \textbf{+=, -=} and \textbf{\^\  =} and the infix operations are \textbf{+, -, \^\ , \&, |, >\ >} and \textbf{<\ <}. It is common to write x += y as a shorthand for x += y + 0 as this makes it more readable. \\
+An example looks like:
+\begin{verbatim}
+x += y - 2
+\end{verbatim}
+Exchanges of variables are of the form
+\begin{verbatim}
+L1 <-> L2
+\end{verbatim}
+where L1 and L2 are left-values.
+To ensure reversibility certain restrictions apply:
+updates cannot have the same variable or memory access on the left and right side of the update operator and exchanges cannot have the same variable on both sides of the exchange.
+
+\subsubsection{Jumps}
+In RIL, the entry and exit points of \emph{main} constitutes the entry and exit points of the entire program. Conditional jumps such as \textbf{c -> l1;l2} should be read as \textbf{if c is true, jump to l1 else jump to l2}. \\
+\textbf{-> exit} is an example of an unconditional jump that will always be executed.
+
+It is important to understand how these entry and exit points are different from standard assembly language jumps/labels. In most assembly languages, there are certain labels that can be jumped to. A label could be the beginning of a function or a loop or an if-statement that has two different outcomes.
+Because RIL is reversible, there are no seperation between jumps and labels. All entry points become exit points when you take the inverse and vice-versa.
+
+
+\subsection{SSA}
+% Husk at referer til SSA afsnit i bogen SML compiler
+SSA form, which stands for Static Single Assignment form is also a type of intermediate language and is used in compilers such as Java's LLVM compiler.
+
+A compiler can utilize \emph{def-use chains}, which is a data structure with pointers, to quickly jump between definition sites and use sites of variables.
+SSA form improves on this idea as a variable with N uses and M definitions will normally take space and time proportional to $N \times M$ for def-use chains, whereas the size of SSA form for most programs will be linear in the size of the original program.
+In SSA form, each variable has only one definition in the program text making the \emph{def-use chains} trivial.
+SSA form makes it easier to do data-flow analysis such as common-subexpression elimination, value numbering, register allocation and so on. % (* TODO: READ UP ON THIS *)
+% (* TODO: INTRODUCER PHI FUNKTIONEN *)
+SSA uses $\phi$-nodes when two variables with the same name are in scope and the compiler needs to know which one it should use. This happens at so called join points. A join point is a place that can be reached by two different paths in the code.
+
+Converting to SSA form is a three-step process: first we look at each \emph{definition} of a variable and add an index to it. Second, we add $\phi$-nodes where it is needed. Lastly we add indices to variable uses. \\
+Lets look at an example from\cite{10.1007/978-3-319-41579-6_16}:
+\begin{lstlisting}
+begin
+    x := 0
+loop:
+    x := x + 1
+    if x < 10 then loop else exit
+exit:
+    x := x + 3
+end
+\end{lstlisting}
+Here we have a loop on x where we add one every iteration until x equals ten. When we leave the loop, we add another three to x.
+Translating this to SSA form, we first need to add indices to \emph{definitions}.
+\begin{lstlisting}[mathescape=true]
+begin
+    $x_1$ := 0
+loop:
+    $x_2$ := x + 1
+    if x < 10 then loop else exit
+exit:
+    $x_3$ := x + 3
+end
+\end{lstlisting}
+Then we add $\phi$-nodes based on join points.
+\begin{lstlisting}[mathescape=true]
+begin
+    $x_1$ := 0
+loop:
+    $x_4$ := $\phi(x_1, x_2)$
+    $x_2$ := x + 1
+    if x < 10 then loop else exit
+exit:
+    $x_3$ := x + 3
+end
+\end{lstlisting}
+And lastly, we add indices to the variable uses.
+\begin{lstlisting}[mathescape=true]
+begin
+    $x_1$ := 0
+loop:
+    $x_4$ := $\phi(x_1, x_2)$
+    $x_2$ := $x_4$ + 1
+    if $x_2$ < 10 then loop else exit
+exit:
+    $x_3$ := $x_2$ + 3
+end
+\end{lstlisting}
+This completes the transformation to SSA form. The definitions and uses of variables are now trivial, making analysis easier.
+
+\subsection{Combing RIL and SSA to RSSA}
+The goal is to combine RIL and SSA to Reversible Static Single Assignment (RSSA) form, that will help with program analysis, like tackling the problem of register allocation for reversible languages.
+
+Say we have a C-like program with a for-loop that adds five to x three times:
+\begin{lstlisting}
+int plus5 (uint_32 x) {
+  for (int i = 0; i < 3; i++) {
+    x += 5;
+  }
+  return x;
+}
+\end{lstlisting}
+In RIL this corresponds to:
+\begin{lstlisting}[mathescape=true]
+begin plus5(x)
+i += 0
+-> entry
+entry; loop <- i == 0
+x += 5
+i += 1
+i < 3 -> loop; exit
+exit <-
+end plus5(x)
+\end{lstlisting}
+Keep in mind that \textbf{entry; loop <- i == 0} is the conditional entry point, meaning that if $i == 0$, we are entering from entry, otherwise from loop. In the same fashion, line 7 is a conditional exit point.
+From here, we add indices to the definition sites.
+\begin{lstlisting}[mathescape=true]
+begin plus5($x_n$)
+$i_0$ := 0
+-> entry
+entry; loop <- i == 0
+$x_2$ := x + 5
+$i_1$ := i + 1
+i < 3 -> loop; exit
+exit <-
+end plus5($x_2$)
+\end{lstlisting}
+In the second step we add $\phi$-nodes.
+\begin{lstlisting}[mathescape=true]
+begin plus5($x_n$)
+$i_0$ := 0
+-> entry
+entry; loop <- i == 0
+$i_3$ := $\phi(i_0, i_1)$
+$x_4$ := $\phi(x_n, x_2)$
+$x_2$ := x + 5
+$i_1$ := i + 1
+i < 3 -> loop; exit
+exit <-
+end plus5($x_2$)
+\end{lstlisting}
+In the third step we add indices to variable uses.
+\begin{lstlisting}[mathescape=true]
+begin plus5($x_n$)
+$i_0$ := 0
+-> entry
+entry; loop <- $i_1$ == 0
+$i_3$ := $\phi(i_0, i_1)$
+$x_4$ := $\phi(x_n, x_2)$
+$x_2$ := $x_4$ + 5
+$i_1$ := $i_3$ + 1
+$i_1$ < 3 -> loop; exit
+exit <-
+end plus5($x_2$)
+\end{lstlisting}

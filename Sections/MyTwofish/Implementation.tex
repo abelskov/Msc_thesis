@@ -1,6 +1,6 @@
 \section{Reversible Twofish}
 \subsection{Reference implementation}
-Bruce Schneier, who is a co-author of the algorithm, has a Github repository [Git2F] with two implementations of Twofish: A highly optimized one in C and another one in Python2.7.
+Bruce Schneier, who is a co-author of the algorithm, has a Github repository \cite{Git2F} with two implementations of Twofish: A highly optimized one in C and another one in Python2.7.
 I will be focusing on the Python implementation as it is more similar to the Hermes implementation in its structure as well as being easier to read.
 Its around 250 lines of code, so not awfully large but not small either. The complexity of the code is low/medium and it is overall pretty straight forward if you know how the algorithm works.
 
@@ -22,13 +22,14 @@ My implementation is structurally similar to the Python version. Lets have a loo
 Here we see the same structure; input whitening followed by 16 rounds of encryption followed by output whitening. It has the same logic (calling F and rotating/XOR'ing) as the Python implementation. TODO: It uses Bennetts method of passing along some placeholder variables that can store some intermediate values which we can use to reset the inplace updated variables later with uncall.
 
 \subsection{Galois Field multiplication}
-TODO: Galois Field multiplication is interesting because
+Lorem ipsum..
+%TODO: Galois Field multiplication is interesting because
 
 \subsubsection{Python}
 \lstinputlisting[label=app:GaloisField Python,caption=Galois Field multiplication in Python, language=Python,frame=single] {"Listings/gfmult.py"}
 
 \subsubsection{Hermes}
-TODO: Det her må ku gøres pænere med flags array
-TODO: Polymult bruger Bennet? Snak om B ikke må være 0. Burde aldrig ske siger michael.
-TODO: GFMult er som sådan en reversibel funktion siger michael og den optræder i RSA. Konkluder evt. noget med at det her er babysteps towards en RSA implementation?
+%TODO: Det her må ku gøres pænere med flags array
+%TODO: Polymult bruger Bennet? Snak om B ikke må være 0. Burde aldrig ske siger michael.
+%TODO: GFMult er som sådan en reversibel funktion siger michael og den optræder i RSA. Konkluder evt. noget med at det her er babysteps towards en RSA implementation?
 \lstinputlisting[label=app:GaloisField Hermes,caption=Galois Field multiplication in Hermes, language=Hermes,frame=single] {"Listings/gfmult.hms"}

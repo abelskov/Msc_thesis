@@ -1,0 +1,72 @@
+%Prior to this thesis Hermes only allowed constant declarations to be variables, but for Twofish it was really useful to extend this to allow constant matrix declarations as well. A ConstArrayDecl in the abstract syntax tree has the type \b{string * string * string list * typ * pos} which is name, size, elements, type and position.
+
+%I første omgang laver den det til RSSA men hvor variablene er tupler af (var og int option) som er deres subscript. En slags RIL form.
+%Dernæst laver den det til RSSA ved at give variablene indekser.
+%
+%Eksempel på for-loop oversættelse:
+%plus5 (u32 x) {
+%  for (i = 0; 3) {
+%    x += 5;
+%  }
+%}
+%
+%entry; loop <- i == 0 betyder hvis i == 0 kommer vi fra entry ellers fra loop
+%
+%begin plus5
+%i += 0
+%-> entry
+%entry; loop <- i == 0
+%x += 5
+%i += 1
+%i < 3 -> loop; exit
+%exit <-
+%end plus5
+%
+%skal bruge: 
+%* labelnavn for unik loop label
+%* 2x variabel from og to
+%* instruktionsliste der skal eksekveres
+%* pos
+%
+%
+%Eksempel på if oversættelse
+%if5 (u32 x) {
+%  u32 y;
+%  if (x == 5) {
+%    y += 3;
+%  }
+%}
+%
+%begin if5
+%x == 5 -> true; skip
+%true <-
+%y += 3
+%-> exit
+%x == 5 <- exit; skip
+%end if5
+%
+%skal bruge:
+%* labelnavn for unik if label
+%* if condition (exp)
+%* rssa\_instr (måske list?) som skal udføres i body
+%\section{RSSA AST}
+%array er nødt til at have en expression som index tror jeg?
+%MemUpdate skal tage et array med et index 
+%(* TODO: GRAMMAR *)
+
+%\section{RSSA compiler}
+%Update:
+%Det svære ved update er, at vi kan have arbitrært nestede expressions og vi er på single assignment.
+%Dvs. vi skal have compilet det nestede expression og ende med at resultatet er i en variabel vi har navnet på.
+%Derfor opretter vi først en tmp variabel, dernæst compiler vi expressionen, og i vores in klausul har vi først alle opdateringerne (som ender med at lægge en værdi i tmp), og dernæst en RSSA.Assign/MemUpdate som tager s (som skal have nyt indeks i næste skridt RIL -> RSSA hvis det er en Assign) og bruger updateop så det bliver (s, NONE) updateOp tmp.
+%
+%
+%
+%Inc:
+%Vi bruger RSSA.Assign/MemUpdate på det vi vil opdatere med makeConst "1" og Hermes.Plus som binOp.
+%
+%Dec:
+%Samme som inc bare med Hermes.Minus
+%
+%Compiler local decls som en string
+%Mange steder hvor tabellen 1 bruger vars men vi bruger var\_idxs. Kun første gang man bruger var.
