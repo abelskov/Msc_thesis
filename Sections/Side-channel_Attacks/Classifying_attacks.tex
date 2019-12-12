@@ -19,7 +19,7 @@ The safety that Hermes intends to provide is against timing attacks and informat
 Timing attacks are non-invasive and passive as the attacker only observes the running time of the process.
 Cold boot attacks are active attacks as they perform memory dumps, but can be either invasive or non-invasive exemplified in \cite{Halderman2008LestKeys} where, in one attack, researchers freeze the chip thereby tampering with the hardware.
 
-\begin{figure}[h!]
+\begin{figure}[htp]
   \resizebox{0.9\columnwidth}{!}{%
       \begin{tikzpicture}
         \draw [thick] (0,5) node (yaxis) [above] {Active}
@@ -42,8 +42,5 @@ Cold boot attacks are active attacks as they perform memory dumps, but can be ei
   \caption{Some side-channel attacks and their classifications} 
   \label{fig:sca_classification}
 \end{figure}
-
-\clearpage
-\newpage
 
 Side-channels attacks have been gaining a lot of attention recently by device manufactorers. Especially the non-invasive, passive attacks which are hard to spot and can generally be performed using relatively cheap equipment.

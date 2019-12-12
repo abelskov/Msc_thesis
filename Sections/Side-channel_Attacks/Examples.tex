@@ -36,15 +36,12 @@ For example, 10 similar operations in a row can indicate that the algorihtm is A
 This is a very effective method of analysis if the instruction flow depends on the data. 
 Modular exponentiation is an example of this: if the square operation is implemented differently than the multiply, (which is a tempting choice since it can be optimized for running time) then the powertrace of an exponentiation directly yields the exponents value.
 The following figure shows how SPA has been used to cryptanalyze an RSA algorithm:
-\begin{figure}[h!]
+\begin{figure}[htp]
   \begin{center}
     \includegraphics[scale=0.5]{SPA_leaks_from_RSA_implementation.png} \\
   \end{center}
   \caption[caption]{SPA leaks from an RSA implementation. \hspace{\textwidth} From Introduction to Differential Power Analysis \cite{KOCHER2011}}
 \end{figure}
-
-\clearpage
-\newpage
 
 %Differential Power Analysis (DPA) takes multiple traces of two sets of data, then computes the difference of the averages. Given enough traces, even tiny correlations can be seen, regardless of how much noise is in the system, since it will effectively cancel out during the averaging.
 
