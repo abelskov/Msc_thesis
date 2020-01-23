@@ -1,0 +1,10 @@
+% 1: first we need to translate the Hermes instances to RSSA
+% 2: show some of the translation rules from Hermes to RIL. Also talk about the strings that are generated (inits, finits).
+% 3: show some of the translation rules from RIL to RSSA. Talk about the nontrivial parts (environment, lookup function). Maybe mention invertStat and how we reverse the process. 
+% 4: show some of the translation rules from RSSA to ARM.
+%       Interesting:  * abstract register names and registerallocator
+%                     * side-channels and times / div
+%                     * modulo implementation (hopefully not using div/mul/sub)
+%                     * dynamic allocation and heap register x28 I've made up - show symtab and how everything works
+%                     * static array allocation
+%                     * call/uncall using store and load operations as well as stack frames.

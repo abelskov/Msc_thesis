@@ -152,13 +152,13 @@
 \cleardoublepage
 \pagestyle{plain}
 \begin{abstract}
-\input{Sections/Abstract/English.tex}
+\input{Sections/0-Abstract/English.tex}
 \end{abstract}
 
 % Danish abstract
 \clearpage
 \begin{resume}
-\input{Sections/Abstract/Danish.tex}
+\input{Sections/0-Abstract/Danish.tex}
 \end{resume}
 
 % Table of contents
@@ -174,52 +174,55 @@
 
 \chapter{Introduction}
 % Huffman, D.A.: Canonical forms for information-lossless finite-state logical machines.IRE Transactions on Information Theory5(5), 41–59 (1959)  First reversible computing guy
-\input{Sections/Introduction/Motivation.tex}
-\input{Sections/Introduction/Related_Works.tex}
-\input{Sections/Introduction/Outline.tex}
+\input{Sections/1-Introduction/Motivation.tex}
+%\input{Sections/1-Introduction/Related_Works.tex}
+\input{Sections/1-Introduction/Outline.tex}
 
 % Baggrund om reversible computing og twofish algoritmen (referer til michaels artikel om reversibel symmetrisk krypto)
 \chapter{Background}
 \label{chapt - Reversible-computing}
-\input{Sections/Reversible_Computing/Introduction.tex}
-\input{Sections/Reversible_Computing/Theory.tex}
-% Baggrund om side channel vulnerabilities og ARM64
+\input{Sections/2-Background/Introduction.tex}
+\input{Sections/2-Background/Theory.tex}
+
 \label{chapt - Side-channel}
-\input{Sections/Side-channel_Attacks/Side-channel.tex}
-\input{Sections/Side-channel_Attacks/Examples.tex}
-\input{Sections/Side-channel_Attacks/Classifying_attacks.tex}
-\input{Sections/RSSA_To_ARM/ARM.tex}
-\input{Sections/Hermes_To_RSSA/RSSA_intro.tex}
+\input{Sections/2-Background/Side-channel.tex}
+\input{Sections/2-Background/Examples.tex}
+\input{Sections/2-Background/Classifying_attacks.tex}
+\input{Sections/2-Background/ARM.tex}
+\input{Sections/2-Background/RSSA_intro.tex}
 
 \chapter{Problem analysis}
-\input{Sections/Problem-analysis/part1.tex}
+\input{Sections/3-Problem-analysis/part1.tex}
 
 
 \chapter{Implementation}
-
 %\input{Sections/Grammars/RSSA_grammar.tex}
-\input{Sections/Hermes_To_RSSA/RSSAcompiler.tex}
+\input{Sections/4-Implementation/RSSAcompiler.tex}
 %\input{Sections/Grammars/ARM_grammar.tex}
-\input{Sections/RSSA_To_ARM/RSSA_To_ARM.tex}
-\input{Sections/RSSA_To_ARM/ARMcompiler.tex}
+\input{Sections/4-Implementation/RSSA_To_ARM.tex}
+\input{Sections/4-Implementation/ARMcompiler.tex}
 
 % Afsnit om min twofish implementation med referencer til twofish bogen
 \chapter{Twofish}
 \label{chapt - Twofish}
-\input{Sections/Reversible_Computing/Twofish_intro.tex}
-\input{Sections/MyTwofish/Implementation.tex}
+\input{Sections/5-MyTwofish/Twofish_intro.tex}
+\input{Sections/5-MyTwofish/Implementation.tex}
 
 % Kør min implementation af twofish 50 gange imod deres 50 gange
 \chapter{Benchmarks}
 \label{chapt - Benchmarks}
-\input{Sections/Benchmarks/Benchmarks.tex}
+\input{Sections/6-Benchmarks/Benchmarks.tex}
 
-\chapter{Conclusions}
-\label{chapt - Conclusion}
-\input{Sections/Conclusions/Contributions.tex}
+\chapter{Discussion}
+\label{chapt - Discussion}
+%\input{Sections/7-Discussion/part1.tex}
+
+
 % Man kunne helt gak skrive noget om kvantecomputere her - nej det går ikke
-% Kunne måske også nævne noget om Rust oversættelse
-\input{Sections/Conclusions/Future_work.tex}
+% Kunne måske også nævne noget om Rust oversættelse\chapter{Conclusion}
+\label{chapt - Conclusion}
+\input{Sections/8-Conclusions/Contributions.tex}
+\input{Sections/8-Conclusions/Future_work.tex}
 
 % Til diskussionen kan man nævne Iodine: verifying constant-time execution of hardware artiklen?
 
