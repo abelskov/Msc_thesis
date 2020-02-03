@@ -32,11 +32,13 @@
               & |           & VarSpec \; , \; VarSpecs \\[7pt]
     Decls1    & \rightarrow & \\
               & |           & \textbf{type} \; Varspecs \; ; \; Decls1\\
-              & |           & \texttt{const}\;\textbf{type}\;\textbf{id}\;=\textbf{numConst}\;;\;Decls1\;\\[7pt]
+              & |           & \texttt{const}\;\textbf{type}\;\textbf{id}\;=\textbf{numConst}\;;\;Decls1\;\\
+              % TODO: Not sure about this one
+              & |           & \texttt{const}\;\textbf{type}\;\textbf{id}\; [ \; \textbf{numConst} \; ] = \; [ \; Lvals \; ] \;;\;Decls1\;\\[7pt]
     Decls2    & \rightarrow & \textbf{type} \; VarSpec \\
               & |           &  \textbf{type} \; VarSpec \; , \; Decls2
 
 \end{tabular}
 \caption{Grammar of Hermes.}
-\label{fig: grammar}
+\label{fig:hermes_grammar}
 \end{figure}

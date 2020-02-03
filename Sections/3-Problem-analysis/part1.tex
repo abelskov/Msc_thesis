@@ -9,18 +9,31 @@ The first step is to compile Hermes into RSSA. We use the procedure introduced i
 We can do this in two runs: first we translate into RIL, and then we translate into RSSA.
 The reason for doing it in two steps is to postpone the problem of register allocation, and keep the two problems seperated.
 We will be creating an abstract syntax tree that RIL and RSSA will share.
-As seen in figure ~\ref{fig: RIL vs RSSA}, the main difference between the two representations is the subscript index on the left-values.
-\begin{wrapfigure}{r}{0.60\textwidth}
+As seen in figure ~\ref{fig:RIL vs RSSA}, the main difference between the two representations is the subscript index on the left-values.
+\begin{figure}[htp]
   \begin{center}
-    \includegraphics[width=0.55\textwidth]{RIL_RSSA_syntax.png}
+    \includegraphics[width=0.6\textwidth]{RIL_RSSA_syntax.png}
   \end{center}
   \caption[caption]{RIL and RSSA syntax from\cite{10.1007/978-3-319-41579-6_16}}
-  \label{fig: RIL vs RSSA}
-\end{wrapfigure} \\
+  \label{fig:RIL vs RSSA}
+\end{figure} \\
+%\begin{wrapfigure}{r}{0.60\textwidth}
+%  \begin{center}
+%    \includegraphics[width=0.55\textwidth]{RIL_RSSA_syntax.png}
+%  \end{center}
+%  \caption[caption]{RIL and RSSA syntax from\cite{10.1007/978-3-319-41579-6_16}}
+%  \label{fig: RIL vs RSSA}
+%\end{wrapfigure} \\
 Variables that are going to have an index can be represented in SML as a tuple of a string variable name and an integer option index. The integer option can be NONE in the first iteration to RIL, and SOME int in the second iteration to RSSA. This makes it easy to seperate the two tasks and handle the indexing once the program has already been transformed to RIL.
 
 \section{Protecting versus side-channels}
 %Oplagt at have et afsnit der beskriver de dele af ARM der er relevant i forhold til oversættelsen. Finder de instruktioner der er relevant. Hvad skal vi være opmærksomme på. Er der nogle vi ikke kan bruge fordi de generer sidekanaler?
+
+\subsection{Grammar}
+The grammar of Hermes is as follows:
+% TODO: Skriv bedre
+I've made some changes to the grammar. I've added const array decl
+\input{Sections/Grammars/Hermes_grammar.tex}
 
 
 \section{Translation by hand}

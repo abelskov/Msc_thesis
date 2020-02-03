@@ -1,11 +1,18 @@
 \subsection{Examples}
 \subsubsection{Row hammer attack}
-\begin{wrapfigure}{r}{0.4\textwidth}
+
+\begin{figure}
   \begin{center}
-    \includegraphics[width=0.3\textwidth]{rowhammer_vis.png}
+    \includegraphics[width=0.45\textwidth]{rowhammer_vis.png}
   \end{center}
   \caption{Rapid row activations (yellow rows) may change the values of bits stored in victim row (purple row).}
-\end{wrapfigure}
+\end{figure}
+%\begin{wrapfigure}{r}{0.4\textwidth}
+%  \begin{center}
+%    \includegraphics[width=0.3\textwidth]{rowhammer_vis.png}
+%  \end{center}
+%  \caption{Rapid row activations (yellow rows) may change the values of bits stored in victim row (purple row).}
+%\end{wrapfigure}
 
 In 2015, Project Zero, a team of security analysts employed by Google tasked with finding zero-day vulnerabilities, disclosed an attack they named Rowhammer, that would allow for bit flips in a system.
 Because newer DRAM has such a high cell density, millions of repeated accesses per second (i.e. hammering) on rows of cells of memory can lead to bit flips in neighboring rows.

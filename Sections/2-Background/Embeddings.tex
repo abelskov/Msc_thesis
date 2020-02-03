@@ -14,8 +14,7 @@ Landaur also proposed a way to make irreversible programs reversible. We call th
 %Embeddings are a way to make an irreversible computer reversible.
 
 \subsection{Landaur embedding}
-What Landaur saw was that any logically irreversible program could be transformed into a reversible one by wrapping it in a larger program with extra parameters that could hold any information needed for reversability. He proposed that the computer could have an extra tape where it would save all of its computation history. That way it would know how to run in reverse. But the size of saving this computation history is proportional to the execution time of the program.
-
+What Landaur saw was that any logically irreversible program could be transformed into a reversible one by wrapping it in a larger program with extra parameters that could hold any information needed for reversability. He proposed that the computer could have an extra tape where it would save all of its computation history. That way it would know how to run in reverse. But the size of saving this computation history is proportional to the execution time of the program, which is problematic.
 Based on the idea that computation is cheap and erasure of data is expensive, Landaur's Embedding is not very efficient since it merely postpones the inevitable erasure of information when the tape needs to be cleared before the next computation.
 Landaur demonstrated that whenever a computer throws away information about its previous state it results in a heat dissipation of $kT ln 2$ for each bit of information lost.
 \subsection{Bennett embedding}
@@ -34,13 +33,7 @@ This imposes certain restrictions on parameter passing: there has to be the same
 There can be no global variables and no variable can be passed to a function multiple times e.g. \emph{foo(x, x, y)}.
 Furthermore, an alias on both sides of an update such as \textbf{x += x / y} can break reversibility.
 
-% Show Hermes grammar?
-\subsection{Grammar}
-The grammar of Hermes is as follows:
-\input{Sections/Grammars/Hermes_grammar.tex}
-
-
-% Show control flows?
+% Show control flows
 \subsection{Control flows}
 Unlike most other programming languages (including Janus), Hermes does not have branching. It has two special types of if-statements being the conditional update and conditional swap. These conditionals only allow for one line of code to be executed, i.e. the swap or the update, and have a constant execution time. This is because they are constructed in such a way that the code of the conditional is always evaluated but only takes effect or gets executed if the condition is true.
 Conditionals work on integers, which with the help of a logical AND, allows the update to only update in cases where the conditional is non-zero, i.e. true. As seen from figure ~\ref{fig:conditionals_c}, the conditional \textbf{(0 != a < 2)} with a minus in front either returns 0 or -1, which as a signed bit-representation is all ones, meaning that whatever you AND will remain in the result. This makes the update take effect. Had the conditional been 0, the AND operation would have resulted in bits being 0, which would have turned the expression into \textbf{x += 0}.

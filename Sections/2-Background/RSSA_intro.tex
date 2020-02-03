@@ -1,8 +1,8 @@
 % 2-3 sider
-\section{RIL, SSA and RSSA}
+\section{Intermediate representations}
 \label{section - RIL}
 \subsection{RIL}
-RIL stands for reversible intermediate language.
+RIL stands for Reversible Intermediate Language.
 Intermediate languages have been commonly used by compilers since the 1970s.
 An intermediate language serves as a common parent-language that, through further compilation, compiles to multiple languages. It is so to say an \emph{intermediate} result that is never meant to be run, but has some nice features which could allow for optimizations of various kinds. It often reduces number of lines of code as well as making it easier to extend, since the first half of the compilation is given, implementing a new end target language requires only half the work.
 So instead of writing a compiler from A to B,C,D,E we write a compiler for A to intermediate language I and then we use this common ancestor to compile to B, C, D and E.

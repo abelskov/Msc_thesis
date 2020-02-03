@@ -39,7 +39,7 @@
 \usepackage{pdfpages}
 \usepackage{tikz}
 \usepackage{fix-cm}
-\usepackage{xcolor,calc}
+\usepackage{xcolor,calc, colortbl}
 \usepackage{graphicx}
 \usepackage{amsbsy}
 \usepackage{amsfonts}
@@ -61,6 +61,15 @@
 \usepackage{enumitem}
 \usepackage{csquotes}
 
+% Color tabulars
+
+\newcommand{\mc}[2]{\multicolumn{#1}{c}{#2}}
+\definecolor{Gray}{gray}{0.85}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+\newcolumntype{a}{>{\columncolor{Gray}}c}
+\newcolumntype{b}{>{\columncolor{white}}c}
+
+% Shorts for sc and bf
 \renewcommand{\sc}{\textsc}
 \renewcommand{\bf}{\textbf}
 
@@ -120,6 +129,21 @@
   morestring=[b]"
 }
 
+\lstdefinelanguage{mosml}{
+  keywords={let, val, if, then, else, in, end, case, of, fun},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={HERMES, RSSA, ARM, Var, Update, Array, Assign, For, Const, Block, COMMENT, MOV, ROL, ADD, LDR, STR, SUB, MUL, DIV},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{codegreen}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]"
+}
+
+
 \lstset{style=mystyle, aboveskip=20pt,belowskip=20pt, xleftmargin=0.25cm, xrightmargin=0.25cm}
 
 % Sets page numbering layout to normal
@@ -162,7 +186,7 @@
 \end{resume}
 
 % Table of contents
-\setcounter{tocdepth}{2} %Includes section, subsection and subsubsections in TOC
+\setcounter{tocdepth}{1} %Includes section, subsection and subsubsections in TOC
 \cleardoublepage
 \chapterstyle{combined}
 \tableofcontents*
@@ -182,25 +206,24 @@
 \chapter{Background}
 \label{chapt - Reversible-computing}
 \input{Sections/2-Background/Introduction.tex}
-\input{Sections/2-Background/Theory.tex}
+\input{Sections/2-Background/Embeddings.tex}
 
 \label{chapt - Side-channel}
 \input{Sections/2-Background/Side-channel.tex}
 \input{Sections/2-Background/Examples.tex}
 \input{Sections/2-Background/Classifying_attacks.tex}
-\input{Sections/2-Background/ARM.tex}
 \input{Sections/2-Background/RSSA_intro.tex}
+\input{Sections/2-Background/ARM.tex}
+
 
 \chapter{Problem analysis}
 \input{Sections/3-Problem-analysis/part1.tex}
 
 
 \chapter{Implementation}
+\input{Sections/4-Implementation/part1.tex}
 %\input{Sections/Grammars/RSSA_grammar.tex}
-\input{Sections/4-Implementation/RSSAcompiler.tex}
 %\input{Sections/Grammars/ARM_grammar.tex}
-\input{Sections/4-Implementation/RSSA_To_ARM.tex}
-\input{Sections/4-Implementation/ARMcompiler.tex}
 
 % Afsnit om min twofish implementation med referencer til twofish bogen
 \chapter{Twofish}
@@ -221,8 +244,8 @@
 % Man kunne helt gak skrive noget om kvantecomputere her - nej det går ikke
 % Kunne måske også nævne noget om Rust oversættelse\chapter{Conclusion}
 \label{chapt - Conclusion}
-\input{Sections/8-Conclusions/Contributions.tex}
-\input{Sections/8-Conclusions/Future_work.tex}
+\input{Sections/8-Conclusion/Contributions.tex}
+\input{Sections/8-Conclusion/Future_work.tex}
 
 % Til diskussionen kan man nævne Iodine: verifying constant-time execution of hardware artiklen?
 
