@@ -208,9 +208,8 @@
 \input{Sections/2-Background/Introduction.tex}
 \input{Sections/2-Background/Embeddings.tex}
 
-\label{chapt - Side-channel}
 \input{Sections/2-Background/Side-channel.tex}
-\input{Sections/2-Background/Examples.tex}
+\label{chapt - Side-channel}
 \input{Sections/2-Background/Classifying_attacks.tex}
 \input{Sections/2-Background/RSSA_intro.tex}
 \input{Sections/2-Background/ARM.tex}
@@ -266,15 +265,20 @@
 \newpage
 \begin{appendices}
 \renewcommand*{\lstlistingname}{Appendix}
-\chapter{Appendices}
-\section{TEA Hermes Implementation}
-\label{code:TEA_Full_Imp}
-\lstinputlisting[label=app:TEA hermes,caption=TEA in hermes, language=Hermes,frame=single] {"Listings/tinyCrypt.hms"}
-\newpage
-\section{RC5 Hermes Implementation}
-\label{code:RC5_Full_Imp}
-\lstinputlisting[label=app:encryption hms, caption=RC5 encryption, language=Hermes,frame=single] {"Listings/rc5.hms"}
+\chapter{Compilers}
+\label{appendix:A}
+\section{RSSA Compiler}
+\lstinputlisting[label=appendix:RSSACompiler.sml, caption=RSSACompiler in MosML, language=mosml,frame=single] {"Listings/RSSACompiler.sml"}
 
+\newpage
+\section{ARM Compiler}
+\label{appendix:RC5_Full_Imp}
+
+
+\chapter{Twofish}
+\lstinputlisting[label=:appendix:Twofish.hms, caption=Reversible Twofish in Hermes, language=Hermes, frame=single] {"Listings/twofish.hms"}
+
+\chapter{Tests}
 \end{appendices}
 
 \end{document}

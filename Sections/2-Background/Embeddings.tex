@@ -33,25 +33,36 @@ This imposes certain restrictions on parameter passing: there has to be the same
 There can be no global variables and no variable can be passed to a function multiple times e.g. \emph{foo(x, x, y)}.
 Furthermore, an alias on both sides of an update such as \textbf{x += x / y} can break reversibility.
 
+\subsection{Reversible crypto}
+% TODO: Something about reversible crypto (twofish) that uses the draw io. Maybe also talk about how fitting hermes is as a language of implementation for hermes. We're using twofish to show how useful Hermes is for crypto algorithms. GFMult is a reversible function and it is used in RSA as well, so we are doing the groundwork for further implementations. Talk about lifting scheme.
+
+
 % Show control flows
 \subsection{Control flows}
-Unlike most other programming languages (including Janus), Hermes does not have branching. It has two special types of if-statements being the conditional update and conditional swap. These conditionals only allow for one line of code to be executed, i.e. the swap or the update, and have a constant execution time. This is because they are constructed in such a way that the code of the conditional is always evaluated but only takes effect or gets executed if the condition is true.
-Conditionals work on integers, which with the help of a logical AND, allows the update to only update in cases where the conditional is non-zero, i.e. true. As seen from figure ~\ref{fig:conditionals_c}, the conditional \textbf{(0 != a < 2)} with a minus in front either returns 0 or -1, which as a signed bit-representation is all ones, meaning that whatever you AND will remain in the result. This makes the update take effect. Had the conditional been 0, the AND operation would have resulted in bits being 0, which would have turned the expression into \textbf{x += 0}.
+Unlike most other programming languages (including Janus), Hermes does not have branching. It has two special types of if-statements being the conditional update and conditional swap which are shown in listing \ref{listing:conditionals_hms}. These conditionals only allow for one line of code to be executed, i.e. the swap or the update, and have a constant execution time. This is because they are constructed in such a way that the code of the conditional is always evaluated but only takes effect or gets executed if the condition is true.
+\lstinputlisting[label=listing:conditionals_hms, caption=Conditionals in Hermes, language=Hermes, frame=single] {"Listings/conditionals_in_hermes.hms"}
+Conditionals work on integers, which with the help of a logical AND, allows the update to only update in cases where the conditional is non-zero, i.e. true. As seen from listing ~\ref{listing:conditionals_c}, the conditional \textbf{-(0 != a < 2)} evaluates to 0 or -1, which as a signed bit-representation is all bits set to ones, meaning that whatever you AND will remain in the result i.e.
+\begin{equation*}
+  1111 \& 1011 = 1011
+\end{equation*}
+This makes the update take effect. Had the conditional evaluated 0, the result of the AND operation would have all its bits set to 0, which would have turned the expression into \textbf{x += 0}.
 Swap is done with three XOR operations, which ensures reversability and does not introduce any extra temporary variables.
-\begin{figure}
-    \centering
-    \begin{minipage}{0.35\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{conditionals_hms.png}
-        \caption{Conditionals in Hermes}
-    \end{minipage}\hfill
-    \begin{minipage}{0.60\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{conditionals_c.png}
-        \caption{Conditionals translated to C}
-        \label{fig:conditionals_c}
-    \end{minipage}
-\end{figure}
+\lstinputlisting[label=listing:conditionals_c, caption=Conditionals translated to C, language=C, frame=single] {"Listings/conditionals_in_c.c"}
+
+%\begin{figure}
+%    \centering
+%    \begin{minipage}{0.35\textwidth}
+%        \centering
+%        \includegraphics[width=0.9\textwidth]{conditionals_hms.png}
+%        \caption{Conditionals in Hermes}
+%    \end{minipage}\hfill
+%    \begin{minipage}{0.60\textwidth}
+%        \centering
+%        \includegraphics[width=0.9\textwidth]{conditionals_c.png}
+%        \caption{Conditionals translated to C}
+%        \label{fig:conditionals_c}
+%    \end{minipage}
+%\end{figure}
 
 % Hermes has const arrays now
 \subsection{Constants}

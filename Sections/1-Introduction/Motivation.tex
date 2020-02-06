@@ -28,7 +28,7 @@ What this means is that all functions are bidirectional, i.e. given some resulti
 This is especially useful with algorithms for encryption or encoding, where an inverse process is most often needed.
 If implemented without too much overhead, this will result in smaller programs, as the encoding/encryption function is bidirectional and can be used for decoding/decryption as well.
 
-Being bidirectional imposes some constraints on the programmer: variables local to a function must be initialized as zero and reset to zero after use.
+Writing code in a language where all functions are bidirectional imposes some constraints on the programmer: variables local to a function must be initialized as zero and reset to zero after use.
 All variable updates must be lossless, therefore not allowing modulo updates such as \textbf{x = x mod y} as there is no inverse to this operation.
 Bit-shift operations must also be lossless, i.e. when bits are rotated off the right end, they are inserted into the vacated bit positions on the left and vice-versa. While imposing some restrictions on the programmer, reversible programming languages has a lot to offer in terms of security: they ensure no loss of information and no variables are left in memory after a program has run, since all variables are reset after use. Thus the memory will not contain any data that can be used for side-channel attacks such as information leakage.
 
@@ -37,18 +37,21 @@ This Master thesis revolves around the reversible programming language Hermes de
 Hermes is based on the reversible programming language Janus and designed specifically for writing encryption algorithms\cite{MogensenHermes}.
 By virtue of some carefully thought-out design choices, Hermes offers a built-in protection against some side-channel attacks such as information leakage.
 
+Figure \ref{fig:compilationProcess} is a visualization of the entire project. It shows the current implementation marked with red and the contributions of this thesis marked with green. This thesis focuses on ARM64 as target language, but other target languages could be added as future work. Two examples of such target languages are added and marked with a dotted line.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[scale=0.57]{Graphics/compilationProcess.png}
+  \caption{Visualization of the project}
+  \label{fig:compilationProcess}
+\end{figure}
+
 There are a few problems with Hermes in its current implementation, where Hermes programs are translated to C by the program \emph{hc} and then to assembly code with the GNU Compiler Collection (gcc).
 We do not have full control over everything that happens in the gcc compiler and gcc does not prevent side-channel attacks, such as information leakage and timing attacks\cite{Simon2018}.
 One can use zerostack\cite{Github.zerostack} to zero out the stack and registers of sensitive functions, but this process is very cumbersome and has not yet been thoroughly tested. 
 Protection against side-channel attacks would be much easier to enforce with a compilation directly to assembly language, which is the primary focus of this Master thesis.
-When we are able to compile directly from Hermes to assembly it will allow us to modify the translation to ensure protection.
+When we are able to compile directly from Hermes to assembly it will allow us to modify the translation to ensure protection and make it much easier to extend the implementation to other target assembly languages such as WebAssembly or x86\_64.
 We make use of the Reversible Single Static Assignment (RSSA) representation from \cite{10.1007/978-3-319-41579-6_16}, which describes how to combine Single Static Assignment (SSA) with Reversible Intermediate Language (RIL) to obtain RSSA.
 Furthermore we implement the lightweight cryptography algorithm Twofish in Hermes based on the implementation from the original authors of the algorithm \cite{GIT2F}. We use benchmarks to argue for the correctness of both implementations.
 
-%The goal of this thesis is to further extend Hermes, which is a reversible programming language developed at DIKU.
-%Hermes is based on the reversible programming language Janus and designed specifically for writing encryption algorithms\cite{MogensenHermes}.
-%By virtue of some carefully thought-out design choices, Hermes offers a built-in protection against some side-channel attacks.
-%Hermes programs are translated to C by the program \emph{hc} and then to assembly code with the GNU Compiler Collection (gcc). The gcc compiler does not prevent side-channel attacks per default, but one can use zerostack\cite{Github.zerostack} to zero out the stack and registers of sensitive functions.
-%There is also the problem of timing attacks introduced by gcc\cite{Simon2018}.
-%The compilation from Hermes to assembly is a two-step process with a required extra check by zerostack. But with embedded systems being the focus of these reversible lightweight cryptography algorithms, it seems appropriate with a compiler that translates Hermes directly to ARM64 assembly code.
-%It would also be appropriate to compile Hermes into a reversible intermediate language to allow for multiple assembly targets. We are going to be using a Reversible Single Static Assignment (RSSA) representation for this intermediate language.
+
+

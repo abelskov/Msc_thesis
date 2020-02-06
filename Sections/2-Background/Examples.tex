@@ -29,7 +29,7 @@ A rowhammer attack bypasses memory protection, as one process can affect others,
 %\end{wrapfigure}
 
 Attacks from the Rowhammer-family, such as Throwhammer, RAMBleed and NetCAT, that perform read/write on memory have since been shown to cause all kinds of havoc from privilege escalation to keylogging to breaking cryptographic keys\cite{tatar_throwhammer:_2018}\cite{kwong2020rambleed}\cite{kurth_netcat:_2020}.
-It is worth mentioning, however, that side-channel attacks are highly implementation-specific and thus much harder to generalize than if you were to break the algorithm.
+It is worth mentioning, however, that side-channel attacks are highly implementation specific and thus much harder to generalize than if you were to break the algorithm.
 
 \subsubsection{Cold boot attacks}
 In 2008, a research paper on cold boot attacks\cite{Halderman2008LestKeys} was published from Princeton University. By physically freezing the memory, attackers were able to read data from the DRAM up to several minutes after cutting power to the victim machine. Cutting power to the victim computer leaves it with no chance to erase its sensitive data from memory. From there an attacker can either restore power and launch a custom kernel leaving a small memory footprint, or transplant the DRAM modules to another computer keeping the DRAM completely intact.
