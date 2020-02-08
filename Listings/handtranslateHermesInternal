@@ -1,0 +1,12 @@
+// (name, decls, body as Hermes.Block(ds, stats, pos), pos)
+                       // ds
+("main" , []   , Block([VarDecl("a", "u32", pos),
+                        ArrayDecl("arr", "4", "u32", pos)]
+                       // stats
+                       [Inc (Var ("a", pos), pos),
+                        Update (Add,
+                                Array("arr", Var("a"), pos),
+                                Const("1337", pos),
+                                pos)]
+                       // pos
+                      , pos), pos)

@@ -1,8 +1,7 @@
 Dette speciale omhandler det reversible programmeringssprog Hermes, der er udviklet på DIKU som et domæne-specifikt sprog med henblik på implementatering af symmetriske krypteringsalgoritmer på små enheder.
 Reversibiliteten i Hermes gør os i stand til at give nogle garantier for sikkerheden, idet visse side-kanal angreb såsom data-lækage bliver umuliggjort. Jeg beskriver disse side-kanaler samt reversibilitet og forklarer om intentionen om at sikre små enheder.
-TODO: Jeg udvikler en ny ?backend? til Hermes, som skal forkorte antallet af trin i oversættelsen til mit valg af arkitektur, som er ARM64. Det vil give mere kontrol over side-kanaler idet vi ikke længere er afhængige af gcc og zerostack som bliver benyttet i den nuværende implementation af Hermes oversættelsen.
-Min nye implementation er en to-trins process som først oversætter Hermes til et reversibelt statisk mellemliggende sprog med én tildeling af hver variabel (RSSA), der derfra kan oversættes til diverse arkitekturer - i dette tilfælde ARM64. Denne oversættelse fra RSSA til ARM64 udgør andet trin af oversættelsen.
-Jeg implementerer 128-bit block cipheren Twofish og viser derved at Hermes er brugbart som et domæne-specifikt sprog til implementering af symmetriske krypteringsalgoritmer.
-TODO: Til slut viser jeg korrektheden ved Twofish implementationen idet jeg anvender et eksisterende bibliotek til property based testing. 
-TODO: Consider testing speed of 50 encryptions vs reference solution
-
+Jeg udvikler en oversætter fra Hermes til en reversibel statisk mellemliggende repræsentation med én tildeling af hver variabel (RSSA), som kunne blive en fælles forfader til flere forskellige assembler sprogs oversættere og som hjælper med at forkorte skridtene i oversættelsen til mit specifikke mål for oversættelsen: \emph{ARM64}.
+Det vil give mere kontrol over side-kanaler idet vi ikke længere er afhængige af gcc og zerostack som bliver benyttet i den nuværende implementation af Hermes oversættelsen.
+Min nye implementation er en to-trins process som først oversætter Hermes til RSSA, og derfra til ARM64,. Denne oversættelse fra RSSA til ARM64 udgør andet trin af oversættelsen.
+Jeg implementerer også 128-bit block cipher algoritmen Twofish i Hermes og viser derved brugbarheden af Hermes som et domæne-specifikt sprog til implementering af symmetriske krypteringsalgoritmer.
+Til slut sammenligner jeg min Twofish implementation med reference implementationen skrevet i Python og viser at min implementation giver en hastighedsændring på ??\%. 

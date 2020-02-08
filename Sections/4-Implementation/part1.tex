@@ -1,9 +1,16 @@
 Since RIL and RSSA are so similar in their structure, they share an abstract syntax tree in the implementation.
-To enable variables to have indices that occur in RSSA but not in RIL, we use a tuple of type \textbf{(string * int option)} as internal representation, where the string is the variable name and int option is the variable index (NONE in the RIL representation).
-We alias this tuple as a \bf{var\_idx}. Listing \ref{listing:newName} shows the \bf{var\_idx} generator used for the intermediate variables that our compiler needs.
+To enable variables to have indices that occur in RSSA but not in RIL, we use a tuple of type \emph{(string * int option)} as internal representation, where the string is the variable name and int option is the variable index (NONE in the RIL representation).
+We alias this tuple as a \emph{var\_idx}. Listing \ref{listing:newName} shows the var\_idx generator used for the intermediate variables that our compiler needs.
 During the second iteration of compilation we add indices to variables. We do this by maintaining a list of tuples, which we will use for lookups to know what the most recently assigned index for a variable is.
 It is also worth mentioning that variables in RIL and RSSA are zeroed at the beginning and end of a function. This is handled by the pretty-printer.
 \lstinputlisting[label=listing:newName, caption=var\_idx generator, language=mosml, frame=single] {"Listings/newName.sml"}
+
+% Section about how to compile from the terminal
+\section{Compiling from the terminal}
+Compilation is done from the terminal. Running make from the src folder create an executable \emph{hc} that can be used to compile Hermes into both C, RSSA and ARM.
+When running \emph{hc} the default target language is C, but it is possible to change this with a flag such as \bf{--rssa} or \bf{--arm}.
+There is a makefile in the hermes\_v4 folder which will do all of this automatically. Listing \ref{listing:outerMakefile} shows an extract from this Makefile.
+\lstinputlisting[label=listing:outerMakefile, caption=Outer Makefile, language=make, frame=single]{"Listings/outerMakefile"}
 
 % 1: show some of the translation rules from Hermes to RIL. Also talk about the strings that are generated (inits, finits).
 \section{Compilation from Hermes to RIL}

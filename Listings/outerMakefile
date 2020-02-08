@@ -1,0 +1,11 @@
+updates:
+	cd hermes/hermes_formal_typesystem/src && make
+	./hermes/hermes_formal_typesystem/bin/hc --rssa code/ril/updates
+	cat code/ril/updates.hms
+	cat code/ril/updates.rssa
+
+armupdates:
+	cd hermes/hermes_formal_typesystem/src && make
+	./hermes/hermes_formal_typesystem/bin/hc --arm code/ril/updates
+	cat code/ril/updates.hms
+	cat code/ril/updates.asm

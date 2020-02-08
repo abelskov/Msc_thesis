@@ -4,8 +4,14 @@ Triple-DES emerged as a temporary solution in many high-security applications, s
 
 Twenty years later, in 1997, NIST announced the Advanced Encryption Standard (AES) \cite{NIST97a}. NIST requested comments from the public on the proposed standard, and eventually issued a call for algorithms to satisfy the standard \cite{NIST97b}. NIST made all submissions public and eventually, through a process of public review and comment, chose a new encryption standard to replace DES. Twofish did not win, but made it as one of the five finalists in the 1997 competition.
 
-Twofish is a 16 byte / 128-bit block cipher with a variable key length between 128 and 256 bits. The cipher is a 16-round Feistel network also called a substitute-permute network. It has a bijective function F consisting of four key-dependent 8-by-8-bit S-boxes (Substitution-boxes) \cite{wiki_sbox}, a fixed 4-by-4 MDS (maximum distance separable) matrix over GF($2^8$) (Galois-field), a PHT (pseudo-Hadamard transform), bitwise rotations, and a carefully designed key schedule.
+Figure \ref{fig:twofish} shows the Twofish algorithm. It is a 16 byte / 128-bit block cipher with a variable key length between 128 and 256 bits. The cipher is a 16-round Feistel network also called a substitute-permute network. It has a bijective function F consisting of four key-dependent 8-by-8-bit S-boxes (Substitution-boxes) \cite{wiki_sbox}, a fixed 4-by-4 MDS (maximum distance separable) matrix over GF($2^8$) (Galois-field), a PHT (pseudo-Hadamard transform), bitwise rotations, and a carefully designed key schedule.
 
+\begin{figure}[htp]
+  \centering
+  \includegraphics[scale=0.4]{Graphics/twofish.png}
+  \caption{The Twofish algorithm}
+  \label{fig:twofish}
+\end{figure}
 I will go over each of these building blocks, explaining what they are:
 
 \subsection{Feistel Networks}
@@ -42,7 +48,7 @@ This means that if we see '10' we substitute it to '11' and if we see '11' we su
 For the permutation part, lets say we have two of these 2-bit S-boxes. The output would be 2 bits from each, so we have 4 bits of output in total. The permutation is switching bits like this:
 (* Insert permutation picture *)
 %\includegraphics{permutation_example.png}[scale=0.7] \\
-So if we want to substitute-permute the number 4 for example it would look like '0100', so the first Sbox would have input '01' and the second Sbox would have input '00'. This would result in the output of the first S-box being '00' and the output of the second S-box to be '10'. So the number 4 goes through the two S-boxes and comes out as a 2. Then it enters the permutation and becomes TODO:
+So if we want to substitute-permute the number 4 for example it would look like '0100', so the first Sbox would have input '01' and the second Sbox would have input '00'. This would result in the output of the first S-box being '00' and the output of the second S-box to be '10'. So the number 4 goes through the two S-boxes and comes out as a 2. Then it enters the permutation and becomes TODO: lorem ipsum
 
 This constitutes one round of encryption. Now obviously this process is very easy to reverse if the substition table and the permutation table are public, so that is why we mix in keys. We XOR before the first encryption (input whitening), we XOR after each round and we XOR again after the last round (output whitening). Once you take the key away you can no longer reverse the process.
 

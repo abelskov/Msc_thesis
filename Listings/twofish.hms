@@ -3,16 +3,18 @@
 //Twofish borrows some elements from other designs; for example, the pseudo-Hadamard transform (PHT) from the SAFER family of ciphers.
 //Twofish has a Feistel structure like DES. Twofish also employs a Maximum Distance Separable matrix.
 
-main()
-{
-  u32 P0, P1, P2, P3; // Plaintext split into four each of size 32 bit
+main() {
+  u32 P0, P1, P2, P3; // Plaintext split into 4x32 bit
   u32 M0, M1, M2, M3; // Global key M (user input)
 
-  u32 S0, S1; // Subkey set S (constant throughout encryption and decryption)
+  u32 S0, S1; // Subkey S (remains constant throughout enc/dec)
   u32 S[2];
-  u32 K[40]; // Subkey set K - 40 words (4 input whitening, 4 output whitening, 32 for the 16 rounds)
+  u32 K[40];  // Subkey K - 40 words
+              // 4 input whitening
+              // 4 output whitening
+              // 32 for the 16 rounds
 
-  // Print values after running encrypt
+  // Values for printing after running
   u32 E0, E1, E2, E3; // Encrypted values
   u32 D0, D1, D2, D3; // Decrypted values
 
@@ -37,6 +39,7 @@ main()
   uncall fillWithValues(P0, P1, P2, P3, S, K);
 }
 
+// Call this instead of Key Sched
 fillWithValues(u32 P0, u32 P1, u32 P2, u32 P3, u32 S[2], u32 K[40]) {
   P0 += 3735928495;
   P1 += 3405691582;
@@ -60,19 +63,11 @@ fillWithValues(u32 P0, u32 P1, u32 P2, u32 P3, u32 S[2], u32 K[40]) {
   K[39] += 1768859136;
 }
 
-// Read input key from stdIn
-read(u32 M0, u32 M1, u32 M2, u32 M3, u32 P0, u32 P1, u32 P2, u32 P3) 
-{
-  scanf("%u32 %u32 %u32 %u32\n", M0, M1, M2, M3);
-  scanf("%u32 %u32 %u32 %u32\n", P0, P1, P2, P3);
-}
-
 // Split X into four
 // Inplace updates word
 // Assumes word is [0, 0, 0, 0]
 // Assumes big endian i.e. word[0] is most significant byte
-bitsToWord(u32 X, u8 word[4])
-{
+bitsToWord(u32 X, u8 word[4]) {
   u8 tmp;
   for (i=0; 8) {
     word[0] += ((X >> (24 + i)) & 1)*(1 << i);
@@ -88,28 +83,16 @@ bitsToWord(u32 X, u8 word[4])
 // Inplace updates X
 // Assumes X = 0
 // Assumes big endian i.e. word[0] is most significant byte
-wordToBits(u8 word[4], u32 X)
-{
+wordToBits(u8 word[4], u32 X) {
   X += word[0] << 24;
   X += word[1] << 16;
   X += word[2] << 8;
   X += word[3];
 }
 
-// For debugging purposes
-printRoundKeys(u32 K[40])
-{
-  for (i=0; 40) {
-    printf("%u32  ", K[i]);
-    printf("%u32\n", K[i+1]);
-    i += 2;
-  }
-}
-
 // Inplace update on a
-// Assumes a and b are 8bit integers that have been extended i.e. 24 zeros on the left
-polyMult(u32 a, u32 b)
-{
+// Assumes a and b are 8bit integers that have been extended
+polyMult(u32 a, u32 b) {
   u32 tmp;
   for (i=0; 8) {
     if((a & 1) > 0) tmp ^= b;
@@ -120,14 +103,12 @@ polyMult(u32 a, u32 b)
   }
   b >>=8;
   a <-> tmp;
-  //printf("%u32 cleaning tmp after polymult\n", tmp);
 }
 
 // gfMult is a combination of polyMult and then gfMod
 // Inplace updates a i.e. a = (a*b) mod modulus 
 // Assumes flags are all 0
-gfMult(u32 a, u32 b, u8 flags[8])
-{
+gfMult(u32 a, u32 b, u8 flags[8]) {
   u32 modulus;
   u32 tt;
   u32 qq;
@@ -159,8 +140,7 @@ gfMult(u32 a, u32 b, u8 flags[8])
 // r: Either S0 or S1
 // 
 // Should return 4 bytes i.e. S0/S1
-matrixMultiply(u32 md[32], u8 sd[8], u8 r[4])
-{
+matrixMultiply(u32 md[32], u8 sd[8], u8 r[4]) {
   u8 t; 
   u32 tmp; // byte values of sd put into tmp to give to gfMult
   u8 flags[8];
@@ -192,12 +172,11 @@ matrixMultiply(u32 md[32], u8 sd[8], u8 r[4])
 
 // Our k is 2 since key/pt is 128 bits
 // Assumes S0, S1 and K are zero
-keySched(u32 M0, u32 M1, u32 M2, u32 M3, u32 S0, u32 S1, u32 K[40])
-{
+keySched(u32 M0, u32 M1, u32 M2, u32 M3, u32 S0, u32 S1, u32 K[40]) {
   u32 Me[2]; u32 Mo[2]; // M_even, M_odd
   u8 vectorS0[8]; u8 vectorS1[8];
   u8 word1[4]; u8 word2[4]; u8 word3[4]; u8 word4[4];
-  const u32 rho = 16843009; //0x1010101; // Magic constant
+  const u32 rho = 16843009; //0x1010101; Magic constant
   u32 A, B;
   u32 PA, PB; // Placeholders for A and B
 
@@ -240,7 +219,6 @@ keySched(u32 M0, u32 M1, u32 M2, u32 M3, u32 S0, u32 S1, u32 K[40])
 
   // Generate S0 and S1
   // u32 md[32], u8 sd[8], u8 r[4]
-  // Vectors are correct
   call matrixMultiply(RS, vectorS0, S0);
   call matrixMultiply(RS, vectorS1, S1);
 
@@ -299,12 +277,9 @@ keySched(u32 M0, u32 M1, u32 M2, u32 M3, u32 S0, u32 S1, u32 K[40])
 }
 
 // Uses L to update X
-// Assumes Z is 0 when called
-h(u32 X, u32 L[2], u32 P)
-{
-  // X is a 32 bit word
+// X is a 32 bit word
+h(u32 X, u32 L[2], u32 P) {
   // L is a list(L[0] - L[K-1]) of 32 bit words (Sbox keys)
-
   const u8 Q0[256] = [
     0xA9, 0x67, 0xB3, 0xE8, 0x04, 0xFD, 0xA3, 0x76, 
     0x9A, 0x92, 0x80, 0x78, 0xE4, 0xDD, 0xD1, 0x38, 
@@ -521,20 +496,18 @@ h(u32 X, u32 L[2], u32 P)
 }
 
 // Uses P as a placeholder for the old X after the inplace update
-g(u32 X, u32 S[2], u32 P)
-{
+g(u32 X, u32 S[2], u32 P) {
   call h(X, S, P);
 }
 
 
-F(u32 R0, u32 R1, u8 r, u32 K[40], u32 S[2], u32 Z, u32 W)
-{
+F(u32 R0, u32 R1, u8 r, u32 K[40], u32 S[2], u32 Z, u32 W) {
   R1 <<= 8;      // ROL(R1, 8) before g
   call g(R0, S, Z); // Inplace update on R0, R1
   call g(R1, S, W); 
 
   // Pseudo-Hadamard transformation
-  // Dont need to and with 0xFFFFFFFF as addition is already modulus 32
+  // Dont need to and with 0xFFFFFFFF as addition is already mod 32
   R0 += R1;
   R1 += R0;
   R0 += K[2*r+8];
@@ -542,20 +515,17 @@ F(u32 R0, u32 R1, u8 r, u32 K[40], u32 S[2], u32 Z, u32 W)
 }
 
 // Encrypts one round
-enc_round(u32 R0, u32 R1, u32 R2, u32 R3, u8 r, u32 K[40], u32 S[2])
-{
-  u32 Z; // Placeholder for old R0 after it gets updated in h
-  u32 W; // Placeholder for old R1 after it gets updated in h
+enc_round(u32 R0, u32 R1, u32 R2, u32 R3, u8 r, u32 K[40], u32 S[2]) {
+  u32 Z, W; // Placeholder for old R0/R1 after it gets updated in h
   call F(R0, R1, r, K, S, Z, W);   // Inplace update on R0, R1
-  R3 <<= 1;                  // ROL(R3, 1) before XOR'ing
+  R3 <<= 1;                        // ROL(R3, 1) before XOR'ing
   R3 ^= R1;
   R2 ^= R0;
-  R2 >>= 1;                  // ROR(R2, 1) after XOR'ing
-  uncall F(R0, R1, r, K, S, Z, W); // Get back the original R0 and R1
+  R2 >>= 1;                        // ROR(R2, 1) after XOR'ing
+  uncall F(R0, R1, r, K, S, Z, W); // Get back the original R0+R1
 }
 
-encrypt(u32 P0, u32 P1, u32 P2, u32 P3, u32 K[40], u32 S[2])
-{
+encrypt(u32 P0, u32 P1, u32 P2, u32 P3, u32 K[40], u32 S[2]) {
   u32 R0, R1, R2, R3;
   u8 r;
 

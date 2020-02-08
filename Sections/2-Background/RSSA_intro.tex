@@ -57,8 +57,7 @@ SSA form, which stands for Static Single Assignment form is also a type of inter
 A compiler can utilize \emph{def-use chains}, which is a data structure with pointers, to quickly jump between definition sites and use sites of variables.
 SSA form improves on this idea as a variable with N uses and M definitions will normally take space and time proportional to $N \times M$ for def-use chains, whereas the size of SSA form for most programs will be linear in the size of the original program.
 In SSA form, each variable has only one definition in the program text making the \emph{def-use chains} trivial.
-SSA form makes it easier to do data-flow analysis such as common-subexpression elimination, value numbering, register allocation and so on. % (* TODO: READ UP ON THIS *)
-% (* TODO: INTRODUCER PHI FUNKTIONEN *)
+SSA form makes it easier to do data-flow analysis such as common-subexpression elimination, value numbering, register allocation and so on.
 SSA uses $\phi$-nodes when two variables with the same name are in scope and the compiler needs to know which one it should use. This happens at so called join points. A join point is a place that can be reached by two different paths in the code.
 
 Converting to SSA form is a three-step process: first we look at each \emph{definition} of a variable and add an index to it. Second, we add $\phi$-nodes where it is needed. Lastly we add indices to variable uses. \\

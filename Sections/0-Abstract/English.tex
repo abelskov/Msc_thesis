@@ -1,8 +1,8 @@
 This thesis revolves around the reversible programming language Hermes, which is being developed at DIKU as a domain-specific language for implementing symmetric cryptography algorithms on small devices.
 The reversibility of Hermes makes us able to give certain guarantees for its safety, in that certain side-channel attacks such as information leakage becomes impossible.
 I describe these side-channels as well as reversibility and explain the intention of securing small devices.
-TODO: I develop a new ?backend? to Hermes, which will shorten the number of steps in the compilation to my target assembly ARM64. This will give more control over side-channels as we are no longer dependant on gcc and zerostack, which are being used in the current implementation of Hermes compilation.
-My new implementation is a two-step process compiling Hermes to a reversible static single assignment (RSSA) intermediate language, that will serve as a backend for translation to multiple assembly architectures - in this case ARM64. This compilation from RSSA to ARM64 constitutes the second part of the process.
-I implement the 128-bit symmetric block cipher Twofish, thereby showing that Hermes is useful as a domain-specific language for implementing symmetriccryptographic algorithms.
-TODO: Finally I show the correctness of my Twofish implementation by applying an existing library for property based testing.
-TODO: Consider testing speed of 50 encryptions vs reference solution
+I develop a compiler from Hermes to a Reversible Single Static Assignment (RSSA) representation, which could serve as a common ancestor for multiple target assembly languages and helps shorten each compilation step to my target assembly: \emph{ARM64}.
+This new implementation gives more control over side-channels as we are no longer dependant on gcc and zerostack, which are being used in the current implementation of Hermes compilation.
+My new implementation is a two-step process compiling Hermes to RSSA intermediate language and then from RSSA to ARM64, which constitutes the second part of the process.
+I also implement the 128-bit symmetric block cipher algorithm Twofish in Hermes, thereby showing the usefulness of Hermes as a domain-specific language for implementing symmetric cryptographic algorithms.
+Finally I compare my Twofish implementation with the reference implementation written in Python and show that my implementation runs at ??\% speed.
