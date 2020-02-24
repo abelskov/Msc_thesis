@@ -1,14 +1,13 @@
 \section{Outline}
 This Master thesis is organized in the following way:
-\begin{itemize}
-  \item \bf{Chapter 2} leads off with an introduction to reversibility, side-channel vulnerabilities, RSSA and the ARM architecture.
-  \item \bf{Chapter 3} then analyzes how to compile from Hermes to ARM whilst mitigating side-channels and goes over the parts of ARM we need for the translation.
-  \item \bf{Chapter 4} covers the actual compilation i.e. what steps are taken and how does the program change from source code to intermediate representation to assembly code.
-  \item \bf{Chapter 5} concerns the symmetric encryption algorithm Twofish and my Hermes implementation of it.
-  \item \bf{Chapter 6} is about benchmarks and testing.
-  \item \bf{Chapter 7} is a discussion of the results.
-  \item In \bf{Chapter 8} I present my conclusions and ideas for future work.
-\end{itemize}
-The full implementation of both the RSSA- and ARM-compiler can be found in appendix \ref{appendix:A}.
-My Twofish implementation in Hermes can be found in appendix \ref{appendix:B}.
-Tests can be found in appendix \ref{appendix:C}.
+\begin{description}
+  \item [Chapter 2] leads off with an introduction to reversibility, side-channel vulnerabilities, RSSA and the ARM architecture.
+  \item [Chapter 3] then analyzes how to compile from Hermes to ARM whilst mitigating side-channels and goes over the parts of ARM we need for the translation.
+  \item [Chapter 4] covers the actual compilation i.e. what steps are taken and how does the program change from source code to intermediate representation to assembly code.
+  \item [Chapter 5] concerns the symmetric encryption algorithm Twofish and a reversible implementation of it written in Hermes.
+  \item [Chapter 6] shows some experiments run regarding the reversible Twofish implementation and the Hermes to ARM compiler.
+  \item [Chapter 7] is a discussion of results.
+  \item [Chapter 8] is a conclusion and ideas for future work.
+\end{description}
+The full implementation of both the RSSA- and ARM-compiler is around 1500 lines of code, which have been handed in seperately.
+The reversible implementation of Twofish written in Hermes can be found in Appendix~\ref{appendix:A}.

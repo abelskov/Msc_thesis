@@ -1,0 +1,112 @@
+In this chapter we will present the experiments that have been run to test the different implementations.
+The experiments have been run on a laptop with an Intel 3rd Gen Core graphics card and four CPU cores \lstinline{Intel(R) Core(TM) i5-3230M CPU @ 2.60GHz}.
+
+First we will look at correctness of the ARM implementation with unit testing.
+Hermes has a script named \emph{test.sh} that runs through the \emph{code/ril/} directory, where it compiles every file and performs a diff with an expected output.
+
+\begin{lstlisting}[language=bash, float=htp]
+CODEDIR="code/ril/"
+TEST="code/ril/lol"
+./hermes/hermes_formal_typesystem/bin/hc --arm ${TEST}
+
+DIFF=$(diff code/ril/lol.asm unit_tests/expected.asm)
+if [ -z "$DIFF" ]; then
+  echo "Tests completed succesfully"
+else
+  echo "Error in tests"
+fi
+\end{lstlisting}
+This results in following when run:
+\begin{lstlisting}[float=htp]
+Tests completed succesfully
+\end{lstlisting}
+
+\clearpage
+\newpage
+Furthermore there are two reference solutions to Twofish written in Python and C that we will run against our solution.
+We experiment with encrypting 50 times and then decrypting 50 times and compare times between Hermes and Python.
+\begin{lstlisting}[language=bash, float=htp]
+#!/bin/bash
+hmsstart=$(date +%s%N)
+./a.out
+hmsend=$(date +%s%N)
+hmselapsed=$(echo "scale=4;($hmsend-${hmsstart})/(1*10^09)" | bc)
+echo "Hermes runtime: ${hmselapsed} seconds"
+
+pythonstart=$(date +%s%N)
+python2.7 myref.py
+pythonend=$(date +%s%N)
+pythonelapsed=$(echo "scale=4;($pythonend-${pythonstart})/(1*10^09)" | bc)
+echo "Python runtime: ${pythonelapsed} seconds"
+
+let hmsdeltatime=hmsend-hmsstart
+let pythondeltatime=pythonend-pythonstart
+let x=pythondeltatime/hmsdeltatime
+printf "Hermes is: %d times faster\n" $x
+\end{lstlisting} \\
+In the result, we have print statements of the original data, the encrypted data where it has been encrypted 50 times, and the decrypted data, which should match the original.
+\begin{lstlisting}[float=htp]
+Original:  [3735928495, 3405691582, 2255827088, 72695827]
+Encrypted: [3318685441, 3423769198, 839275156, 2609086762]
+Decrypted: [3735928495, 3405691582, 2255827088, 72695827]
+Hermes runtime: .0143 seconds
+Original:  [3735928495L, 3405691582L, 2255827088L, 72695827L]
+Encrypted: [3318685441L, 3423769198L, 839275156L, 2609086762L]
+Decrypted: [3735928495L, 3405691582L, 2255827088L, 72695827L]
+Python runtime: .2585 seconds
+Hermes is: 18 times faster
+\end{lstlisting} \\
+The following is a comparison with the highly optimized C version when encrypting 50 times.
+\begin{lstlisting}[language=C]
+void bench()
+{
+    u32 *S;
+    u32 K[40];
+    int k;
+    int i;
+    struct timeval tv_start, tv_end;
+    double diff;
+    u32 QF[4][256];
+    BYTE text[16];
+    BYTE key[32];
+
+    // Bench C
+    gettimeofday(&tv_start, NULL);
+    memset(text, 0, 16);
+    memset(key, 0, 32);
+    keySched(key, 128, &S, K, &k);
+    fullKey(S, k, QF);
+    free(S);
+
+    for (i=0; i < NUMTIMES; i++)
+      encrypt(K, QF, text);
+    gettimeofday(&tv_end, NULL);
+
+    diff = getTimeDiff(tv_start, tv_end);
+    printf("C encs/sec = %f\n", NUMTIMES/diff);
+    printf("C bytes/sec = %f\n", (NUMTIMES*16)/diff);
+    printf("C KB/sec = %f\n", NUMTIMES/(diff*64));
+    printf("C MB/sec = %f\n", NUMTIMES/(diff*65536));
+
+    // Bench Hermes
+    gettimeofday(&tv_start, NULL);
+    main_F();
+    gettimeofday(&tv_end, NULL);
+    diff = getTimeDiff(tv_start, tv_end);
+    printf("Hermes encs/sec = %f\n", NUMTIMES/diff);
+    printf("Hermes bytes/sec = %f\n", (NUMTIMES*16)/diff);
+    printf("Hermes KB/sec = %f\n", NUMTIMES/(diff*64));
+    printf("Hermes MB/sec = %f\n", NUMTIMES/(diff*65536));
+}
+\end{lstlisting}
+The result is that the optimized C is approximately 60 times faster as $24.610950 / 0.389056 \simeq 63$.
+\begin{lstlisting}[float=htp]
+C encs/sec = 1612903.225806
+C bytes/sec = 25806451.612903
+C KB/sec = 25201.612903
+C MB/sec = 24.610950
+Hermes encs/sec = 25497.195309
+Hermes bytes/sec = 407955.124936
+Hermes KB/sec = 398.393677
+Hermes MB/sec = 0.389056
+\end{lstlisting}

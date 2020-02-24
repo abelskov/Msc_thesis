@@ -1,35 +1,40 @@
 \section{Reversible Twofish}
 \subsection{Reference implementation}
-Bruce Schneier, who is a co-author of the algorithm, has a Github repository \cite{Git2F} with two implementations of Twofish: A highly optimized one in C and another one in Python2.7.
-I will be focusing on the Python implementation as it is more similar to the Hermes implementation in its structure as well as being easier to read.
-Its around 250 lines of code, so not awfully large but not small either. The complexity of the code is low/medium and it is overall pretty straight forward if you know how the algorithm works.
-
-TODO: Snak om lifting scheme + konkluder hvorvidt Hermes er passende som domænespecifikt krypteringssprog
+Bruce Schneier, who is a co-author of the algorithm, has a Github repository\cite{GIT2F} with two implementations of Twofish: A highly optimized one in C and another one in Python2.7.
+We will be focusing on the Python implementation as it is more similar to the Hermes implementation in its structure as well as being easier to read.
+Its around 250 lines of code, so not awfully large but not small either.
+The complexity of the code is low/medium and it is overall pretty straight forward if you know how the algorithm works.
 
 \subsection{encrypt/decrypt}
 \subsubsection{Python}
-Lets look at the encrypt/decrypt definitions.
-\lstinputlisting[label=app:Encrypt Python,caption=encrypt/decrypt in Python, language=Python,frame=single] {"Listings/encrypt.py"}
-We see that the only difference between encrypt and decrypt is the order in which they do things.
-Encrypt uses the words K[0]-K[3] for input whitening, calls F 16 times with roundnumber r = 0 to 16, and then performs output whitening with the words K[4]-K[7]. Decrypt does the same but in the other direction. 
+\lstinputlisting[label=app:Encrypt Python,caption=encrypt/decrypt in Python performs its encryption rounds (lifts) in a for-loop., language=Python, float=htp] {"Listings/encrypt.py"}
+When looking at the encrypt/decrypt definitions in Listing~\ref{app:Encrypt Python}, we see that the only difference between encrypt and decrypt is the order in which things are done.
+Encrypt uses the words K[0]-K[3] for input whitening, calls F 16 times with round number $r = 0$ to $r = 15$, and then performs output whitening with the words K[4]-K[7].
+Decrypt swaps the words used for input whitening and output whitening, and lets $r$ run from $r = 15$ to $r = 0$. 
 
-The parameters for the functions are subkeys K and S as well as a plaintext/ciphertext.
-They both call F with five arguments: input words R[0] and R[1], the round number r which is used to select which subkeys to use, and the subkeys K and S.
+The parameters for both functions are subkeys $K$ and $S$ as well as a plaintext/ciphertext.
+They both call F with five arguments: input words R[0] and R[1], the round number $r$ which is used to select which subkeys to use, and the subkeys $K$ and $S$.
 
 \subsubsection{Hermes}
-My implementation is structurally similar to the Python version. Lets have a look:
-\lstinputlisting[label=app:Encrypt Hermes,caption=encrypt in Hermes, language=Hermes,frame=single] {"Listings/encrypt.hms"}
-Here we see the same structure; input whitening followed by 16 rounds of encryption followed by output whitening. It has the same logic (calling F and rotating/XOR'ing) as the Python implementation. TODO: It uses Bennetts method of passing along some placeholder variables that can store some intermediate values which we can use to reset the inplace updated variables later with uncall.
+The implementation in ~\ref{app:Encrypt Hermes} is structurally similar to the Python version: input whitening followed by $16$ rounds of encryption followed by output whitening. It has the same logic (calling $F$ and rotating/XOR'ing) as the Python implementation. It uses Bennett embedding of passing along placeholder variables \lstinline{Z} and \lstinline{W}, that can store intermediate values, which we then use to reset the inplace-updated variables later with uncall.
+\lstinputlisting[label=app:Encrypt Hermes,caption=encrypt in Hermes, language=Hermes, float=tp] {"Listings/encrypt.hms"}
 
-\subsection{Galois Field multiplication}
-Lorem ipsum..
-%TODO: Galois Field multiplication is interesting because
+\subsection{Galois field multiplication}
+Within finite field theory, a finite field with $p^n$ elements, where $p$ is a prime, is called a Galois field.
+Twofish uses a Galois field $2^8$ since it handles bytes.
+Finite field multiplication occurs in elliptic curves and can be found in many other cryptographic applications such as RSA and AES.
+The following examples show how Galois field multiplication is handled in Python and Hermes.
 
 \subsubsection{Python}
-\lstinputlisting[label=app:GaloisField Python,caption=Galois Field multiplication in Python, language=Python,frame=single] {"Listings/gfmult.py"}
+We see in Listing~\ref{app:GaloisField Python} that multiplication is handled by XOR'ing variable $t$ with $b$ if a has its least significant bit set and then bit shifting $a$ and $b$.
+After multiplication, we perform modulo. The result ends up being in GF($2^8$).
+\lstinputlisting[label=app:GaloisField Python,caption=Galois field multiplication in Python, language=Python, float=tp] {"Listings/gfmult.py"}
 
 \subsubsection{Hermes}
-%TODO: Det her må ku gøres pænere med flags array
-%TODO: Polymult bruger Bennet? Snak om B ikke må være 0. Burde aldrig ske siger michael.
-%TODO: GFMult er som sådan en reversibel funktion siger michael og den optræder i RSA. Konkluder evt. noget med at det her er babysteps towards en RSA implementation?
-\lstinputlisting[label=app:GaloisField Hermes,caption=Galois Field multiplication in Hermes, language=Hermes,frame=single] {"Listings/gfmult.hms"}
+In Listing~\ref{app:GaloisField Hermes} we see an attempted implementation in Hermes.
+The problem is if $b$ is equal to zero, $tmp$ will also remain zero when XOR'ed with $b$ on line 7.
+That means the comparison on line 8 fails, so $a$ is not decremented.
+If $a$ is not decremented, $tmp$ is not zero at the end of the function.
+Another thing to note is this multiplication happens inplace on the variables $a$ and $b$, as opposed to the implementation written in Python if $b$ is equal to zero we do not save the value of $a$ for when we want to run in reverse.
+This could be fixed by using Bennett embedding.
+\lstinputlisting[label=app:GaloisField Hermes,caption=Galois field multiplication in Hermes, language=Hermes, float=tp] {"Listings/gfmult.hms"}

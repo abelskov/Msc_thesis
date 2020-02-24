@@ -1,7 +1,5 @@
 main() {
-  u32 a;
-  u32 x;
-  u32 y;
+  u32 a, x, y;
   if (a < 2) x += 3;
   if (a == 0) x <-> y;
 }

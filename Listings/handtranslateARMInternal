@@ -1,1 +1,14 @@
-Lorem ipsum
+("main",
+[
+  SUB ("sp", "sp", "24"),
+  MOV ("_arr_2_", "sp"),
+  ADD ("a_4", "a", "1"),
+  MOV ("update_exp_1", "1337"),
+  MOV ("lval_idx_2", "a_4"),
+  ROL ("_idx_3_", "lval_idx_2", "3"),
+  ADD ("_addr_4_", "_arr_2_", "_idx_3_"),
+  LDR ("_val_5_", "_addr_4_", "0"),
+  ADD ("_val_5_", "_val_5_", "update_exp_1"),
+  STR ("_val_5_", "_addr_4_", "0"),
+  RET
+])

@@ -5,7 +5,7 @@ polyMult(u32 a, u32 b)
   u32 tmp;
   for (i=0; 8) {
     if((a & 1) > 0) tmp ^= b;
-    if((tmp ^ b) < tmp) a-=1;
+    if((tmp ^ b) < tmp) a -= 1;
     b <<= 1;
     a >>= 1;
     i++;
@@ -21,19 +21,21 @@ gfMult(u32 a, u32 b, u8 flags[8])
 {
   u32 modulus;
   u32 tt;
-  u32 qq;
-  modulus += 0x14D;
+  modulus += 0x14D; // 0x14D == 2**8 + 2**6 + 2**3 + 2**2 + 1
   call polyMult(a, b); // Inplace update on a
   modulus <<= 8;
   for (i=0; 8) {
     modulus >>= 1;
     tt += a ^ modulus;
-    if (tt < a) flags[i] += 1;
+    // Check if we need to set a to tt
+    if (tt < a) flags[i] += 1; 
 
+    // Actually set a to tt
     if (flags[i]) tt -= a ^ modulus;
     if (flags[i]) a ^= modulus;
 
-    if (~flags[i]) tt -= a ^ modulus; // Reset tt
+    // Reset tt in case we did not set a to tt
+    if (~flags[i]) tt -= a ^ modulus;
 
     i++;
   }

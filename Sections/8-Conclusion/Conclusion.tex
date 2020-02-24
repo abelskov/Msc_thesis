@@ -1,0 +1,27 @@
+In this thesis we have developed a compiler from the reversible programming language Hermes to assembly language ARM64.
+We have had an introduction to the reversible programming paradigm and explored how Hermes, a reversible programming language, protects the programmer from side-channel vulnerabilities such as information leakage and timing attacks.
+To shorten the steps in the current compilation process, have more control over side-channels and enable easier register allocation, we have presented RSSA in Chapter~\ref{section - RIL} and implemented it as an intermediate language for Hermes in Chapter~\ref{chapt - implementation}.
+
+We have presented the symmetric encryption algorithm Twofish and implemented a reversible version in Chapter~\ref{chapt - Twofish}.
+Twofish being a feistel network with a fairly complicated key schedule, we have argued that Hermes is well suited as a domain-specific language for implementing cryptographic algorithms.
+Running experiments we have observed that the reversible Twofish implementation is approximately $20$ times faster than an existing Python version and approximately $60$ times slower than a highly optimized C version.
+
+As discussed earlier we should be aware of multiplication and division with regards to timing attacks.
+Fortunately, newer versions of ARM have constant time multiplication and division.
+The same holds true for $x86$.
+
+\section{Contributions}
+Work on this thesis yields the following contributions:
+\begin{itemize}
+  \item hej
+\end{itemize}
+
+% Property based testing af Twofish ala det Simon brugte. Kryptere med min, dekryptere med reference impl.
+% Biblioteker til GFMult så vi kan komme i mål med RSA og keySched til Twofish
+% Snak om constant time multiplication fra bearssl hvordan det kan implementeres til at håndtere mul og modulo. Multiplikation er faktisk konstant tid for mange ARM.
+% Register allokering vil normalt lave liveness analyse nedefra og op i et program. En register allokator for et reversibelt stykke kode er lidt specielt idet vores input registre også er vores output registre. Normalt med abstrakte registernavne ville en register allokator til reversible programmer så indsætte 0 := x (finits) for hvert registers sidste read, men her skal den holde styr på om registrer er et af output registrene og i så fald ikke gøre noget.
+% hvad kan man ellers gøre og hvordan kan man komme videre herfra?
+% out of bounds check
+\section{Future Work}
+finite field multiplication
+

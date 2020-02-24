@@ -5,7 +5,7 @@
 % Bennet embedding is what we want to use?
 
 \section{Embeddings and heat dissipation}
-Another motivation for researching reversible computing is heat dissipation; current transitor-based computing devices dissipate energy as heat and cooling of computational devices has become the main focus for the semiconductor industry \cite{semiconductors_valley}. In 1961 R. Landaur suggested reversible computing could be a way to minimize energy dissipation from a system \cite{Irreversibility_paper}.
+Historically, a central motivation for researching reversible computing is heat dissipation; current transitor-based computing devices dissipate energy as heat and cooling of computational devices has become the main focus for the semiconductor industry\cite{semiconductors_valley}. In 1961 R. Landaur suggested reversible computing could be a way to minimize energy dissipation from a system\cite{Irreversibility_paper}.
 Similar to how kinetic and potential energy work, computing a result would put the machine in a state with some energy that would enable it to invert the computation.
 Landaur also proposed a way to make irreversible programs reversible. We call this the Landaur embedding.
 %Most languages are not reversible, because they throw away information about the computers history, making it ambigious to find the predecessor state. 
@@ -25,53 +25,84 @@ In theory, this reduces the energy dissipated by roughly a factor ten.
 
 \section{Reversibility in Hermes}
 % We do not overwrite data in Hermes until we have set it back to 0 at the end of the function?
-Hermes is a reversible programming language designed for encryption algorithms. It offers forwards determinism as well as backwards determinism its calculations, meaning that nomatter if it executes forwards or backwards,  there is only one possible state that the machine can transition to nomatter what state it is currently in.
+Hermes is a reversible programming language designed for encryption algorithms. It offers forwards determinism as well as backwards determinism in its calculations, meaning that nomatter if it executes forwards or backwards, there is only one possible state that the machine can transition to no matter what state it is currently in.
 This results in a one-to-one relationship between input and output states that is achieved through reversible updates, swaps and so on.
 % Hermes uses pass-by-reference, so no global variables.
 Hermes and its predecessor Janus uses pass-by-reference, which is where every argument passed to a function is a direct reference to the variable.
 This imposes certain restrictions on parameter passing: there has to be the same amount of parameters for a call / uncall of a function as these are implicitly both the input and output of a function.
 There can be no global variables and no variable can be passed to a function multiple times e.g. \emph{foo(x, x, y)}.
-Furthermore, an alias on both sides of an update such as \textbf{x += x / y} can break reversibility.
+Furthermore, an alias on both sides of an update such as \lstinline{x += x / y} can break reversibility.
 
 \subsection{Reversible crypto}
-TODO: Something about reversible crypto (twofish) that uses the draw io. Maybe also talk about how fitting hermes is as a language of implementation for hermes. We're using twofish to show how useful Hermes is for crypto algorithms. GFMult is a reversible function and it is used in RSA as well, so we are doing the groundwork for further implementations. Talk about lifting scheme.
-\begin{figure}[htp]
+% GFMult is a reversible function and it is used in RSA as well, so we are doing the groundwork for further implementations. Talk about lifting scheme.
+Cryptographic operations naturally needs to have an inverse defined, which makes it a highly suitable field for reversible programming.
+Hermes is intended for \emph{symmetric encryption}, where a shared secret is agreed upon by the two parties prior to communication.
+In reversible symmetric encryption, the standard procedure is to compute an encryption key from the shared secret in what is referred to as a \emph{key schedule algorithm}, and use that for encryption/decryption as shown in Figure~\ref{fig:reversible_crypto}.
+\begin{figure}[tp]
   \centering
   \includegraphics[scale=0.6]{Graphics/asymmetric_crypto.png}
-  \caption{Reversible crypto}
+  \caption{Most symmetric encryption use a key expansion algorithm. This figure shows how reversible symmetric encryption might expand/reduce its key. Notice that reverting the key expansion is done through computation.}
   \label{fig:reversible_crypto}
 \end{figure}
 
+To test if Hermes is really fitting as an implementation language for reversible symmetric encryption algorithms, we have decided to implement the well known block cipher algorithm Twofish.
+Twofish was one of the five finalists of the \emph{Advanced Encryption Standard}\cite{wiki_AES} contest, but was not selected for standardization.
+It uses a fairly complex key schedule algorithm for its key expansion: 40 keys, 32 of which are used as round keys for its 16 rounds of permutation-substitution and 8 which are used as input/output whitening.
+Substitution-permutation networks are also sometimes referred to as Feistel networks or lifting schemes, referring to the process of transforming some data by applying part of the key in the transformation, and then using XOR with another part of the key.
+Twofish uses four keys for each of its rounds.
+We will expand on that in Chapter~\ref{chapt - Twofish}.
+
 % Show control flows
 \subsection{Control flows}
-Unlike most other programming languages (including Janus), Hermes does not have branching. It has two special types of if-statements being the conditional update and conditional swap which are shown in listing \ref{listing:conditionals_hms}. These conditionals only allow for one line of code to be executed, i.e. the swap or the update, and have a constant execution time. This is because they are constructed in such a way that the code of the conditional is always evaluated but only takes effect or gets executed if the condition is true.
-\lstinputlisting[label=listing:conditionals_hms, caption=Conditionals in Hermes, language=Hermes, frame=single] {"Listings/conditionals_in_hermes.hms"}
-Conditionals work on integers, which with the help of a logical AND, allows the update to only update in cases where the conditional is non-zero, i.e. true. As seen from listing ~\ref{listing:conditionals_c}, the conditional \textbf{-(0 != a < 2)} evaluates to 0 or -1, which as a signed bit-representation is all bits set to ones, meaning that whatever you AND will remain in the result i.e.
-\begin{equation*}
-  1111 \& 1011 = 1011
-\end{equation*}
-This makes the update take effect. Had the conditional evaluated 0, the result of the AND operation would have all its bits set to 0, which would have turned the expression into \textbf{x += 0}.
-Swap is done with three XOR operations, which ensures reversability and does not introduce any extra temporary variables.
-\lstinputlisting[label=listing:conditionals_c, caption=Conditionals translated to C, language=C, frame=single] {"Listings/conditionals_in_c.c"}
+Unlike most other programming languages (including Janus), Hermes does not have branching. It has two special types of if-statements being the conditional update and conditional swap. These conditionals only allow for one line of code to be executed, i.e. the swap or the update, and have a constant execution time. This is because they are constructed in such a way that the code of the conditional is always evaluated but only takes effect or gets executed if the condition is true. The following is an example program containing both conditionals:
+\begin{lstlisting}[language=Hermes]
+main() {
+  u32 a, x, y;
+  if (a < 2) x += 3;
+  if (a == 0) x <-> y;
+}
+\end{lstlisting}
+%\lstinputlisting[label=listing:conditionals_hms, caption=Conditionals in Hermes are either swaps or updates. This listing shows an example program containing both., language=Hermes, frame=single] {"Listings/conditionals_in_hermes.hms"}
+Conditionals work on integers, which with the help of a logical AND, allows the update to only update in cases where the conditional is non-zero, i.e. true. Given the example we just looked at, the conditional \lstinline{a < 2} becomes \lstinline{-(0 != a < 2)}, which evaluates to $0$ or $-1$. $-1$'s signed bit-representation is all bits set to ones, meaning that whatever you AND will remain in the result i.e.
 
-%\begin{figure}
-%    \centering
-%    \begin{minipage}{0.35\textwidth}
-%        \centering
-%        \includegraphics[width=0.9\textwidth]{conditionals_hms.png}
-%        \caption{Conditionals in Hermes}
-%    \end{minipage}\hfill
-%    \begin{minipage}{0.60\textwidth}
-%        \centering
-%        \includegraphics[width=0.9\textwidth]{conditionals_c.png}
-%        \caption{Conditionals translated to C}
-%        \label{fig:conditionals_c}
-%    \end{minipage}
-%\end{figure}
+\begin{equation*}
+  1111 \& 1011 = 1011.
+\end{equation*}
+
+We see that if the conditional evaluates to $-1$, the update takes effect. Had the conditional evaluated 0, the result of the AND operation would have all its bits set to $0$, which would have turned the expression into \lstinline{x += 0}.
+Furthermore, we notice from the following translation to C that conditional swap is done with three XOR operations, which ensures reversability and does not introduce any extra temporary variables.
+
+\begin{lstlisting}[language=C, float=tp]
+void main_F()
+{
+  uint32_t a = 0;
+  uint32_t x = 0;
+  uint32_t y = 0;
+
+  x += -(0 != a < 2)&3;
+
+  x ^= -(a == 0)& y; y ^= -(a == 0)& x; x ^= (-a == 0)& y;
+
+  if (y != 0)
+    fprintf(stderr, "y not zero at end of block
+                     starting at line 6\n");
+  if (x != 0)
+    fprintf(stderr, "x not zero at end of block
+                     starting at line 5\n");
+  if (a != 0)
+    fprintf(stderr, "a not zero at end of block
+                     starting at line 4\n");
+}
+\end{lstlisting}
+
+%%\lstinputlisting[label=listing:conditionals_c, caption=This listing shows the example program from Listing~\ref{listing:conditionals_hms} translated into C code., language=C, frame=single] {"Listings/conditionals_in_c.c"}
 
 % Hermes has const arrays now
 \subsection{Constants}
-Hermes allows for constant values to be declared. These are not required to be 0 at the end of a function and are initialized with a value other than 0. However, it was only singleton values that were allowed to use the const keyword so I added the ability to specify constant arrays of varying sizes. This was done by adding an entry for it in the AST, the Compiler and the typesystem.
+Hermes allows for constant values to be declared.
+These are not required to be 0 at the end of a function and are initialized with a value other than 0.
+However, it was only singleton values that were allowed to use the const keyword so added the ability to specify constant arrays of varying sizes.
+This was done by adding an entry for it in the AST, the Compiler and the typesystem.
 %(* TODO: I also added out of bounds checks *)
 
-Being able to define const arrays is very useful for algorithms such as Twofish that have large 16x16 arrays. In the past, populating large arrays was done through a call to a function that would add values to all the entries of the array. Now it can be done directly in the function that uses it.
+Being able to define const arrays is very useful for algorithms such as Twofish that have large $16\times16$ arrays. In the past, populating large arrays was done through a call to a function that would add values to all the entries of the array. Now it can be done directly in the function that needs it.

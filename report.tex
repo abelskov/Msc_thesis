@@ -45,6 +45,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{alltt}
 \usepackage{float}
 \usepackage{color}
@@ -149,7 +150,7 @@
 % Sets page numbering layout to normal
 %\normalPN
 
-% Where graphic files are located
+% Where graphic files are located8
 \graphicspath{{Graphics/}}
 
 % Alters the margins of the pages such that text are _not_ centered. This makes better room for the glue bindings.
@@ -165,7 +166,7 @@
 \title{Compiling a reversible lightweight cryptography language (Hermes) to assembly language ARM64 with focus on mitigating side-channel vulnerabilities}
 \author{Hjalte Abelskov qdp218}
 \supervisor{Michael Kirkedal Thomsen }
-\date{February 28, 2019} % Hand-in date
+\date{March 2, 2020} % Hand-in date
 %\subject{Mitigating side channel vulnerabilities} % Short abstract not needed.
 \begin{document}
 \maketitle
@@ -231,29 +232,27 @@
 \input{Sections/5-MyTwofish/Implementation.tex}
 
 % Kør min implementation af twofish 50 gange imod deres 50 gange
-\chapter{Benchmarks}
-\label{chapt - Benchmarks}
-\input{Sections/6-Benchmarks/Benchmarks.tex}
+\chapter{Experiments}
+\label{chapt - Experiments}
+\input{Sections/6-Experiments/Experiments.tex}
 
 \chapter{Discussion}
 \label{chapt - Discussion}
-%\input{Sections/7-Discussion/part1.tex}
+\input{Sections/7-Discussion/Discussion.tex}
 
 
 % Man kunne helt gak skrive noget om kvantecomputere her - nej det går ikke
-% Kunne måske også nævne noget om Rust oversættelse\chapter{Conclusion}
+% Kunne måske også nævne noget om Rust oversættelse
+\chapter{Conclusion}
 \label{chapt - Conclusion}
-\input{Sections/8-Conclusion/Contributions.tex}
-\input{Sections/8-Conclusion/Future_work.tex}
+\input{Sections/8-Conclusion/Conclusion.tex}
 
 % Til diskussionen kan man nævne Iodine: verifying constant-time execution of hardware artiklen?
 
 
-
-
 % Referencer
 \newpage
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \renewcommand\bibname{References}
 \bibliography{references}
 
@@ -265,19 +264,9 @@
 \newpage
 \begin{appendices}
 \renewcommand*{\lstlistingname}{Appendix}
-%\chapter{Compilers}
-%\label{appendix:A}
-%\section{RSSA Compiler}
-%\lstinputlisting[label=appendix:RSSACompiler.sml, caption=RSSACompiler in MosML, language=mosml,frame=single] {"Listings/RSSACompiler.sml"}
-
-%\newpage
-%\section{ARM Compiler}
-
 \chapter{Twofish}
 \label{appendix:A}
-\lstinputlisting[label=:appendix:Twofish.hms, caption=Reversible Twofish in Hermes, language=Hermes, frame=single] {"Listings/twofish.hms"}
-
-%\chapter{Tests}
+\lstinputlisting[label=:appendix:Twofish.hms, caption=Reversible Twofish in Hermes, language=Hermes] {"Listings/twofish.hms"}
 \end{appendices}
 
 \end{document}

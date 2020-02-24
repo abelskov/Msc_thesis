@@ -6,17 +6,17 @@
 }
 
 @misc{semiconductors_valley,
-  title = {Power problems might drive chip specialization},
+  title = {{Power problems might drive chip specialization}},
   author = {Tekla S. Perry},
   note = {\url{https://spectrum.ieee.org/view-from-the-valley/semiconductors/design/power-problems-might-drive-chip-specialization}, last accessed on 11/10/19}
 }
 
 @article{TwofishPaper,
-author = {Kelsey, Bruce and Whiting, Doug and Wagner, David and Hall, Chris and Ferguson, Niels},
-year = {1998},
-month = {01},
-pages = {},
-title = {Twofish: A 128Bit Block Cipher}
+  title = {{Twofish: A 128Bit Block Cipher}},
+  author = {Kelsey, Bruce and Whiting, Doug and Wagner, David and Hall, Chris and Ferguson, Niels},
+  year = {1998},
+  month = {01},
+  pages = {}
 }
 
 @article{Dominika,
@@ -72,7 +72,7 @@ title = {Twofish: A 128Bit Block Cipher}
 }
 
 @article{KR96,
-  title={How to Protect DES Against Exhaustive Key Search},
+  title={{How to Protect DES Against Exhaustive Key Search}},
   author={J. Kilian and P. Rogaway},
   journal={Advances in Cryptology — CRYPTO ’96 Proceedings},
   pages={252-267},
@@ -80,14 +80,14 @@ title = {Twofish: A 128Bit Block Cipher}
 }
 
 @article{NBS77,
-  title={Data Encryption Standard},
+  title={{Data Encryption Standard}},
   author={National Bureau of Standards, NBS FIPS, U.S. Department of Commerce},
   year={1977},
   month={1}
 }
 
 @article {NIST97a,
-  title={Announcing Development of a Federal Information Standard for Advanced Encryption Standard},
+  title={{Announcing Development of a Federal Information Standard for Advanced Encryption Standard}},
   author={National Institute of Standards and Technology},
   year={1997},
   month={1},
@@ -95,19 +95,27 @@ title = {Twofish: A 128Bit Block Cipher}
 }
 
 @article {NIST97b,
-  title={Announcing Request for Candidate Algorithm Nominations for the Advanced Encryption Standard (AES)},
+  title={{Announcing Request for Candidate Algorithm Nominations for the Advanced Encryption Standard (AES)}},
   author={National Institute of Standards and Technology},
   year={1997},
   month={9},
   pages={48051-48058}
 }
 @misc {wiki_sbox,
-  title={S-box - Wikipedia},
+  title={{S-box - Wikipedia}},
   url={https://en.wikipedia.org/wiki/S-box}
+}
+@misc {wiki_rowhammer,
+  title={{Rowhammer - Wikipedia}},
+  url={https://en.wikipedia.org/wiki/Row_hammer}
+}
+@misc {wiki_AES,
+  title={{AES - Wikipedia}},
+  url={https://en.wikipedia.org/wiki/Advanced_Encryption_Standard_process}
 }
 
 @misc {ARM_sales,
-  title={Enabling mass IoT connectivity as Arm partners ship 100 billion chips},
+  title={{Enabling mass IoT connectivity as Arm partners ship 100 billion chips}},
   author={Simon Segars},
   year={2017},
   month={2},
@@ -115,7 +123,7 @@ title = {Twofish: A 128Bit Block Cipher}
 }
 
 @misc {ARM_cpus_2020,
-  title={Intel Confirms Apple Macs Will Switch to Arm CPUs by 2020, Says Report},
+  title={{Intel Confirms Apple Macs Will Switch to Arm CPUs by 2020, Says Report}},
   author={Lucian Armasu},
   year={2019},
   month={2},
@@ -123,60 +131,79 @@ title = {Twofish: A 128Bit Block Cipher}
 }
 
 @misc {GIT2F,
-  title={A highly optimized C version and a nonoptimized python implementation of Bruce Schneier's Twofish encryption algorithm},
+  title={{A highly optimized C version and a nonoptimized python implementation of Bruce Schneier's Twofish encryption algorithm}},
   url={https://github.com/drewcsillag/twofish}
 }
 
 @misc {ITU_liveness,
-  title={Software Programmable DSP Platform Analysis},
-  author={Andrzej Wasowski}
+  title={{Software Programmable DSP Platform Analysis}},
+  author={Andrzej Wasowski},
   url={https://www.itu.dk/~wasowski/teach/dsp-compiler-07/episode-5/episode05-handout.pdf}
 }
 
+@misc{llvm_memory_SSA,
+  title={{MemorySSA - LVM}},
+  url={https://llvm.org/docs/MemorySSA.htmlcompilers_using_SSA_form}
+}
+
+@misc {bearssl,
+  title={{A smaller SSL/TLS library}},
+  author={Thomas Pornin},
+  url={https://www.bearssl.org/ctmul.html}
+}
+
+@misc {pipeline_stages_wiki,
+  title={{Comparison of CPU microarchitectures}},
+  url={https://en.wikipedia.org/wiki/Comparison_of_CPU_microarchitectures}
+}
+
+@Article{Chisnall2010,
+  author={David Chisnall},
+  title={{Understanding ARM Architectures}},
+  year="2010",
+  url={http://www.informit.com/articles/article.aspx?p=1620207&seqNum=3}
+}
+
 @Article{Kocher2011,
-author="Kocher, Paul
-and Jaffe, Joshua
-and Jun, Benjamin
-and Rohatgi, Pankaj",
-title="Introduction to differential power analysis",
-journal="Journal of Cryptographic Engineering",
-year="2011",
-month="Apr",
-day="01",
-volume="1",
-number="1",
-pages="5--27",
-abstract="The power consumed by a circuit varies according to the activity of its individual transistors and other components. As a result, measurements of the power used by actual computers or microchips contain information about the operations being performed and the data being processed. Cryptographic designs have traditionally assumed that secrets are manipulated in environments that expose no information beyond the specified inputs and outputs. This paper examines how information leaked through power consumption and other side channels can be analyzed to extract secret keys from a wide range of devices. The attacks are practical, non-invasive, and highly effective---even against complex and noisy systems where cryptographic computations account for only a small fraction of the overall power consumption. We also introduce approaches for preventing DPA attacks and for building cryptosystems that remain secure even when implemented in hardware that leaks.",
-issn="2190-8516",
-doi="10.1007/s13389-011-0006-y",
-url="https://doi.org/10.1007/s13389-011-0006-y"
+  author="Kocher, Paul and Jaffe, Joshua and Jun, Benjamin and Rohatgi, Pankaj",
+  title={{Introduction to differential power analysis}},
+  journal="Journal of Cryptographic Engineering",
+  year="2011",
+  month="Apr",
+  day="01",
+  volume="1",
+  number="1",
+  pages="5--27",
+  abstract="The power consumed by a circuit varies according to the activity of its individual transistors and other components. As a result, measurements of the power used by actual computers or microchips contain information about the operations being performed and the data being processed. Cryptographic designs have traditionally assumed that secrets are manipulated in environments that expose no information beyond the specified inputs and outputs. This paper examines how information leaked through power consumption and other side channels can be analyzed to extract secret keys from a wide range of devices. The attacks are practical, non-invasive, and highly effective---even against complex and noisy systems where cryptographic computations account for only a small fraction of the overall power consumption. We also introduce approaches for preventing DPA attacks and for building cryptosystems that remain secure even when implemented in hardware that leaks.",
+  issn="2190-8516",
+  doi="10.1007/s13389-011-0006-y",
+  url="https://doi.org/10.1007/s13389-011-0006-y"
 }
 
 @inbook{FX2010,
-author = {Standaert, François-Xavier},
-year = {2010},
-month = {12},
-pages = {27-42},
-title = {Introduction to Side-Channel Attacks},
-doi = {10.1007/978-0-387-71829-3_2}
+  title = {{Introduction to Side-Channel Attacks}},
+  author = {Standaert, François-Xavier},
+  year = {2010},
+  month = {12},
+  pages = {27-42},
+  doi = {10.1007/978-0-387-71829-3_2}
 }
 
 @InProceedings{10.1007/978-3-319-41579-6_16,
-author="Mogensen, Torben {\AE}gidius",
-editor="Mazzara, Manuel
-and Voronkov, Andrei",
-title="RSSA: A Reversible SSA Form",
-booktitle="Perspectives of System Informatics",
-year="2016",
-publisher="Springer International Publishing",
-address="Cham",
-pages="203--217",
-abstract="The SSA form (Static Single Assignment form) is used in compilers as an intermediate language as an alternative to traditional three-address code because code in SSA form is easier to analyse and optimize using data-flow analysis such as common-subexpression elimination, value numbering, register allocation and so on.",
-isbn="978-3-319-41579-6"
+  title={{RSSA: A Reversible SSA Form}},
+  author="Mogensen, Torben {\AE}gidius",
+  editor="Mazzara, Manuel and Voronkov, Andrei",
+  booktitle="Perspectives of System Informatics",
+  year="2016",
+  publisher="Springer International Publishing",
+  address="Cham",
+  pages="203--217",
+  abstract="The SSA form (Static Single Assignment form) is used in compilers as an intermediate language as an alternative to traditional three-address code because code in SSA form is easier to analyse and optimize using data-flow analysis such as common-subexpression elimination, value numbering, register allocation and so on.",
+  isbn="978-3-319-41579-6"
 }
 
 @inproceedings{Bennett1973LogicalRO,
-  title={Logical reversibility of computation},
+  title={{Logical reversibility of computation}},
   author={Charles H. Bennett},
   year={1973}
 }
@@ -221,7 +248,7 @@ isbn="978-3-319-41579-6"
 }
 
 @inproceedings{tatar_throwhammer:_2018,
-	title = {Throwhammer: {Rowhammer} {Attacks} over the {Network} and {Defenses}},
+	title = {{Throwhammer: Rowhammer Attacks over the Network and Defenses}},
 	url = {Paper=https://download.vusec.net/papers/throwhammer_atc18.pdf Web=https://www.vusec.net/projects/throwhammer Code=https://github.com/vusec/alis},
 	booktitle = {{USENIX} {ATC}},
 	author = {Tatar, Andrei and Konoth, Radhesh Krishnan and Athanasopoulos, Elias and Giuffrida, Cristiano and Bos, Herbert and Razavi, Kaveh},
@@ -233,13 +260,13 @@ isbn="978-3-319-41579-6"
 
 @inproceedings{kwong2020rambleed,
     author = {Kwong, Andrew and Genkin, Daniel and Gruss, Daniel and Yarom, Yuval},
-    title = {RAMBleed: Reading Bits in Memory Without Accessing Them},
+    title = {{RAMBleed: Reading Bits in Memory Without Accessing Them}},
     booktitle = {41st {IEEE} Symposium on Security and Privacy (S\&P)},
     year = {2020},
 }
 
 @inproceedings{kurth_netcat:_2020,
-	title = {{NetCAT}: {Practical} {Cache} {Attacks} from the {Network}},
+	title = {{NetCAT: Practical Cache Attacks from the Network}},
 	url = {Paper=https://download.vusec.net/papers/netcat_sp20.pdf Web=https://www.vusec.net/projects/netcat},
 	booktitle = {S\&{P}},
 	author = {Kurth, Michael and Gras, Ben and Andriesse, Dennis and Giuffrida, Cristiano and Bos, Herbert and Razavi, Kaveh},
@@ -249,4 +276,16 @@ isbn="978-3-319-41579-6"
 	keywords = {class\_sidechannels, proj\_panta, proj\_react, proj\_unicore, type\_ast, type\_conf, type\_mscthesis, type\_press, type\_tier1, type\_top}
 }
 
-@article{Gnad_Krautter_Tahoori_2019, title={Leaky Noise: New Side-Channel Attack Vectors in Mixed-Signal IoT Devices}, volume={2019}, url={https://tches.iacr.org/index.php/TCHES/article/view/8297}, DOI={10.13154/tches.v2019.i3.305-339}, abstractNote={&lt;p&gt;Microcontrollers and SoC devices have widely been used in &lt;em&gt;Internet of Things&lt;/em&gt; applications. This also brings the question whether they lead to new security threats unseen in traditional computing systems. In fact, almost all modern SoC chips, particularly in the IoT domain, contain both analog and digital components, for various sensing and transmission tasks. Traditional remote-accessible online systems do not have this property, which can potentially become a security vulnerability. In this paper we demonstrate that such mixed-signal components, namely ADCs, expose a new security threat that allows attackers with ADC access to deduce the activity of a CPU in the system. To prove the leakage, we perform leakage assessment on three individual microcontrollers from two different vendors with various ADC settings. After showing a correlation of CPU activity with ADC noise, we continue with a leakage assessment of modular exponentiation and AES. It is shown that for all of these devices, leakage occurs for at least one algorithm and configuration of the ADC. Finally, we show a full key recovery attack on AES that works despite of the limited ADC sampling rate. These results imply that even remotely accessible microcontroller systems should be equipped with proper countermeasures against power analysis attacks, or restrict access to ADC data.&lt;/p&#38;gt;}, number={3}, journal={IACR Transactions on Cryptographic Hardware and Embedded Systems}, author={Gnad, Dennis R. E. and Krautter, Jonas and Tahoori, Mehdi B.}, year={2019}, month={May}, pages={305-339} }
+@article{Gnad_Krautter_Tahoori_2019,
+  title={{Leaky Noise: New Side-Channel Attack Vectors in Mixed-Signal IoT Devices}},
+  volume={2019},
+  url={https://tches.iacr.org/index.php/TCHES/article/view/8297},
+  DOI={10.13154/tches.v2019.i3.305-339},
+  abstractNote={&lt;p&gt;Microcontrollers and SoC devices have widely been used in &lt;em&gt;Internet of Things&lt;/em&gt; applications. This also brings the question whether they lead to new security threats unseen in traditional computing systems. In fact, almost all modern SoC chips, particularly in the IoT domain, contain both analog and digital components, for various sensing and transmission tasks. Traditional remote-accessible online systems do not have this property, which can potentially become a security vulnerability. In this paper we demonstrate that such mixed-signal components, namely ADCs, expose a new security threat that allows attackers with ADC access to deduce the activity of a CPU in the system. To prove the leakage, we perform leakage assessment on three individual microcontrollers from two different vendors with various ADC settings. After showing a correlation of CPU activity with ADC noise, we continue with a leakage assessment of modular exponentiation and AES. It is shown that for all of these devices, leakage occurs for at least one algorithm and configuration of the ADC. Finally, we show a full key recovery attack on AES that works despite of the limited ADC sampling rate. These results imply that even remotely accessible microcontroller systems should be equipped with proper countermeasures against power analysis attacks, or restrict access to ADC data.&lt;/p&#38;gt;},
+  number={3},
+  journal={IACR Transactions on Cryptographic Hardware and Embedded Systems},
+  author={Gnad, Dennis R. E. and Krautter, Jonas and Tahoori, Mehdi B.},
+  year={2019},
+  month={May},
+  pages={305-339}
+}

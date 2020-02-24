@@ -1,0 +1,17 @@
+main_F:
+  // allocate memory on stack
+  // size of array * 8
+  sub     sp, sp, 24
+  mov     _arr_2_, sp
+  // a_4 += 1
+  add     a_4, a, 1
+  mov     update_exp_1, 1337
+  // lval_idx_2 := a_4
+  mov     lval_idx_2, a_4
+  // arr[lval_idx_2] += update_exp_1
+  ror     _idx_3_, lval_idx_2, 64 - 3
+  add     _addr_4_, _arr_2_, _idx_3_
+  ldr     _val_5_, [_addr_4_]
+  add     _val_5_, _val_5_, update_exp_1
+  str     _val_5_, [_addr_4_]
+  ret

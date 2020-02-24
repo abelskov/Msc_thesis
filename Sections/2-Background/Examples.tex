@@ -5,7 +5,7 @@
   \begin{center}
     \includegraphics[width=0.45\textwidth]{rowhammer_vis.png}
   \end{center}
-  \caption{Rapid row activations (yellow rows) may change the values of bits stored in victim row (purple row).}
+  \caption{Rrrapid row activations (yellow rows) may change the values of bits stored in victim row (purple row). \hspace{\textwidth} From wikipedia \cite{wiki_rowhammer}}
 \end{figure}
 %\begin{wrapfigure}{r}{0.4\textwidth}
 %  \begin{center}
@@ -14,7 +14,7 @@
 %  \caption{Rapid row activations (yellow rows) may change the values of bits stored in victim row (purple row).}
 %\end{wrapfigure}
 
-In 2015, Project Zero, a team of security analysts employed by Google tasked with finding zero-day vulnerabilities, disclosed an attack they named Rowhammer, that would allow for bit flips in a system.
+iIn 2015, Project Zero, a team of security analysts employed by Google tasked with finding zero-day vulnerabilities, disclosed an attack they named Rowhammer, that would allow for bit flips in a system.
 Because newer DRAM has such a high cell density, millions of repeated accesses per second (i.e. hammering) on rows of cells of memory can lead to bit flips in neighboring rows.
 A rowhammer attack bypasses memory protection, as one process can affect others, making it very hard to defend against.
 
@@ -28,7 +28,7 @@ A rowhammer attack bypasses memory protection, as one process can affect others,
 %  \label{fig:rowhammer_x86}
 %\end{wrapfigure}
 
-Attacks from the Rowhammer-family, such as Throwhammer, RAMBleed and NetCAT, that perform read/write on memory have since been shown to cause all kinds of havoc from privilege escalation to keylogging to breaking cryptographic keys\cite{tatar_throwhammer:_2018}\cite{kwong2020rambleed}\cite{kurth_netcat:_2020}.
+Attacks from the Rowhammer-family, such as Throwhammer, RAMBleed and NetCAT, that perform read/write on memory have since been shown to cause all kinds of havoc from privilege escalation to keylogging to breaking cryptographic keys\cite{tatar_throwhammer:_2018, kwong2020rambleed, kurth_netcat:_2020}.
 It is worth mentioning, however, that side-channel attacks are highly implementation specific and thus much harder to generalize than if you were to break the algorithm.
 
 \subsubsection{Cold boot attacks}
@@ -42,11 +42,12 @@ For example, 10 similar operations in a row can indicate that the algorihtm is A
 
 This is a very effective method of analysis if the instruction flow depends on the data. 
 Modular exponentiation is an example of this: if the square operation is implemented differently than the multiply, (which is a tempting choice since it can be optimized for running time) then the powertrace of an exponentiation directly yields the exponents value.
-The following figure shows how SPA has been used to cryptanalyze an RSA algorithm:
+Figure~\ref{fig:SPA_leaks} shows how SPA has been used to cryptanalyze an RSA algorithm:
 \begin{figure}[htp]
   \begin{center}
     \includegraphics[scale=0.5]{SPA_leaks_from_RSA_implementation.png} \\
   \end{center}
+  \label{fig:SPA_leaks}
   \caption[caption]{SPA leaks from an RSA implementation. \hspace{\textwidth} From Introduction to Differential Power Analysis \cite{KOCHER2011}}
 \end{figure}
 

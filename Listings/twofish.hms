@@ -139,7 +139,7 @@ gfMult(u32 a, u32 b, u8 flags[8]) {
 // modulus: RS_MOD - u32 integer (333 in decimal)
 // r: Either S0 or S1
 // 
-// Should return 4 bytes i.e. S0/S1
+// Returns 4 bytes i.e. S0/S1
 matrixMultiply(u32 md[32], u8 sd[8], u8 r[4]) {
   u8 t; 
   u32 tmp; // byte values of sd put into tmp to give to gfMult

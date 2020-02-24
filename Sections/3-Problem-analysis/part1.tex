@@ -8,13 +8,13 @@ We are skipping some steps, as the current implementation is from Hermes to C an
 But by skipping these steps, we have an easier time analyzing and optimizing. The question is how do we do it and what do we need to consider?
 
 \section{Grammar}
-In figure \ref{fig:hermes_grammar} the Hermes grammar is presented.
+In Figure \ref{fig:hermes_grammar} the Hermes grammar is presented.
 A Hermes Program consists of one or more Hermes Procedures each with an \bf{id}, a potentially empty list of declarations (function parameters) and a Hermes Block statement consisting of zero or more Hermes Stmts.
 One of these Procedures must have the \bf{id} \emph{main} and take no arguments. This is the procedure that is first called when the program is executed.
 Every procedure has to have exactly one Block statement. A Block is a special statement corresponding to a function body, consisting of a list of variable declarations followed by a list of Hermes Stmts.
-Variable declarations (\emph{Decls1}) can be either variables, dynamic arrays or constants. Constants and constant arrays are public types and as so are not required to be zero at the end of a function. It is the responsibility of the programmer to make sure that sensitive information gets stored in the right variables.
-Prior to this thesis Hermes only allowed constant declarations to be variables, but I've extended this to allow constant matrix declarations as well.
-A ConstArrayDecl in the abstract syntax tree has the type \bf{string * string * string list * typ * pos} which is name, size, elements, type and position.
+Variable declarations (\emph{Decls1}) can be either variables, dynamic arrays or constants. Constants and constant arrays are public types are therefore not required to be zero at the end of a function. It is the responsibility of the programmer to make sure that sensitive information gets stored in the right variables.
+Prior to this thesis Hermes only allowed constant declarations to be variables, but this has been extended allow constant matrix declarations as well.
+A ConstArrayDecl in the abstract syntax tree has the type \bf{string * string * string list * typ * pos} which corresponds to name, size, elements, type and position.
 \input{Sections/Grammars/Hermes_grammar.tex}
 
 
@@ -22,21 +22,22 @@ A ConstArrayDecl in the abstract syntax tree has the type \bf{string * string * 
 \newpage
 
 \section{Intermediate representations}
-When compiling Hermes to RSSA, we use the procedure introduced in section \ref{section - RIL}.
+When compiling Hermes to RSSA, we use the procedure introduced in Section~\ref{section - RIL}.
 We can do this in two iterations: first we translate to RIL, and then we translate to RSSA.
 The reason for doing it in two steps is to postpone the problem of register allocation, and keep the two problems seperated.
 We will be creating an abstract syntax tree that RIL and RSSA will share.
-As seen in figure ~\ref{fig:RIL vs RSSA}, the main difference between the two representations is the subscript index on the left-values.
+As seen in Figure~\ref{fig:RIL vs RSSA}, the main difference between the two representations is the subscript index on the left-values.
+% TODO: omskriv til egen tabel. Det ser alt for grynet ud med det billede der.
 \begin{figure}[htp]
   \begin{center}
     \includegraphics[width=0.6\textwidth]{RIL_RSSA_syntax.png}
   \end{center}
-  \caption[caption]{RIL and RSSA syntax from\cite{10.1007/978-3-319-41579-6_16}}
+  \caption[caption]{RIL and RSSA syntax from\cite{10.1007/978-3-319-41579-6_16}.}
   \label{fig:RIL vs RSSA}
 \end{figure} \\
 Variables that are going to have an index can be represented in SML as a tuple of a string variable name and an integer option index. The integer option can be NONE in the first iteration to RIL, and SOME int in the second iteration to RSSA. This makes it easy to seperate the two tasks and handle the indexing once the program has already been transformed to RIL.
 
-Table \ref{table:translation} shows what RSSA statements different Hermes statements correspond to. Keep in mind that block, printf, scanf and assertion statements do not result in anything as they are only for debugging Hermes.
+Table~\ref{table:translation} shows the correlation between Hermes statements and RSSA statements. Keep in mind that block, printf, scanf and assertion statements do not result in anything as they are only for debugging Hermes.
 \begin{table}[htp]
   \begin{tabular}{| a | b |}
     \hline
@@ -54,45 +55,63 @@ Table \ref{table:translation} shows what RSSA statements different Hermes statem
     Hermes.Uncall       & RSSA.Uncall \\
     \hline
   \end{tabular}
-  \caption{Translation table from Hermes to RSSA}
+  \caption{Translation table from Hermes to RSSA.}
   \label{table:translation}
 \end{table}
-For the full details on how each Hermes Stmt is translated, see Appendix \ref{appendix:A}.
 
-\section{Translation by hand}
-%I afsnit 3 kan man vise hvordan man oversætter et Hermes program til RIL (det vi gjorde i hånden). Skal hjælpe læseren med at forstå nogle af de mere abstrakte begreber.
-Lets have a look at a simple Hermes program and compile it by hand.
-Usually it will be the programmers task to worry about values local to a function to be zero before the end of the function, but to make things simpler, we will omit this in the following translation example.
-\lstinputlisting[label=listing:handtranslateHermes, caption=Simple Hermes program that does addition, language=Hermes, frame=single]{"Listings/handtranslateHermes.hms"}
-After the parser and the lexer has run, the internal Hermes representation has the name of the function we are defining, "main", followed by a list of decls i.e. the function parameters.
-Then comes the function body represented with a Block statement with local variable declarations "ds" and a list of statements corresponding to the \emph{++} and \emph{+=} statements in listing \ref{listing:handtranslateHermes}.
-\lstinputlisting[label=listing:handtranslateHermesInternal, caption=Hermes internal representation of listing \ref{listing:handtranslateHermes}, language=Hermes, frame=single]{"Listings/handtranslateHermesInternal"}
-When the RSSA compiler has run, the internal Hermes representation has been transformed into an internal RSSA representation containing references to variables and arrays etc.
-As there are no RSSA statements for declaring variables, declarations are handled separately. They are translated to initialization- and finalization-strings in accordance with the RSSA standard from\cite{10.1007/978-3-319-41579-6_16} and inserted by the pretty-printer in case the target language is RIL or RSSA.
-\lstinputlisting[label=listing:handtranslateRSSAInternal, caption=RSSA internal representation of listing \ref{listing:handtranslateHermes}, language=Hermes, frame=single]{"Listings/handtranslateRSSAInternal"}
-When the ARM compiler has run, the internal RSSA representation has been transformed into an internal ARM representation.
-\lstinputlisting[label=listing:handtranslateARMInternal, caption=ARM internal representation of listing \ref{listing:handtranslateHermes}, language=Hermes, frame=single]{"Listings/handtranslateARMInternal"}
+\section{Translation example}
+In the following example we will look at a Hermes program that increments a variable and performs an update with addition.
+Usually it will be the programmers task to ensure a functions local values are zeroed out before the end of the function. However, to simplify  things we will omit this in the following translation example.
+
+After the parser and the lexer has run, as shown in Listing~\ref{listing:handtranslateHermesInternal}, the internal Hermes representation has the name of the function we are defining ``main``, followed by an empty list of decls i.e. the function parameters.
+Then follows the function body as a Block statement with local variable declarations and a list of statements corresponding to the ``\lstinline{++}`` and ``\lstinline{+=}`` statements in Listing~\ref{listing:handtranslateHermes}.
+
+When the RSSA compiler has run, as shown in Listing~\ref{listing:handtranslateRSSAInternal}, the internal Hermes representation has been transformed into an internal RSSA representation containing references to variables and arrays etc.
+As there are no RSSA statements for declaring variables, declarations are handled separately as shown in Listing~\ref{listing:handtranslateRSSA}. They are translated to initialization- and finalization-strings in accordance to the RSSA standard from\cite{10.1007/978-3-319-41579-6_16} and inserted by the pretty-printer in case the target language is RIL or RSSA.
+
+When the ARM compiler has run, as shown in Listing~\ref{listing:handtranslateARMInternal}, the internal RSSA representation has been transformed into an internal ARM representation.
+As the internal representation of ARM is just a list of instructions, the pretty-printer just prints out the instructions as shown in Listing~\ref{listing:handtranslateARM} and does a little formatting. Rotate left (ROL) becomes rotate right as discussed earlier.
+
+\lstinputlisting[label=listing:handtranslateHermes, caption=Here we see an example of a simple Hermes program that does addition., language=Hermes, float=tp]{"Listings/handtranslateHermes.hms"}
+
+\lstinputlisting[label=listing:handtranslateHermesInternal, caption=Here we see the Hermes internal representation of Listing~\ref{listing:handtranslateHermes}., language=Hermes, float=tp]{"Listings/handtranslateHermesInternal"}
+
+\lstinputlisting[label=listing:handtranslateRSSAInternal, caption=Here we see the RSSA internal representation of Listing~\ref{listing:handtranslateHermes}., language=Hermes, float=tp]{"Listings/handtranslateRSSAInternal"}
 
 
+\lstinputlisting[label=listing:handtranslateRSSA, caption=Here we see the pretty-printed version of the RSSA internal representation of Listing~\ref{listing:handtranslateRSSAInternal}., float=tp]{"Listings/handtranslateRSSA"}
 
-%Oplagt at have et afsnit der beskriver de dele af ARM der er relevant i forhold til oversættelsen. Finder de instruktioner der er relevant. Hvad skal vi være opmærksomme på. Er der nogle vi ikke kan bruge fordi de generer sidekanaler? %TODO: det her afsnit skal skrives bedre
+\lstinputlisting[label=listing:handtranslateARMInternal, caption=Here we see the ARM internal representation of Listing~\ref{listing:handtranslateHermes}., language=Hermes, float=tp]{"Listings/handtranslateARMInternal"}
+
+\lstinputlisting[label=listing:handtranslateARM, caption=Here we see the pretty-printed version of the ARM internal representation of Listing~\ref{listing:handtranslateARMInternal}., language=Hermes, float=tp]{"Listings/handtranslateARM"}
+
+\clearpage
+\newpage
+
 \section{Protection from side-channels}
-One of the most difficult things of compilation is to protect against side-channel attacks. Hermes does an excellent job of promising that no sensitive information will be left in memory after execution, but how is this handled in our compilation to RSSA and ARM?
-ARMs mult and div operations are very susceptible to power/timing attacks, and are (hopefully) avoided. Right now times and modulo uses mult. modulo also uses div. Its part of Hermes which means its really hard to avoid. But a lot of versions of ARM uses constant time multiplication. TODO: Expand on this.
-Other side-channels such as power- and timing-attacks has to be dealt with in our ARM translation. % TODO: er det power eller timing med mult/div.
-
+One of the key parts of our compilation is to protect against side-channel attacks.
+Hermes does an excellent job of making sure that no sensitive information will be left in memory after execution, but what about timing attacks?
+We know that on some architectures, multiplication and division may not be constant time operations.
+The modulo operation can also be vulnerable, as it can be implemented using multiplication and division.
+One of the most commonly used techniques for modulo is called Barrett Reduction where the general idea is
+\begin{equation*}
+  X \text{ mod } Y \equiv X - \lfloor{ X / Y }\rfloor Y
+\end{equation*}
+Here X is divided by Y, floored, and then multiplied with Y. The resulting value is the closest multiple of Y to X. That value is then subtracted from X to give the modulo. 
+Fortunately it seems ARM architectures beginning with ARM9E have constant time multiplication and division\cite{bearssl}.
+It is still something to keep in mind, however, should we wish to extend Hermes with another target assembly language in the future.
 
 \section{Logical vs physical registers}
 The ARM code that is produced by our compiler uses unbounded many abstract logical registers instead of actual physical registers.
 It would require a register renaming before the code would actually be able to run on a device.
 Register renaming is a technique that is used by high-performance processors to eliminate false data dependencies that can arise from the reuse of registers by successive instructions that do not have any real data dependencies between them.
 The elimination of these false data dependencies can result in more instruction-level parallelism in a program, which can be exploited by techniques such as superscalar and out-of-order execution for better performance.
-Register renaming or register allocation requires the creation of an inteference graph, which holds information about what values are \emph{simultaneously alive}. The graph is then colored using as few colors as possible. An example is shown in figure \ref{fig:interferencegraph} where we see that the same register could hold values a and b as they are not alive at the same time.
+Register renaming or register allocation requires the creation of an inteference graph, which holds information about what values are \emph{simultaneously alive}. The graph is then colored using as few colors as possible. An example is shown in Figure~\ref{fig:interferencegraph} where we see that the same register could hold values a and b as they are not alive at the same time.
 
-\begin{figure}[ht]
+\begin{figure}[tp]
   \centering
   \includegraphics[scale=0.5]{Graphics/interferencegraph.png}
-  \caption{An example of a coloured interference graph taken from \cite{ITU_liveness} }
+  \caption{An example of a coloured interference graph taken from\cite{ITU_liveness}.}
   \label{fig:interferencegraph}
 \end{figure}
 

@@ -1,25 +1,27 @@
 \subsection{Classifying attacks}
-Attacks are often classified along two axes falling into one of four categories: \cite{FX2010}.
+Attacks are often classified along two axes falling into one of four categories:\cite{FX2010}.
 
-\begin{itemize}
-  \item \textbf{Hardware tampering}
-    \begin{itemize}
-      \item[1.] Invasive - Attacks which try to read the actual data either by intercepting or directly reading data. An example of this could be to connect a wire onto the data bus and view the data transfers or doing some sort of memory inspection.
-      \item[2.] Non-invasive - Attacks which do not read the actual data, but exploits externally available information. External information can be observations on running time, power consumption and such.
-    \end{itemize}
-  \item \textbf{System tampering}
-    \begin{itemize}
-      \item[3.] Active - Attacks that tries to change the behaviour of some function on the device, such as introducing a fault in the computation to cause a leak of information, or cold-booting the device to perform memory dumps \cite{Halderman2008LestKeys}.
-      \item[4.] Passive - Attacks that only observes a devices behaviour, without affecting it. No signs of compromise or failure.
-    \end{itemize}
-\end{itemize}
+\begin{description}
+  \item [Hardware tampering]
+    \begin{description}
+      \item
+      \item[1. Invasive] - Attacks which try to read the actual data either by intercepting or directly reading data. An example of this could be to connect a wire onto the data bus and view the data transfers or doing some sort of memory inspection.
+      \item[2. Non-invasive] - Attacks which do not read the actual data, but exploits externally available information. External information can be observations on running time, power consumption and such.
+    \end{description}
+  \item [System tampering]
+    \begin{description}
+      \item
+      \item[3. Active ]- Attacks that tries to change the behaviour of some function on the device, such as introducing a fault in the computation to cause a leak of information, or cold-booting the device to perform memory dumps \cite{Halderman2008LestKeys}.
+      \item[4. Passive] - Attacks that only observes a devices behaviour, without affecting it. No signs of compromise or failure.
+    \end{description}
+\end{description}
 
-Figure \ref{fig:sca_classification} visualizes these classifications with hardware tampering along the x axis and system tampering along the y axis.
+Figure~\ref{fig:sca_classification} visualizes these classifications with hardware tampering along the x axis and system tampering along the y axis.
 The safety that Hermes intends to provide is against timing attacks and information leakage which includes cold boot attacks.
 Timing attacks are non-invasive and passive as the attacker only observes the running time of the process.
 Cold boot attacks are active attacks as they perform memory dumps, but can be either invasive or non-invasive exemplified in \cite{Halderman2008LestKeys} where, in one attack, researchers freeze the chip thereby tampering with the hardware.
 
-\begin{figure}[htp]
+\begin{figure}[tp]
   \resizebox{0.9\columnwidth}{!}{%
       \begin{tikzpicture}
         \draw [thick] (0,5) node (yaxis) [above] {Active}

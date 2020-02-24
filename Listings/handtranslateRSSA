@@ -1,0 +1,10 @@
+begin main():
+  initialize a to 0
+  initialize arr[0..3] to 0
+  a_4 := a + 1
+  update_exp_1 := 1337
+  lval_idx_2 := a_4
+  arr[lval_idx_2] += update_exp_1
+  0 := a_4
+  0 := arr[0..3]
+end main()

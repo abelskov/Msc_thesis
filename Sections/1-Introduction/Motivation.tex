@@ -2,10 +2,10 @@
 %Nævn evt. også noget om små devices.
 
 % Motivation
-For the last hundred years or so the only way to intercept encrypted messages between parties has been to break the encryption algorithm with crypto analysis and as a result, some very robust cryptography algorithms has been developed that are very hard to attack.
-Instead of attacking the algorithm, new research focuses on vulnerabilities related to the devices that communicate.
-It is possible to learn a lot about the data or the algorithm simply from measuring the device on which it resides. Heat generation, time, sound and so on are all components of the cryptograpic event that happened and tell part of the story.
-These vulnerabilities are called "side-channel"-vulnerabilities because they are not directly related to the cryptography algorithms, but rather a byproduct.
+For the last hundred years or so, the only way to intercept encrypted messages between parties has been to break the encryption algorithm with crypto analysis. As a result, some very robust cryptography algorithms has been developed that are very hard to attack.
+Instead of attacking the algorithm, recent research has focused on vulnerabilities related to the devices that communicate.
+It is possible to learn a lot about the data or the algorithm simply from measuring the device on which it resides. Heat generation, time, sound etc. are all components of the cryptograpic event that happened and tell part of the story.
+These vulnerabilities are called ``side-channel``-vulnerabilities because they are not directly related to the cryptography algorithms, but rather a byproduct.
 
 And while strong cryptographic methods such as AES (encryption), SHA-256 (hashing) and RSA/Elliptic Curve (signing) work well on systems with reasonable processing power and memory capabilities, they do not scale well into a world with embedded systems and sensor networks.
 This introduces some challenges such as how to reduce the amount of costly operations whilst still guaranteeing the highest level of security.
@@ -29,7 +29,7 @@ This is especially useful with algorithms for encryption or encoding, where an i
 If implemented without too much overhead, this will result in smaller programs, as the encoding/encryption function is bidirectional and can be used for decoding/decryption as well.
 
 Writing code in a language where all functions are bidirectional imposes some constraints on the programmer: variables local to a function must be initialized as zero and reset to zero after use.
-All variable updates must be lossless, therefore not allowing modulo updates such as \textbf{x = x mod y} as there is no inverse to this operation.
+All variable updates must be lossless, therefore not allowing modulo updates such as \lstinline{x = x mod y} as there is no inverse to this operation.
 Bit-shift operations must also be lossless, i.e. when bits are rotated off the right end, they are inserted into the vacated bit positions on the left and vice-versa. While imposing some restrictions on the programmer, reversible programming languages has a lot to offer in terms of security: they ensure no loss of information and no variables are left in memory after a program has run, since all variables are reset after use. Thus the memory will not contain any data that can be used for side-channel attacks such as information leakage.
 
 \section{Foundations for this work}
@@ -37,8 +37,8 @@ This Master thesis revolves around the reversible programming language Hermes de
 Hermes is based on the reversible programming language Janus and designed specifically for writing encryption algorithms\cite{MogensenHermes}.
 By virtue of some carefully thought-out design choices, Hermes offers a built-in protection against some side-channel attacks such as information leakage.
 
-Figure \ref{fig:compilationProcess} is a visualization of the entire project. It shows the current implementation marked with red and the contributions of this thesis marked with green. This thesis focuses on ARM64 as target language, but other target languages could be added as future work. Two examples of such target languages are added and marked with a dotted line.
-\begin{figure}[ht]
+Figure~\ref{fig:compilationProcess} is a visualization of the entire project. It shows the current implementation marked with red and the contributions of this thesis marked with green. This thesis focuses on ARM64 as target language, but other target languages could be added as future work. Two examples of such target languages are added and marked with a dotted line.
+\begin{figure}[tp]
   \centering
   \includegraphics[scale=0.57]{Graphics/compilationProcess.png}
   \caption{Visualization of the project}
