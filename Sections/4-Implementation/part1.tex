@@ -49,12 +49,11 @@ Converting from RIL to RSSA representation is also done recursively as shown in 
 
 % 3: show some of the translation rules from RSSA to ARM.
 %       Interesting:  * abstract register names and registerallocator
-%                     * side-channels and times / div
-%                     * modulo implementation (hopefully not using div/mul/sub)
-%                     * dynamic allocation and heap register x28 I've made up - show symtab and how everything works
+%                     * side-channels and times / div (afsnit 3)
+%                     * modulo implementation (hopefully not using div/mul/sub) (afsnit 3)
 %                     * static array allocation
 %                     * call/uncall using store and load operations as well as stack frames.
-\section{Compilation from RSSA to ARM}
+\section{Compilation from RSSA to ARM64}
 For the final part of translation we need to pick what instructions we want to use for translating the different RSSA statements.
 To ensure reversability we do not allow instructions such as \emph{LSL} (logical shift left) and \emph{LSR} (logical shift right) as these would throw away bits when shifting them off the end.
 Instead we use \emph{ROR} (rotate right) which inserts the bits that are rotated off to the right on the vacated bit positions on the left.
@@ -74,3 +73,16 @@ The fourth case handles \lstinline{xi := x uop r1}.
 The fifth one handles the full \lstinline{xi := x uop r1 binop r2} that were mentioned earlier in Figure~\ref{fig:RIL vs RSSA}.
 
 \lstinputlisting[label=listing:ARMCompilestatAssign.sml, caption=Compiling \emph{RSSA.Assign} is done by pattern matching. This reduces code size., language=mosml, float=htp] {"Listings/ARMCompilestatAssign.sml"}
+
+\section{Logical vs physical registers}
+The ARM code that is produced by our compiler uses unbounded many abstract logical registers instead of actual physical registers.
+Once a register allocator is added, the code would be able to run on a device.
+Register allocation requires the creation of an inteference graph, which holds information about what values are \emph{simultaneously alive}. The graph is then colored using as few colors as possible. An example is shown in Figure~\ref{fig:interferencegraph} where we see that the same register could hold values a and b as they are not alive at the same time.
+In case there are too few registers/colours available to colour the interference graph, the register allocator \emph{spills} the excess values to memory by inserting store/load operations.
+
+\begin{figure}[tp]
+  \centering
+  \includegraphics[scale=0.5]{Graphics/interferencegraph.png}
+  \caption{An example of a coloured interference graph taken from\cite{ITU_liveness}.}
+  \label{fig:interferencegraph}
+\end{figure}

@@ -7,25 +7,26 @@ We observed that the statically compiled Hermes program (i.e. generated code) is
 This is to be expected since Hermes is statically compiled, meaning that the compilation process has been taken care of already.
 Another factor could be that the Hermes implementation has no for-loops, while the Python implementation does.
 For-loops are slow and are usually avoided as much as possible to increase speed.
-There are many ways to increase the speed of Python, such as using third party libraries like ``Py-OpenCL`` or ``NumPy`` etc., none of which have been used in the reference implementation as it was ``designed with the idea to reflect the algorithm's definition``\cite{GIT2F}.
-
+There are many ways to increase the speed of Python, such as using third party libraries like ``Py-OpenCL`` or ``NumPy`` etc., none of which have been used in the reference implementation as it was ``designed with the idea to reflect the algorithm's definition``\cite{GIT2F}.  
 There is also a highly optimized C version\cite{GIT2F}, which is approximately $60$ times faster than our compiled Hermes program.
 In the Hermes implementation however, we need to \emph{uncall} the encryption function $50$ times to avoid memory leakage.
 That is equivalent to decrypting the value that we just encrypted and something that the optimized C version does not do.
 
 \section{Hermes as a language for cryptographic algorithms}
 % Diskuter hvor nemt det er at implementere krypteringsalgoritmer i Hermes vs Python
-Feistel network encryption algorithms are easily implemented in Hermes, as the key gets XOR'ed in every round, which is reversible by nature.
+It is clear that Hermes still needs a few more features before it can become a widely utilized language for implementing cryptographic algorithms outside of academia.
+One such feature, Galois Field multiplication, is suggested as future work.
+Galois Field multiplication is used by elliptic curves and would enable an implementation of the asymmetric encryption algorithm RSA.
+However, Feistel network encryption algorithms are rather elegantly implemented in Hermes, as the key gets XOR'ed in every round, an operation which is reversible by nature.
 Even if we choose our $F$ function in the lifting scheme to be a one-way function, it is still possible to perform decryption just by re-doing the rounds of encryption with the round-keys reversed. That is because XOR is its own inverse. $F$ being a one-way function greatly improves security, as it is much harder to cryptanalyze.
-
-Galois Field multiplication is cumbersome to implement in Hermes, as we could end up multiplying with zero. This would require a Bennett embedding of the procedure to know what was multiplied with zero, so that we can get back the original value when running in reverse. It could be interesting to look at an asymmetric encryption algorithm such as RSA, once Galois Field multiplication has been implemented in Hermes.
+The guarantees Hermes gives, that decryption is provided as well as immunity to timing attacks and memory leaks, relieves the programmer of significant security concerns, which is desirable in the field of cryptograpy.
 
 % Skriv lidt om MUL/DIV evt?
 \section{Compiling RSSA}
 % Diskuter/evaluer oversætteren (intermediate languages) 
 RSSA has the potential to be used as a common ancestor for multiple future target assemblies.
-It upholds the property from Hermes that all variables local to a function are zero at the start and the end of said function.
-It is split into two parts to seperate responsibility.
+Like Hermes it also guarantees that all variables local to a function are zero at the start and the end of said function.
+The translation is split into two parts to seperate responsibility and give a more modular structure.
 Part one translates from Hermes to RIL and part two translates to RSSA.
 RSSA also enables register allocation based on liveness analysis.
 Variables are explicitly initialized and consumed making it a trivial task to know if they are alive.

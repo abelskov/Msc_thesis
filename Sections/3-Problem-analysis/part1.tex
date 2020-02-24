@@ -28,36 +28,54 @@ The reason for doing it in two steps is to postpone the problem of register allo
 We will be creating an abstract syntax tree that RIL and RSSA will share.
 As seen in Figure~\ref{fig:RIL vs RSSA}, the main difference between the two representations is the subscript index on the left-values.
 % TODO: omskriv til egen tabel. Det ser alt for grynet ud med det billede der.
-\begin{figure}[htp]
-  \begin{center}
-    \includegraphics[width=0.6\textwidth]{RIL_RSSA_syntax.png}
-  \end{center}
+\begin{table}[htp]
+  \centering
+  \begin{tabular}{| a | b |}
+    \hline
+    RIL                             & RSSA                            \\ \hline
+    $x\ \ \oplus= R_1 \odot R_2$    & $x_i := x \oplus R_1 \odot R_2$ \\ \hline
+    $M[x]\ \oplus= R_1 \odot R_2$   & $M[x] \oplus= R_1 \odot R_2$    \\ \hline
+    $x \leftrightarrow y$           & $x_i, y_j := y, x$              \\ \hline
+    $M[x] \leftrightarrow M[y]$     & $M[x] \leftrightarrow M[y]$     \\ \hline
+    $x \leftrightarrow M[y]$        & $x_i := M[y] := x$              \\ \hline
+    $M[y] \leftrightarrow x$        & $x_i := M[y] := x$              \\ \hline
+    call $l$                        & $() := \text{call  } l()$       \\ \hline
+    uncall $l$                      & $() := \text{uncall  } l()$     \\ \hline
+  \end{tabular}
   \caption[caption]{RIL and RSSA syntax from\cite{10.1007/978-3-319-41579-6_16}.}
   \label{fig:RIL vs RSSA}
-\end{figure} \\
+\end{table} \\
+%\begin{figure}[htp]
+%  \begin{center}
+%    \includegraphics[width=0.6\textwidth]{RIL_RSSA_syntax.png}
+%  \end{center}
+%  \caption[caption]{RIL and RSSA syntax from\cite{10.1007/978-3-319-41579-6_16}.}
+%  \label{fig:RIL vs RSSA}
+%\end{figure} \\
 Variables that are going to have an index can be represented in SML as a tuple of a string variable name and an integer option index. The integer option can be NONE in the first iteration to RIL, and SOME int in the second iteration to RSSA. This makes it easy to seperate the two tasks and handle the indexing once the program has already been transformed to RIL.
 
 Table~\ref{table:translation} shows the correlation between Hermes statements and RSSA statements. Keep in mind that block, printf, scanf and assertion statements do not result in anything as they are only for debugging Hermes.
 \begin{table}[htp]
   \begin{tabular}{| a | b |}
     \hline
-    \rowcolor{LightCyan}
-    \mc{1}{Hermes}      & \mc{1}{RSSA}                  \\ \hline
-    Hermes.Skip         & RSSA.Skip                     \\
-    Hermes.Update       & RSSA.Assign / RSSA.MemUpdate  \\
-    Hermes.CondUpdate   & RSSA.If                       \\
-    Hermes.Inc          & RSSA.Assign / RSSA.MemUpdate  \\
-    Hermes.Dec          & RSSA.Assign / RSSA.MemUpdate  \\
-    Hermes.Swap         & RSSA.AssignSwap / RSSA.MemSwap / RSSA.VarMemSwap \\
-    Hermes.CondSwap     & RSSA.If with translated swap inside body \\
-    Hermes.For          & RSSA.For  \\
-    Hermes.Call         & RSSA.Call \\
-    Hermes.Uncall       & RSSA.Uncall \\
-    \hline
+    Hermes              & RSSA                          \\ \hline
+    Hermes.Skip         & RSSA.Skip                     \\ \hline
+    Hermes.Update       & RSSA.Assign / RSSA.MemUpdate  \\ \hline
+    Hermes.CondUpdate   & RSSA.If                       \\ \hline
+    Hermes.Inc          & RSSA.Assign / RSSA.MemUpdate  \\ \hline
+    Hermes.Dec          & RSSA.Assign / RSSA.MemUpdate  \\ \hline
+    Hermes.Swap         & RSSA.AssignSwap / RSSA.MemSwap / RSSA.VarMemSwap \\ \hline
+    Hermes.CondSwap     & RSSA.If with translated swap inside body \\ \hline
+    Hermes.For          & RSSA.For  \\ \hline
+    Hermes.Call         & RSSA.Call \\ \hline
+    Hermes.Uncall       & RSSA.Uncall \\ \hline
   \end{tabular}
   \caption{Translation table from Hermes to RSSA.}
   \label{table:translation}
 \end{table}
+
+\clearpage
+\newpage
 
 \section{Translation example}
 In the following example we will look at a Hermes program that increments a variable and performs an update with addition.
@@ -89,30 +107,20 @@ As the internal representation of ARM is just a list of instructions, the pretty
 \newpage
 
 \section{Protection from side-channels}
-One of the key parts of our compilation is to protect against side-channel attacks.
-Hermes does an excellent job of making sure that no sensitive information will be left in memory after execution, but what about timing attacks?
-We know that on some architectures, multiplication and division may not be constant time operations.
-The modulo operation can also be vulnerable, as it can be implemented using multiplication and division.
-One of the most commonly used techniques for modulo is called Barrett Reduction where the general idea is
+A key part of our compilation is to protect against side-channel attacks.
+Hermes guarantees that no sensitive information will be left in memory after execution, but what about after translation to RSSA and ARM64?
+As discussed earlier, RSSA has been developed in such a way that every variable has an initialization and finalization.
+The ARM64 implementation currently has abstract register names.
+Once added, it would be the job of a register allocator to handle initialization and finalization.
+With regards to timing attacks Hermes has two control structures: conditional swaps and conditional updates.
+Both contain only one line of code to be executed and remain semantically equivalent in RSSA and ARM64.
+
+Some hardware architectures do not have constant time multiplication and division.
+The modulo operation can also be vulnerable, if it has been implemented using multiplication and division.
+One of the most commonly used techniques for modulo is called Barrett Reduction\cite{mod_without_mod} where the general idea is
 \begin{equation*}
   X \text{ mod } Y \equiv X - \lfloor{ X / Y }\rfloor Y
 \end{equation*}
 Here X is divided by Y, floored, and then multiplied with Y. The resulting value is the closest multiple of Y to X. That value is then subtracted from X to give the modulo. 
 Fortunately it seems ARM architectures beginning with ARM9E have constant time multiplication and division\cite{bearssl}.
 It is still something to keep in mind, however, should we wish to extend Hermes with another target assembly language in the future.
-
-\section{Logical vs physical registers}
-The ARM code that is produced by our compiler uses unbounded many abstract logical registers instead of actual physical registers.
-It would require a register renaming before the code would actually be able to run on a device.
-Register renaming is a technique that is used by high-performance processors to eliminate false data dependencies that can arise from the reuse of registers by successive instructions that do not have any real data dependencies between them.
-The elimination of these false data dependencies can result in more instruction-level parallelism in a program, which can be exploited by techniques such as superscalar and out-of-order execution for better performance.
-Register renaming or register allocation requires the creation of an inteference graph, which holds information about what values are \emph{simultaneously alive}. The graph is then colored using as few colors as possible. An example is shown in Figure~\ref{fig:interferencegraph} where we see that the same register could hold values a and b as they are not alive at the same time.
-
-\begin{figure}[tp]
-  \centering
-  \includegraphics[scale=0.5]{Graphics/interferencegraph.png}
-  \caption{An example of a coloured interference graph taken from\cite{ITU_liveness}.}
-  \label{fig:interferencegraph}
-\end{figure}
-
-In case there are too few registers/colours available to colour the interference graph, the excess values are \emph{spilled}, meaning that they are stored in memory instead.
